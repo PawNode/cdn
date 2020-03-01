@@ -1,0 +1,16 @@
+server {
+    listen 443 http2 ssl;
+    listen [::]:443 http2 ssl;
+
+    site_name {{ site.domains.join(' ') }};
+    root /var/www/sites/{{ site.name }};
+
+    ssl_certificate /opt/cdn/certifier/certs/{{ site.name }}.pem;
+    ssl_certificate_key /opt/cdn/certifier/keys/{{ site.name }}.pem;
+
+    include /opt/cdn/configurator/configs/nginx/wellknown.conf;
+
+{% if site.vcl %}
+    include /opt/cdn/configurator/configs/nginx/proxy.conf;
+{% endif %}
+}
