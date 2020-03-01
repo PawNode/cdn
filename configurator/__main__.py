@@ -1,19 +1,21 @@
-from yaml import load as yaml_load, dump as yaml_dump
-from os import listdir, path, unlink, rename, system, mkdir
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-from requests import get as http_get
-from zipfile import ZipFile
 from io import BytesIO
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+from os import listdir, path, unlink, rename, system, mkdir, symlink
+from requests import get as http_get
 from shutil import rmtree
 from sys import exc_info
+from yaml import load as yaml_load, dump as yaml_dump
+from zipfile import ZipFile
 
 __dir__ = path.dirname(__file__)
 
 DIR = path.abspath(path.join(__dir__, "sites"))
 OUTDIR = path.abspath(path.join(__dir__, "out"))
 OLDDIR = path.abspath(path.join(OUTDIR, "sites"))
-
 SITEDIR = '/var/www/sites'
+CERTDIR = path.abspath(path.join(__dir__, "../certifier/certs"))
+KEYDIR = path.abspath(path.join(__dir__, "../certifier/keys"))
+DEFAULT_CERT_AND_KEY = "/etc/ssl/default.pem"
 
 j2env = Environment(
     loader=FileSystemLoader(path.join(__dir__, 'configs')),
@@ -68,6 +70,15 @@ def swapFile(file, content):
 
     return False # TODO: Return if changed
 
+def symlinkCert(name):
+    name = "%s.pem" % name
+    certName = path.join(CERTDIR, name)
+    keyName = path.join(KEYDIR, name)
+    if not path.lexists(certName):
+        symlink(DEFAULT_CERT_AND_KEY, certName)
+    if not path.lexists(keyName):
+        symlink(DEFAULT_CERT_AND_KEY, keyName)
+
 SITE_LOADERS = {
     'redirect': loadSiteNoop,
     'none': loadSiteNoop,
@@ -115,6 +126,8 @@ def run():
             reloadCertifier = True
         
         oldSite['name'] = site['name']
+
+        symlinkCert(site['name'])
 
         typeChanged = site['type'] != oldSite['type']
         reloadNginx |= typeChanged
