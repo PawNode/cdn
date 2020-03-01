@@ -1,0 +1,7 @@
+domains:
+    - www.doridian.net
+    - doridian.net
+repo:
+    url: https://github.com/Doridian/website
+    branch: master
+    subdir: doridian.net

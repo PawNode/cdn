@@ -1,0 +1,7 @@
+domains:
+    - pawnode.com
+    - www.pawnode.com
+repo:
+    url: https://github.com/Doridian/website
+    branch: master
+    subdir: pawnode.com
