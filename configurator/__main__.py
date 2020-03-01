@@ -5,6 +5,7 @@ from requests import get as http_get
 from zipfile import ZipFile
 from io import BytesIO
 from shutil import rmtree
+from sys import exc_info
 
 __dir__ = path.dirname(__file__)
 
@@ -22,11 +23,12 @@ nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
 
 def loadSiteNoop(site, oldSite, force):
-    return False
+    return
 
 def loadSiteZIP(site, oldSite, force):
     if oldSite and not force and site['src'] == oldSite['src']:
-        return False
+        return
+
     outDir = path.join(SITEDIR, site['name'])
     site['dir'] = outDir
 
@@ -49,7 +51,6 @@ def loadSiteZIP(site, oldSite, force):
     rename(newDir, outDir)
     rmtree(oldDir, ignore_errors=True)
 
-    return False
 
 def swapFile(file, content):
     newfile = "%s.new" % file
@@ -74,6 +75,7 @@ SITE_LOADERS = {
 def run():
     nginxConfig = [nginxMainTemplate.render()]
     certifierConfig = []
+    loadedSites = {}
     reloadNginx = False
     reloadCertifier = False
 
@@ -91,6 +93,8 @@ def run():
         fh.close()
 
         site['name'] = file[:-4]
+
+        loadedSites[site['name']] = site
 
         oldSite = None
         try:
@@ -114,22 +118,17 @@ def run():
         reloadNginx |= typeChanged
         reloadCertifier |= typeChanged
 
-        loader = SITE_LOADERS[site['type']]
-        if loader(site, oldSite, typeChanged):
-            reloadNginx = True
+        try:
+            loader = SITE_LOADERS[site['type']]
+            loader(site, oldSite, typeChanged)
+        except Exception:
+            print("Error loading site", site['name'], exc_info()[0])
+            pass
 
-        doms = site['domains']
-        oldDoms = oldSite['domains']
-        reloadCertifier |= len(oldDoms) != len(doms)
-        if not reloadCertifier:
-            for dom, idx in site['domains']:
-                if dom != oldDoms[idx]:
-                    reloadCertifier = True
-                    break
+        reloadCertifier |= oldSite['domains'] != site['domains']
 
         certifierConfig.append(site)
         nginxConfig.append(nginxSiteTemplate.render(site=site))
-
 
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
@@ -145,5 +144,13 @@ def run():
 
     #if reloadCertifier:
     #    system('service certifier restart')
+
+    for name in loadedSites:
+        oldName = path.join(OLDDIR, "%s.yml" % name)
+        site = loadedSites[name]
+
+        fh = open(oldName, 'w')
+        fh.write(yaml_dump(site))
+        fh.close()
 
 run()
