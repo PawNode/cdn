@@ -5,8 +5,10 @@ server {
     site_name {{ site.domains.join(' ') }};
     root /var/www/sites/{{ site.name }};
 
+    ssl on;
     ssl_certificate /opt/cdn/certifier/certs/{{ site.name }}.pem;
     ssl_certificate_key /opt/cdn/certifier/keys/{{ site.name }}.pem;
+    ssl_protocols TLSv1.2;
 
     include /opt/cdn/configurator/configs/nginx/wellknown.conf;
 
