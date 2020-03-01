@@ -40,6 +40,7 @@ def loadSiteZIP(site, oldSite, force):
     rmtree(newDir, ignore_errors=True)
 
     mkdir(newDir)
+    
     r = http_get(site['src'], stream=True)
     z = ZipFile(BytesIO(r.content))
     z.extractall(newDir)
@@ -48,6 +49,7 @@ def loadSiteZIP(site, oldSite, force):
         rename(outDir, oldDir)
     except FileNotFoundError:
         pass
+
     rename(newDir, outDir)
     rmtree(oldDir, ignore_errors=True)
 
