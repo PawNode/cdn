@@ -13,8 +13,9 @@ DIR = path.abspath(path.join(__dir__, "sites"))
 OUTDIR = path.abspath(path.join(__dir__, "out"))
 OLDDIR = path.abspath(path.join(OUTDIR, "sites"))
 SITEDIR = '/var/www/sites'
-CERTDIR = path.abspath(path.join(__dir__, "../certifier/certs"))
-KEYDIR = path.abspath(path.join(__dir__, "../certifier/keys"))
+CERTIFIER_DIR = path.abspath(path.join(__dir__, "../certifier"))
+CERTDIR = path.abspath(path.join(CERTIFIER_DIR, "certs"))
+KEYDIR = path.abspath(path.join(CERTIFIER_DIR, "keys"))
 DEFAULT_CERT_AND_KEY = "/etc/ssl/default.pem"
 
 j2env = Environment(
@@ -151,7 +152,7 @@ def run():
     if swapFile("/etc/nginx/conf.d/cdn.conf", nginxConfStr):
         reloadNginx = True
 
-    if swapFile(path.join(OUTDIR, "certifier.yml"), certifierConfStr):
+    if swapFile(path.join(CERTIFIER_DIR, "config.yml"), certifierConfStr):
         reloadCertifier = True
 
     if reloadNginx:

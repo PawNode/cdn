@@ -1,5 +1,6 @@
-/certifier/certs/*.pem
-/certifier/keys/*.pem
-/configurator/out/**/*.yml
+/certifier/certs/*.*
+/certifier/keys/*.*
+/certifier/config.yml
+/configurator/out/**/*.*
 __pycache__
 *.pyc
