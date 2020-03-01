@@ -1,0 +1,10 @@
+server {
+    listen 80 default;
+    listen [::]:80 default;
+
+    server_name _;
+
+    {% include 'nginx/wellknown.conf.j2' %}
+
+    return 301 https://$host$request_uri;
+}

@@ -1,7 +1,7 @@
 domains:
     - pawnode.com
     - www.pawnode.com
-repo:
-    url: https://github.com/Doridian/website
-    branch: master
-    subdir: pawnode.com
+type: zip
+src: https://doridian.blob.core.windows.net/sites/pawnode.com.zip?v=1
+
+

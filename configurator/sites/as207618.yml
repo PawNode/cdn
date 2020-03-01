@@ -1,0 +1,5 @@
+domains:
+    - www.as207618.net
+    - as207618.net
+type: redirect
+target: https://pawnode.com

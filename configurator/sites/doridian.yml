@@ -1,7 +1,5 @@
 domains:
     - www.doridian.net
     - doridian.net
-repo:
-    url: https://github.com/Doridian/website
-    branch: master
-    subdir: doridian.net
+type: zip
+src: https://doridian.blob.core.windows.net/sites/doridian.net.zip?v=1

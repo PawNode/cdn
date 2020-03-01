@@ -2,17 +2,28 @@ server {
     listen 443 http2 ssl;
     listen [::]:443 http2 ssl;
 
-    site_name {{ site.domains.join(' ') }};
-    root /var/www/sites/{{ site.name }};
+    site_name {{ site.domains | join(' ') }};
+
+{% if site.dir %}
+    root {{ site.dir }};
+{% else %}
+    return 404 "No content here";
+{% endif %}
 
     ssl on;
     ssl_certificate /opt/cdn/certifier/certs/{{ site.name }}.pem;
     ssl_certificate_key /opt/cdn/certifier/keys/{{ site.name }}.pem;
     ssl_protocols TLSv1.2;
 
-    include /opt/cdn/configurator/configs/nginx/wellknown.conf;
+    {% include 'nginx/wellknown.conf.j2' %}
 
 {% if site.vcl %}
-    include /opt/cdn/configurator/configs/nginx/proxy.conf;
+    {% include 'nginx/varnish.conf.j2' %}
+{% endif %}
+
+{% if site.type == 'redirect' %}
+    location / {
+        return 301 {{ site.target }};
+    }
 {% endif %}
 }
