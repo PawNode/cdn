@@ -38,6 +38,7 @@ def select_http01_chall(orderr):
         for i in authz.body.challenges:
             # Find the supported challenge.
             if isinstance(i.chall, challenges.HTTP01):
+                orderr.authorizations = [authz]
                 return i
 
     raise Exception('HTTP-01 challenge was not offered by the CA server.')
@@ -55,7 +56,7 @@ def perform_http01(client_acme, challb, orderr):
     uploadWellknown(challb.chall.path[12:], validation.encode())
 
     # Let the CA server know that we are ready for the challenge.
-    print(client_acme.answer_challenge(challb, response))
+    client_acme.answer_challenge(challb, response)
 
     # Wait for challenge status and then issue a certificate.
     # It is possible to set a deadline time.
