@@ -1,5 +1,9 @@
 from os import path
 
+class CertificateUnusableError(Exception):
+    def __init__(self):
+        super.__init__(self)
+
 __dir__ = path.abspath(path.dirname(__file__))
 KEY_DIR = path.join(__dir__, 'keys')
 CERT_DIR = path.join(__dir__, 'certs')

@@ -14,17 +14,8 @@ DIRECTORY_URL = 'https://acme-staging-v02.api.letsencrypt.org/directory'
 USER_AGENT = 'python-acme-pawnode-cdn'
 KEY_BITS = 4096
 
-def new_csr_comp(domain_names, site_name):
+def new_csr_comp(domain_names, pkey_pem):
     '''Create certificate signing request.'''
-
-    pkey_pem = None
-    try:
-        pkey_pem = loadCertAndKey(site_name)
-    except FileNotFoundError:
-        pass
-    except:
-        # TODO: Print error here
-        pass
 
     if not pkey_pem:
         pkey = OpenSSL.crypto.PKey()
@@ -136,8 +127,12 @@ def get_ssl_for_site(site):
     site_name = site['name']
 
     client_acme = get_client()
-    
-    pkey_pem, csr_pem = new_csr_comp(domains, site_name)
+
+    pkey_pem, fullchain_pem = loadCertAndKey(site_name, domains)
+    if fullchain_pem:
+        return
+
+    pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
 
     # Issue certificate
 
