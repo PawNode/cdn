@@ -120,11 +120,11 @@ def get_ssl_for_site(site):
 
     print("[%s] Processing..." % site_name)
 
-    client_acme = get_client()
-
     pkey_pem, fullchain_pem, from_local = loadCertAndKey(site_name, domains)
     if fullchain_pem:
         return not from_local
+
+    client_acme = get_client()
 
     pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
 
@@ -138,5 +138,7 @@ def get_ssl_for_site(site):
     fullchain_pem = perform_http01(client_acme, challbs, orderr).encode()
 
     storeCertAndKey(site_name, pkey_pem, fullchain_pem)
+
+    print("[%s] Obtained new certificate" % site_name)
 
     return True
