@@ -226,10 +226,14 @@ def run():
     if swapFile('/etc/bird/bird6.conf', bird6ConfStr):
         system('service bird6 reload')
 
-    ipConfStr = ipTemplate.render(confi=config, dynConfig=dynConfig, tags=tags)
+    ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
 
-    if swapFile(path.join(OUTDIR, 'ips.txt'), ipConfStr):
-        system('bash %s' % path.join(__dir__, 'ipsetter.sh'))
+    ipRuleConfStr = ""
+    if dynConfigFindClosest('useRouteRules'):
+        ipRuleConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
+
+    if swapFile(path.join(OUTDIR, 'ips.txt'), ipConfStr) | swapFile(path.join(OUTDIR, 'ip_rules.txt'), ipRuleConfStr):
+        system('bash "%s"' % path.join(__dir__, 'ipsetter.sh'))
 
     if reloadCertifier:
         system('python3 %s' % path.join(__dir__, '../certifier'))
