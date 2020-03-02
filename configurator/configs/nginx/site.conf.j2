@@ -7,8 +7,8 @@ server {
     root {{ site.dir | default('/var/www/empty') }};
 
     ssl on;
-    ssl_certificate /opt/cdn/certifier/certs/{{ site.name }}.pem;
-    ssl_certificate_key /opt/cdn/certifier/keys/{{ site.name }}.pem;
+    ssl_certificate {{ config.certdir }}/{{ site.name }}.pem;
+    ssl_certificate_key {{ config.keydir }}/{{ site.name }}.pem;
     ssl_protocols TLSv1.2;
 
 {% if site.hsts %}

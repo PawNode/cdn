@@ -23,6 +23,9 @@ CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
 CERTDIR = path.abspath(path.join(CERTIFIER_DIR, 'certs'))
 KEYDIR = path.abspath(path.join(CERTIFIER_DIR, 'keys'))
 
+config['certDir'] = CERTDIR
+config['keyDir'] = KEYDIR
+
 j2env = Environment(
     loader=FileSystemLoader(path.join(__dir__, 'configs')),
     autoescape=select_autoescape([])
