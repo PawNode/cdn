@@ -3,7 +3,6 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import listdir, path, unlink, rename, system, mkdir, symlink
 from requests import get as http_get
 from shutil import rmtree
-from sys import exc_info
 from yaml import load as yaml_load, dump as yaml_dump
 from zipfile import ZipFile
 
@@ -143,8 +142,8 @@ def run():
         try:
             loader = SITE_LOADERS[site['type']]
             loader(site, oldSite, typeChanged)
-        except Exception:
-            print('Error loading site', site['name'], exc_info()[0])
+        except Exception as e:
+            print('Error loading site', site['name'], e)
             pass
 
         reloadCertifier |= oldSite['domains'] != site['domains']
