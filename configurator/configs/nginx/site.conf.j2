@@ -2,7 +2,7 @@ server {
     listen 443 http2 ssl;
     listen [::]:443 http2 ssl;
 
-    site_name {{ site.domains | join(' ') }};
+    server_name {{ site.domains | join(' ') }};
 
 {% if site.dir %}
     root {{ site.dir }};
