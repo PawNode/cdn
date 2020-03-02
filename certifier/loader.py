@@ -53,11 +53,11 @@ def checkCertDomains(cert_openssl, domains):
 def loadCertAndKeyLocal(name):
     name = '%s.pem' % name
 
-    fh = open(path.join(KEY_DIR, name), 'r')
+    fh = open(path.join(KEY_DIR, name), 'rb')
     key_pem = fh.read()
     fh.close()
 
-    fh = open(path.join(CERT_DIR, name), 'r')
+    fh = open(path.join(CERT_DIR, name), 'rb')
     cert_pem = fh.read()
     fh.close()
 
