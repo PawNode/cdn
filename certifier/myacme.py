@@ -70,7 +70,13 @@ def perform_http01(client_acme, challb, orderr):
 
     return finalized_orderr.fullchain_pem
 
+__cached_client_acme = None
 def get_client():
+    nonlocal __cached_client_acme
+
+    if __cached_client_acme:
+        return __cached_client_acme
+
     if path.exists(ACCOUNT_KEY_FILE):
         fh = open(ACCOUNT_KEY_FILE, 'rb')
         acc_key_pkey = serialization.load_pem_private_key(
@@ -122,6 +128,7 @@ def get_client():
         unlink(ACCOUNT_KEY_FILE)
         return get_client()
 
+    __cached_client_acme = client_acme
     return client_acme
 
 def get_ssl_for_site(site):
