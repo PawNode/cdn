@@ -8,6 +8,7 @@ import OpenSSL
 from acme import challenges, client, crypto_util, errors, messages, standalone
 from os import path, unlink
 from config import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
+from loader import loadCertAndKey, storeCertAndKey
 
 DIRECTORY_URL = 'https://acme-staging-v02.api.letsencrypt.org/directory'
 USER_AGENT = 'python-acme-pawnode-cdn'
@@ -128,14 +129,7 @@ def get_ssl_for_site(site):
     site_name = site['name']
 
     client_acme = get_client()
-
-    # Register account and accept TOS
-
-    # Terms of Service URL is in client_acme.directory.meta.terms_of_service
-    # Registration Resource: regr
-    # Creates account with contact information.
-
-    # Create domain private key and CSR
+    
     pkey_pem, csr_pem = new_csr_comp(domains, site_name)
 
     # Issue certificate
@@ -148,4 +142,4 @@ def get_ssl_for_site(site):
     # The certificate is ready to be used in the variable 'fullchain_pem'.
     fullchain_pem = perform_http01(client_acme, challb, orderr)
 
-    print(fullchain_pem)
+    storeCertAndKey(site_name, pkey_pem, fullchain_pem)
