@@ -1,14 +1,40 @@
 from os import path, unlink
 from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError
 import OpenSSL
+from datetime import datetime, timedelta
 
-def checkCertExpiry(cert_pem):
-    # TODO: This
-    return True
+CERT_MIN_VALID_DAYS = 30
 
+def getCertSAN(cert):
+    ext_count = cert.get_extension_count()
+    for i in range(0, ext_count):
+        ext = cert.get_extension(i)
+        if ext.get_short_name() == b'subjectAltName':
+            return ext.__str__()
 
-def checkCertDomains(cert_pem, domains):
-    return True
+def checkCertExpiry(cert):
+    if not cert:
+        return False
+
+    expiryDate = datetime.strptime(cert.get_notAfter().decode('ascii'), '%Y%m%d%H%M%SZ')
+    minExpiryDate = datetime.now() + timedelta(days=CERT_MIN_VALID_DAYS)
+
+    return expiryDate > minExpiryDate
+
+def checkCertDomains(cert, domains):
+    if not cert:
+        return False
+
+    sans = getCertSAN(cert).split('\n')
+    validDomains = []
+
+    for san in sans:
+        san = san.strip()
+        if san[0:4] != 'DNS:':
+            continue
+        validDomains.append(san[4:])
+    
+    return domains == validDomains
 
 def loadCertAndKeyLocal(name):
     name = "%s.pem" % name

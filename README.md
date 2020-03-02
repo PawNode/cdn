@@ -18,3 +18,7 @@
 - varnish
   - used for origin-served domains
 
+
+```
+openssl req -newkey rsa:4096 -nodes -keyout /etc/ssl/default.key -x509 -days 1 -out /etc/ssl/default.crt
+```

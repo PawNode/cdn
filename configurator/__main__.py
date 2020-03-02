@@ -14,7 +14,8 @@ with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
 
 SITEDIR = config['siteDir']
-DEFAULT_CERT_AND_KEY = config['defaultCertKey']
+DEFAULT_KEY = config['defaultKey']
+DEFAULT_CERT = config['defaultCert']
 
 DIR = path.abspath(path.join(__dir__, 'sites'))
 OUTDIR = path.abspath(path.join(__dir__, 'out'))
@@ -81,9 +82,9 @@ def symlinkCert(name):
     certName = path.join(CERTDIR, name)
     keyName = path.join(KEYDIR, name)
     if not path.lexists(certName):
-        symlink(DEFAULT_CERT_AND_KEY, certName)
+        symlink(DEFAULT_CERT, certName)
     if not path.lexists(keyName):
-        symlink(DEFAULT_CERT_AND_KEY, keyName)
+        symlink(DEFAULT_KEY, keyName)
 
 SITE_LOADERS = {
     'redirect': loadSiteNoop,

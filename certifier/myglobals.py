@@ -3,7 +3,7 @@ from yaml import load as yaml_load
 
 class CertificateUnusableError(Exception):
     def __init__(self):
-        super.__init__(self)
+        Exception.__init__(self)
 
 __dir__ = path.abspath(path.dirname(__file__))
 KEY_DIR = path.join(__dir__, 'keys')
