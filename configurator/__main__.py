@@ -21,7 +21,7 @@ tags.append(getfqdn())
 osconfig = config['objectStorage']
 blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
 
-dynConfig = yaml_load(blob_client.get_blob_to_stream('config', 'config.yml').contents)
+dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').contents)
 dynConfig['_self'] = dynConfig[getfqdn()]
 
 SITEDIR = config['siteDir']
