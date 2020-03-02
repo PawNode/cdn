@@ -31,7 +31,7 @@ protocol kernel {
     {% set cfg = dynConfig[tag] %}
     {% if 'neighbors' in cfg %}
         {% for neighbor in cfg.neighbors if 'ip6' in neighbor %}
-            protocol bgp vultr {
+            protocol bgp {{ neighbor.name }} {
                     local as 207618;
                     neighbor {{ neighbor.ip6 }} as {{ neighbor.as }};
                     {% if 'multihop' in neighbor %}
