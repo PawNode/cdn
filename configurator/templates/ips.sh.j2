@@ -1,4 +1,4 @@
-{%- set useRouteRule = dynConfigFindClosest('useRouteRules') %}
+{%- set useRouteRule = dynConfig._find('useRouteRules') %}
 {%- for tag in tags if tag in dynConfig %}
     {%- set cfg = dynConfig[tag] %}
     {%- if 'ips4' in cfg %}
