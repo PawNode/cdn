@@ -30,10 +30,12 @@ def dynConfigFindClosest(grp):
 
     for tag in tags:
         if tag in dynConfig:
-            print("DynConf: Using %s as closest for %s" % (tag, grp))
-            dc = dynConfig[tag][grp]
-            __closest_grp[grp] = dc
-            return dc
+            cfg = dynConfig[tag]
+            if grp in cfg:
+                print("DynConf: Using %s as closest for %s" % (tag, grp))
+                dc = cfg[grp]
+                __closest_grp[grp] = dc
+                return dc
 
 dynConfig['_self'] = dynConfig[tags[0]] # 0 = FQDN
 dynConfig['_find'] = dynConfigFindClosest
