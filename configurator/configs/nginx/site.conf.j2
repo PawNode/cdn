@@ -4,11 +4,7 @@ server {
 
     server_name {{ site.domains | join(' ') }};
 
-{% if site.dir %}
-    root {{ site.dir }};
-{% else %}
-    root /var/www/empty;
-{% endif %}
+    root {{ site.dir | default('/var/www/empty') }};
 
     ssl on;
     ssl_certificate /opt/cdn/certifier/certs/{{ site.name }}.pem;
