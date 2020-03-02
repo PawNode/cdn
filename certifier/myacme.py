@@ -122,9 +122,9 @@ def get_ssl_for_site(site):
 
     client_acme = get_client()
 
-    pkey_pem, fullchain_pem = loadCertAndKey(site_name, domains)
+    pkey_pem, fullchain_pem, from_local = loadCertAndKey(site_name, domains)
     if fullchain_pem:
-        return False
+        return not from_local
 
     pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
 

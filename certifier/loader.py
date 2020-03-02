@@ -126,14 +126,14 @@ def loadCertAndKey(name, domains):
         if not checkCertPEM(crt, domains):
             raise CertificateUnusableError()
         print("[%s] Found from local storage: key=%d, cert=%d" % (name, pkey != None, crt != None))
-        return pkey, crt
+        return pkey, crt, True
     except (FileNotFoundError, CertificateUnusableError, OpenSSL.crypto.Error):
         pkey, crt = loadCertAndKeyRemote(name)
         storeCertAndKeyLocal(name, pkey, crt)
         if not checkCertPEM(crt, domains):
             crt = None
         print("[%s] Found from object storage: key=%d, cert=%d" % (name, pkey != None, crt != None))
-        return pkey, crt
+        return pkey, crt, False
 
 def storeCertAndKey(name, key_pem, cert_pem):
     storeCertAndKeyRemote(name, key_pem, cert_pem)

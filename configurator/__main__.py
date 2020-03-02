@@ -62,19 +62,28 @@ def loadSiteZIP(site, oldSite, force):
     rmtree(oldDir, ignore_errors=True)
 
 
-def swapFile(file, content):
-    newfile = '%s.new' % file
+def swapFile(fn, content):
+    newfile = '%s.new' % fn
     fh = open(newfile, 'w')
     fh.write(content)
     fh.close()
 
     try:
-        unlink(file)
+        fh = open(fn, 'r')
+        oldcontent = fh.read()
+        fh.close()
+        if oldcontent == content:
+            print('<%s> Old == New' % fn)
+            unlink(newfile)
+            return False
+
+        unlink(fn)
     except FileNotFoundError:
         pass
-    rename(newfile, file)
 
-    return False # TODO: Return if changed
+    rename(newfile, fn)
+
+    return True
 
 def symlinkCert(name):
     name = '%s.pem' % name
@@ -100,30 +109,38 @@ def run():
 
     files = listdir(DIR)
 
+    print('Found site files: %s' % ', '.join(files))
+
     for file in files:
         if file[0] == '.' or file[-4:] != '.yml':
             continue
 
+        site_name = file[:-4]
+
         curName = path.join(DIR, file)
         oldName = path.join(OLDDIR, file)
+
+        print('[%s] Processing...' % site_name)
 
         fh = open(curName, 'r')
         site = yaml_load(fh)
         fh.close()
 
-        site['name'] = file[:-4]
+        site['name'] = site_name
 
-        loadedSites[site['name']] = site
+        loadedSites[site_name] = site
 
         oldSite = None
         try:
             fh = open(oldName, 'r')
             oldSite = yaml_load(fh)
             fh.close()
+            print('[%s] Loaded old site data' % site_name)
         except:
             pass
 
         if not oldSite:
+            print('[%s] No old site data' % site_name)
             oldSite = {
                 'domains': [],
                 'type': 'none',
@@ -131,22 +148,29 @@ def run():
             reloadNginx = True
             reloadCertifier = True
         
-        oldSite['name'] = site['name']
+        oldSite['name'] = site_name
 
-        symlinkCert(site['name'])
+        symlinkCert(site_name)
 
         typeChanged = site['type'] != oldSite['type']
-        reloadNginx |= typeChanged
-        reloadCertifier |= typeChanged
+        if typeChanged:
+            print('[%s] Type changed from %s to %s' % (site_name, oldSite['type'], site['type']))
+            reloadNginx = True
+            reloadCertifier = True
 
         try:
             loader = SITE_LOADERS[site['type']]
             loader(site, oldSite, typeChanged)
+            print('[%s] Loaded site' % site_name)
         except Exception as e:
-            print('Error loading site', site['name'], e)
+            print('[%s] Error loading site:' % site_name, e)
             pass
 
-        reloadCertifier |= oldSite['domains'] != site['domains']
+        domainsChanged = oldSite['domains'] != site['domains']
+        if domainsChanged:
+            print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(site['domains'])))
+            reloadNginx = True
+            reloadCertifier = True
 
         certifierConfig.append(site)
         nginxConfig.append(nginxSiteTemplate.render(site=site, config=config))
@@ -163,8 +187,8 @@ def run():
     if reloadNginx:
         system('service nginx reload')
 
-    #if reloadCertifier:
-    #    system('service certifier restart')
+    if reloadCertifier:
+        system('python3 %s' % path.join(__dir__, '../certifier'))
 
     for name in loadedSites:
         oldName = path.join(OLDDIR, '%s.yml' % name)
