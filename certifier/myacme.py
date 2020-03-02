@@ -70,40 +70,34 @@ def get_client():
     if __cached_client_acme:
         return __cached_client_acme
 
-    if path.exists(ACCOUNT_KEY_FILE):
-        fh = open(ACCOUNT_KEY_FILE, 'rb')
+    account_pkey, account_data = loadCertAndKey("__account__", None)
+    acc_key_pkey = None
+
+    if account_pkey:
         acc_key_pkey = serialization.load_pem_private_key(
-            data=fh.read(),
+            data=account_pkey,
             password=None,
             backend=default_backend()
         )
-        fh.close()
     else:
         acc_key_pkey = rsa.generate_private_key(
             public_exponent=65537,
             key_size=KEY_BITS,
             backend=default_backend()
         )
-        fh = open(ACCOUNT_KEY_FILE, 'wb')
-        fh.write(acc_key_pkey.private_bytes(
+        account_pkey = acc_key_pkey.private_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PrivateFormat.PKCS8,
             encryption_algorithm=serialization.NoEncryption()
-        ))
-        fh.close()
+        )
 
     acc_key = jose.JWKRSA(key=acc_key_pkey)
     net = client.ClientNetwork(acc_key, user_agent=USER_AGENT)
     directory = messages.Directory.from_json(net.get(DIRECTORY_URL).json())
     client_acme = client.ClientV2(directory, net=net)
 
-    try:
-        fh = open(ACCOUNT_DATA_FILE, 'r')
-        regr = messages.RegistrationResource.json_loads(fh.read())
-        client_acme.net.account = regr
-        fh.close()
-    except FileNotFoundError:
-        pass
+    if account_data != None:
+        client_acme.net.account = messages.RegistrationResource.json_loads(account_data)
 
     try:
         if not client_acme.net.account:
@@ -112,9 +106,7 @@ def get_client():
                 messages.NewRegistration.from_data(
                     email=email, terms_of_service_agreed=True))
             
-            fh = open(ACCOUNT_DATA_FILE, 'w')
-            fh.write(regr.json_dumps())
-            fh.close()
+            storeCertAndKey("__account__", account_pkey, regr.json_dumps().encode())
     except errors.ConflictError:
         unlink(ACCOUNT_KEY_FILE)
         return get_client()
@@ -126,7 +118,7 @@ def get_ssl_for_site(site):
     domains = site['domains']
     site_name = site['name']
 
-    print(domains, site_name)
+    print("[%s] Processing..." % site_name)
 
     client_acme = get_client()
 

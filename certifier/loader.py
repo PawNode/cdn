@@ -17,6 +17,9 @@ CERT_MIN_VALID_DAYS = certconfig['minValidDays']
 def checkCertPEM(cert_pem, domains):
     if not cert_pem:
         return False
+    if not domains:
+        return True
+
     cert_openssl = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert_pem)
     if not cert_openssl:
         return False
@@ -122,14 +125,14 @@ def loadCertAndKey(name, domains):
         pkey, crt = loadCertAndKeyLocal(name)
         if not checkCertPEM(crt, domains):
             raise CertificateUnusableError()
-        print("Found from local storage: key=%d, cert=%d" % (pkey != None, crt != None))
+        print("[%s] Found from local storage: key=%d, cert=%d" % (name, pkey != None, crt != None))
         return pkey, crt
     except (FileNotFoundError, CertificateUnusableError, OpenSSL.crypto.Error):
         pkey, crt = loadCertAndKeyRemote(name)
         storeCertAndKeyLocal(name, pkey, crt)
         if not checkCertPEM(crt, domains):
             crt = None
-        print("Found from object storage: key=%d, cert=%d" % (pkey != None, crt != None))
+        print("[%s] Found from object storage: key=%d, cert=%d" % (name, pkey != None, crt != None))
         return pkey, crt
 
 def storeCertAndKey(name, key_pem, cert_pem):
