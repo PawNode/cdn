@@ -234,7 +234,9 @@ def run():
     if dynConfigFindClosest('useRouteRules'):
         ipRuleConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
 
-    if swapFile(path.join(OUTDIR, 'ips.txt'), ipConfStr) | swapFile(path.join(OUTDIR, 'ip_rules.txt'), ipRuleConfStr):
+    ipcs = swapFile(path.join(OUTDIR, 'ips.txt'), ipConfStr)
+    iprcs = swapFile(path.join(OUTDIR, 'ip_rules.txt'), ipRuleConfStr)
+    if ipcs or iprcs:
         system('bash "%s"' % path.join(__dir__, 'ipsetter.sh'))
 
     if reloadCertifier:
