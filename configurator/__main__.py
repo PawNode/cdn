@@ -3,14 +3,27 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import listdir, path, unlink, rename, system, mkdir, symlink
 from requests import get as http_get
 from shutil import rmtree
-from yaml import load as yaml_load, dump as yaml_dump
+from yaml import load as yaml_load, dump as yaml_dump, loads as yaml_loads
 from zipfile import ZipFile
+from azure.storage.blob import BlockBlobService
+from socket import getfqdn
 
 __dir__ = path.dirname(__file__)
 
 config = None
 with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
+
+tags = config['tags']
+tags.append(getfqdn())
+
+osconfig = config['objectStorage']
+blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
+dynConfig = yaml_loads(blob_client.get_blob_to_text('config', 'config.yml'))
+config['dynamic'] = dynConfig['all']
+for tag in tags:
+    if tag in dynConfig:
+        config['dynamic'] += dynConfig[tag]
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']
@@ -27,11 +40,13 @@ config['certDir'] = CERTDIR
 config['keyDir'] = KEYDIR
 
 j2env = Environment(
-    loader=FileSystemLoader(path.join(__dir__, 'configs')),
+    loader=FileSystemLoader(path.join(__dir__, 'templates')),
     autoescape=select_autoescape([])
 )
 nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
+birdMainTemplate = j2env.get_template('bird/main4.conf.j2')
+bird6MainTemplate = j2env.get_template('bird/main6.conf.j2')
 
 def loadSiteNoop(site, oldSite, force):
     return
@@ -188,11 +203,20 @@ def run():
     if swapFile(path.join(CERTIFIER_DIR, 'sites.yml'), certifierConfStr):
         reloadCertifier = True
 
-    if reloadNginx:
-        system('service nginx reload')
+    birdConfStr = birdMainTemplate.render(config=config)
+    bird6ConfStr = bird6MainTemplate.render(config=config)
+
+    if swapFile('/etc/bird/bird.conf', birdConfStr):
+        system('service bird reload')
+
+    if swapFile('/etc/bird/bird6.conf', bird6ConfStr):
+        system('service bird6 reload')
 
     if reloadCertifier:
         system('python3 %s' % path.join(__dir__, '../certifier'))
+
+    if reloadNginx:
+        system('service nginx reload')
 
     for name in loadedSites:
         oldName = path.join(OLDDIR, '%s.yml' % name)
