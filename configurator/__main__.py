@@ -24,6 +24,7 @@ for tag in tags:
     if tag in dynConfig:
         print("DynConf: Using %s as _self" % tag)
         dynConfig['_self'] = dynConfig[tag]
+        break
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']
