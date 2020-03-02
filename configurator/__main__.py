@@ -22,6 +22,7 @@ blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key
 dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').content)
 for tag in tags:
     if tag in dynConfig:
+        print("DynConf: Using %s as _self" % tag)
         dynConfig['_self'] = dynConfig[tag]
 
 SITEDIR = config['siteDir']
