@@ -36,16 +36,16 @@ def checkCertExpiry(cert_openssl):
     return expiryDate > minExpiryDate
 
 def checkCertDomains(cert_openssl, domains):
-    sans = getCertSAN(cert_openssl).split('\n')
-    validDomains = []
+    sans = getCertSAN(cert_openssl).split(',')
+    validDomains = set()
 
     for san in sans:
         san = san.strip()
         if san[0:4] != 'DNS:':
             continue
-        validDomains.append(san[4:])
+        validDomains.add(san[4:])
     
-    return domains == validDomains
+    return set(domains) == validDomains
 
 def loadCertAndKeyLocal(name):
     name = '%s.pem' % name
@@ -83,7 +83,7 @@ def _downloadAndDecrypt(fn):
     iv = b64decode(blob.metadata['crypto_iv'])
     aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
     pem = aes.decrypt(blob.content)
-    return pem
+    return pem.decode('ascii')
 
 def _uploadAndEncrypt(fn, data):
     if not data:
@@ -121,7 +121,7 @@ def loadCertAndKey(name, domains):
         pkey, crt = loadCertAndKeyRemote(name)
         storeCertAndKeyLocal(name, pkey, crt)
         if not checkCertPEM(crt, domains):
-            crt = None
+            crt = crt
         return pkey, crt
 
 def storeCertAndKey(name, key_pem, cert_pem):

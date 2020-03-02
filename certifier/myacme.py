@@ -31,35 +31,34 @@ def select_http01_chall(orderr):
     # This object holds the offered challenges by the server and their status.
     authz_list = orderr.authorizations
 
+    challenge_list = []
     for authz in authz_list:
         # Choosing challenge.
         # authz.body.challenges is a set of ChallengeBody objects.
         for i in authz.body.challenges:
             # Find the supported challenge.
             if isinstance(i.chall, challenges.HTTP01):
-                orderr_body = orderr.body.update(authorizations=[authz.uri])
-                orderr = orderr.update(authorizations=[authz], body = orderr_body)
-                return i, orderr
+                challenge_list.append(i)
 
-    raise Exception('HTTP-01 challenge was not offered by the CA server.')
+    return challenge_list
 
-# .well-known/
-# 123456789012
+# /.well-known/
+# 1234567890123
 
-def perform_http01(client_acme, challb, orderr):
+def perform_http01(client_acme, challbs, orderr):
     '''Set up standalone webserver and perform HTTP-01 challenge.'''
 
-    response, validation = challb.response_and_validation(client_acme.net.key)
+    for challb in challbs:
+        response, validation = challb.response_and_validation(client_acme.net.key)
 
-    if challb.chall.path[:13] != '/.well-known/':
-        raise Exception("Sorry, challenge does not begin with /.well-known/")
-    uploadWellknown(challb.chall.path[13:], validation.encode())
+        if challb.chall.path[:13] != '/.well-known/':
+            raise Exception('Sorry, challenge does not begin with /.well-known/')
+        uploadWellknown(challb.chall.path[13:], validation.encode())
 
-    # Let the CA server know that we are ready for the challenge.
-    client_acme.answer_challenge(challb, response)
+        # Let the CA server know that we are ready for the challenge.
+        client_acme.answer_challenge(challb, response)
 
     # Wait for challenge status and then issue a certificate.
-    # It is possible to set a deadline time.
     finalized_orderr = client_acme.poll_and_finalize(orderr)
 
     return finalized_orderr.fullchain_pem
@@ -97,8 +96,6 @@ def get_client():
     net = client.ClientNetwork(acc_key, user_agent=USER_AGENT)
     directory = messages.Directory.from_json(net.get(DIRECTORY_URL).json())
     client_acme = client.ClientV2(directory, net=net)
-
-    regr = None
 
     try:
         fh = open(ACCOUNT_DATA_FILE, 'r')
@@ -143,10 +140,10 @@ def get_ssl_for_site(site):
     orderr = client_acme.new_order(csr_pem)
 
     # Select HTTP-01 within offered challenges by the CA server
-    challb, orderr = select_http01_chall(orderr)
+    challbs = select_http01_chall(orderr)
 
     # The certificate is ready to be used in the variable 'fullchain_pem'.
-    fullchain_pem = perform_http01(client_acme, challb, orderr)
+    fullchain_pem = perform_http01(client_acme, challbs, orderr)
 
     storeCertAndKey(site_name, pkey_pem, fullchain_pem)
 
