@@ -2,7 +2,6 @@ from azure.storage.blob import BlockBlobService
 from myglobals import config
 
 wkconfig = config['wellknown']
-
 blob_client = BlockBlobService(account_name=wkconfig['accountName'], account_key=wkconfig['accessKey'])
 
 def uploadWellknown(path, data):
