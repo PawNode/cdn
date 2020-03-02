@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 set -euo pipefail
 
-#cd /opt/cdn
+cd "$(dirname "$0")"
 git pull
 if [ ! -f /etc/ssl/default.crt ]
 then

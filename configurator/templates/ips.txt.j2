@@ -1,0 +1,13 @@
+{%- for tag in tags if tag in dynConfig %}
+    {%- set cfg = dynConfig[tag] %}
+    {%- if 'ips4' in cfg %}
+        {%- for addr in cfg.ips4 %}
+{{ addr }}
+        {%- endfor %}
+    {%- endif %}
+    {%- if 'ips6' in cfg %}
+        {%- for addr in cfg.ips6 %}
+{{ addr }}
+        {%- endfor %}
+    {%- endif %}
+{%- endfor %}
