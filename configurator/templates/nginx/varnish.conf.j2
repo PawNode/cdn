@@ -1,0 +1,5 @@
+location / {
+    proxy_pass http://127.0.0.1:9002;
+    proxy_set_header Host $http_host;
+    {% include 'nginx/proxy.conf.j2' %}
+}
