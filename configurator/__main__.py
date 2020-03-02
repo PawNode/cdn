@@ -230,11 +230,9 @@ def run():
 
     ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
 
-    print(dynConfigFindClosest('useRouteRules'))
-
     ipRuleConfStr = ""
     if dynConfigFindClosest('useRouteRules'):
-        ipRuleConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
+        ipRuleConfStr = ipConfStr
 
     ipcs = swapFile(path.join(OUTDIR, 'ips.txt'), ipConfStr)
     iprcs = swapFile(path.join(OUTDIR, 'ip_rules.txt'), ipRuleConfStr)
