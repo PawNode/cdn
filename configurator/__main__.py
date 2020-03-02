@@ -142,6 +142,8 @@ def run():
         try:
             loader = SITE_LOADERS[site['type']]
             loader(site, oldSite, typeChanged)
+        except FileNotFoundError:
+            raise
         except Exception as e:
             print('Error loading site', site['name'], e)
             pass
