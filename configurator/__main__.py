@@ -81,6 +81,7 @@ def swapFile(fn, content):
     except FileNotFoundError:
         pass
 
+    print('<%s> Old != New' % fn)
     rename(newfile, fn)
 
     return True
