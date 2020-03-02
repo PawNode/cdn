@@ -67,14 +67,20 @@ def storeCertAndKeyLocal(name, pkey_pem, cert_pem):
         return
 
     fn = path.join(KEY_DIR, name)
-    unlink(fn)
-    fh = open(fn, 'w')
+    try:
+        unlink(fn)
+    except FileNotFoundError:
+        pass
+    fh = open(fn, 'wb')
     fh.write(pkey_pem)
     fh.close()
 
     fn = path.join(CERT_DIR, name)
-    unlink(fn)
-    fh = open(fn, 'w')
+    try:
+        unlink(fn)
+    except FileNotFoundError:
+        pass
+    fh = open(fn, 'wb')
     fh.write(cert_pem)
     fh.close()
 
@@ -83,7 +89,7 @@ def _downloadAndDecrypt(fn):
     iv = b64decode(blob.metadata['crypto_iv'])
     aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
     pem = aes.decrypt(blob.content)
-    return pem.decode('ascii')
+    return pem
 
 def _uploadAndEncrypt(fn, data):
     if not data:
@@ -116,12 +122,14 @@ def loadCertAndKey(name, domains):
         pkey, crt = loadCertAndKeyLocal(name)
         if not checkCertPEM(crt, domains):
             raise CertificateUnusableError()
+        print("Found from local storage: key=%d, cert=%d" % (pkey != None, crt != None))
         return pkey, crt
     except (FileNotFoundError, CertificateUnusableError, OpenSSL.crypto.Error):
         pkey, crt = loadCertAndKeyRemote(name)
         storeCertAndKeyLocal(name, pkey, crt)
         if not checkCertPEM(crt, domains):
-            crt = crt
+            crt = None
+        print("Found from object storage: key=%d, cert=%d" % (pkey != None, crt != None))
         return pkey, crt
 
 def storeCertAndKey(name, key_pem, cert_pem):

@@ -143,7 +143,7 @@ def get_ssl_for_site(site):
     challbs = select_http01_chall(orderr)
 
     # The certificate is ready to be used in the variable 'fullchain_pem'.
-    fullchain_pem = perform_http01(client_acme, challbs, orderr)
+    fullchain_pem = perform_http01(client_acme, challbs, orderr).encode()
 
     storeCertAndKey(site_name, pkey_pem, fullchain_pem)
 
