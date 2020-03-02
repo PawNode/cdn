@@ -1,4 +1,4 @@
-location /.well-known {
+location /.well-known/ {
     proxy_pass https://{{ config.wellknown.domain }}/{{ config.wellknown.path }}/;
     proxy_set_header Host {{ config.wellknown.domain }};
     {% include 'nginx/proxy.conf.j2' %}

@@ -25,7 +25,6 @@ def new_csr_comp(domain_names, pkey_pem):
     csr_pem = crypto_util.make_csr(pkey_pem, domain_names)
     return pkey_pem, csr_pem
 
-
 def select_http01_chall(orderr):
     '''Extract authorization resource from within order resource.'''
     # Authorization Resource: authz.
@@ -38,8 +37,9 @@ def select_http01_chall(orderr):
         for i in authz.body.challenges:
             # Find the supported challenge.
             if isinstance(i.chall, challenges.HTTP01):
-                orderr.authorizations = [authz]
-                return i
+                orderr_body = orderr.body.update(authorizations=[authz.uri])
+                orderr = orderr.update(authorizations=[authz], body = orderr_body)
+                return i, orderr
 
     raise Exception('HTTP-01 challenge was not offered by the CA server.')
 
@@ -53,7 +53,7 @@ def perform_http01(client_acme, challb, orderr):
 
     if challb.chall.path[:13] != '/.well-known/':
         raise Exception("Sorry, challenge does not begin with /.well-known/")
-    uploadWellknown(challb.chall.path[12:], validation.encode())
+    uploadWellknown(challb.chall.path[13:], validation.encode())
 
     # Let the CA server know that we are ready for the challenge.
     client_acme.answer_challenge(challb, response)
@@ -143,7 +143,7 @@ def get_ssl_for_site(site):
     orderr = client_acme.new_order(csr_pem)
 
     # Select HTTP-01 within offered challenges by the CA server
-    challb = select_http01_chall(orderr)
+    challb, orderr = select_http01_chall(orderr)
 
     # The certificate is ready to be used in the variable 'fullchain_pem'.
     fullchain_pem = perform_http01(client_acme, challb, orderr)
