@@ -4,3 +4,6 @@ proxy_set_header X-Forwarded-For $remote_addr;
 proxy_connect_timeout 1s;
 proxy_send_timeout 10s;
 proxy_read_timeout 10s;
+{% if site and site.hsts %}
+add_header "Strict-Transport-Security" "max-age=63072000; includeSubDomains; preload" always;
+{% endif %}

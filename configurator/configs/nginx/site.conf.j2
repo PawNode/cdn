@@ -11,6 +11,10 @@ server {
     ssl_certificate_key /opt/cdn/certifier/keys/{{ site.name }}.pem;
     ssl_protocols TLSv1.2;
 
+{% if site.hsts %}
+    add_header "Strict-Transport-Security" "max-age=63072000; includeSubDomains; preload" always;
+{% endif %}
+
     {% include 'nginx/wellknown.conf.j2' %}
 
 {% if site.vcl %}
