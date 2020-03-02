@@ -48,8 +48,8 @@ protocol static {
 
 {% for tag in tags if tag in dynConfig %}
     {% set cfg = dynConfig[tag] %}
-    {% if 'subnet4' in cfg %}
-        {% for sn in cfg.subnet6 %}
+    {% if 'subnets6' in cfg %}
+        {% for sn in cfg.subnets6 %}
             route {{ sn }} unreachable;
         {% endfor %}
     {% endif %}
