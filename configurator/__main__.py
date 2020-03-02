@@ -34,11 +34,11 @@ def loadSiteNoop(site, oldSite, force):
     return
 
 def loadSiteZIP(site, oldSite, force):
-    if oldSite and not force and site['src'] == oldSite['src']:
-        return
-
     outDir = path.join(SITEDIR, site['name'])
     site['dir'] = outDir
+
+    if oldSite and not force and site['src'] == oldSite['src']:
+        return
 
     newDir = '%s___new' % outDir
     oldDir = '%s___old' % outDir
