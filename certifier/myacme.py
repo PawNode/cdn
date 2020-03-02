@@ -106,7 +106,7 @@ def get_client():
         pass
 
     try:
-        if regr is None:
+        if not client_acme.net.account:
             email = ('ssl@pawnode.com')
             regr = client_acme.new_account(
                 messages.NewRegistration.from_data(
