@@ -38,7 +38,7 @@ protocol kernel {
                     multihop {{ neighbor.multihop }};
                     {% endif %}
                     {% if 'password' in neighbor %}
-                    password {{ neighbor.password }};
+                    password "{{ neighbor.password }}";
                     {% endif %}
                     next hop self;
                     import all;
