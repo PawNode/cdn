@@ -27,20 +27,25 @@ protocol kernel {
         # Actually insert routes into the kernel routing table
 }
 
-{% for neighbor in dynConfig._find('neighbors6') %}
-    protocol bgp vultr {
-            local as 207618;
-            neighbor {{ neighbor.ip }} as {{ neighbor.as }};
-            {% if 'multihop' in neighbor %}
-            multihop {{ neighbor.multihop }};
-            {% endif %}
-            {% if 'password' in neighbor %}
-            password {{ neighbor.password }};
-            {% endif %}
-            next hop self;
-            import all;
-            export filter bgp_out;
-    }
+{% for tag in tags if tag in dynConfig %}
+    {% set cfg = dynConfig[tag] %}
+    {% if 'neighbors6' in cfg %}
+        {% for neighbor in cfg.neighbors6 %}
+            protocol bgp vultr {
+                    local as 207618;
+                    neighbor {{ neighbor.ip }} as {{ neighbor.as }};
+                    {% if 'multihop' in neighbor %}
+                    multihop {{ neighbor.multihop }};
+                    {% endif %}
+                    {% if 'password' in neighbor %}
+                    password {{ neighbor.password }};
+                    {% endif %}
+                    next hop self;
+                    import all;
+                    export filter bgp_out;
+            }
+        {% endfor %}
+    {% endif %}
 {% endfor %}
 
 protocol static {

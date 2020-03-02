@@ -22,7 +22,7 @@ blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key
 dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').content)
 
 __closest_grp = {}
-def dynConfigFind(grp):
+def dynConfigFindClosest(grp):
     global __closest_grp
 
     if grp in __closest_grp:
@@ -36,7 +36,7 @@ def dynConfigFind(grp):
             return dc
 
 dynConfig['_self'] = dynConfig[tags[0]] # 0 = FQDN
-dynConfig['_find'] = dynConfigFind
+dynConfig['_find'] = dynConfigFindClosest
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']
