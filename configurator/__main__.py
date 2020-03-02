@@ -9,14 +9,19 @@ from zipfile import ZipFile
 
 __dir__ = path.dirname(__file__)
 
-DIR = path.abspath(path.join(__dir__, "sites"))
-OUTDIR = path.abspath(path.join(__dir__, "out"))
-OLDDIR = path.abspath(path.join(OUTDIR, "sites"))
-SITEDIR = '/var/www/sites'
-CERTIFIER_DIR = path.abspath(path.join(__dir__, "../certifier"))
-CERTDIR = path.abspath(path.join(CERTIFIER_DIR, "certs"))
-KEYDIR = path.abspath(path.join(CERTIFIER_DIR, "keys"))
-DEFAULT_CERT_AND_KEY = "/etc/ssl/default.pem"
+config = None
+with open(path.join(__dir__, '../config.yml'), 'r') as f:
+    config = yaml_load(f)
+
+SITEDIR = config['siteDir']
+DEFAULT_CERT_AND_KEY = config['defaultCertKey']
+
+DIR = path.abspath(path.join(__dir__, 'sites'))
+OUTDIR = path.abspath(path.join(__dir__, 'out'))
+OLDDIR = path.abspath(path.join(OUTDIR, 'sites'))
+CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
+CERTDIR = path.abspath(path.join(CERTIFIER_DIR, 'certs'))
+KEYDIR = path.abspath(path.join(CERTIFIER_DIR, 'keys'))
 
 j2env = Environment(
     loader=FileSystemLoader(path.join(__dir__, 'configs')),
@@ -35,8 +40,8 @@ def loadSiteZIP(site, oldSite, force):
     outDir = path.join(SITEDIR, site['name'])
     site['dir'] = outDir
 
-    newDir = "%s___new" % outDir
-    oldDir = "%s___old" % outDir
+    newDir = '%s___new' % outDir
+    oldDir = '%s___old' % outDir
     
     rmtree(newDir, ignore_errors=True)
     rmtree(oldDir, ignore_errors=True)
@@ -58,8 +63,8 @@ def loadSiteZIP(site, oldSite, force):
 
 
 def swapFile(file, content):
-    newfile = "%s.new" % file
-    fh = open(newfile, "w")
+    newfile = '%s.new' % file
+    fh = open(newfile, 'w')
     fh.write(content)
     fh.close()
 
@@ -72,7 +77,7 @@ def swapFile(file, content):
     return False # TODO: Return if changed
 
 def symlinkCert(name):
-    name = "%s.pem" % name
+    name = '%s.pem' % name
     certName = path.join(CERTDIR, name)
     keyName = path.join(KEYDIR, name)
     if not path.lexists(certName):
@@ -87,7 +92,7 @@ SITE_LOADERS = {
 }
 
 def run():
-    nginxConfig = [nginxMainTemplate.render()]
+    nginxConfig = [nginxMainTemplate.render(config=config)]
     certifierConfig = []
     loadedSites = {}
     reloadNginx = False
@@ -138,21 +143,21 @@ def run():
             loader = SITE_LOADERS[site['type']]
             loader(site, oldSite, typeChanged)
         except Exception:
-            print("Error loading site", site['name'], exc_info()[0])
+            print('Error loading site', site['name'], exc_info()[0])
             pass
 
         reloadCertifier |= oldSite['domains'] != site['domains']
 
         certifierConfig.append(site)
-        nginxConfig.append(nginxSiteTemplate.render(site=site))
+        nginxConfig.append(nginxSiteTemplate.render(site=site, config=config))
 
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
 
-    if swapFile("/etc/nginx/conf.d/cdn.conf", nginxConfStr):
+    if swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         reloadNginx = True
 
-    if swapFile(path.join(CERTIFIER_DIR, "config.yml"), certifierConfStr):
+    if swapFile(path.join(CERTIFIER_DIR, 'sites.yml'), certifierConfStr):
         reloadCertifier = True
 
     if reloadNginx:
@@ -162,7 +167,7 @@ def run():
     #    system('service certifier restart')
 
     for name in loadedSites:
-        oldName = path.join(OLDDIR, "%s.yml" % name)
+        oldName = path.join(OLDDIR, '%s.yml' % name)
         site = loadedSites[name]
 
         fh = open(oldName, 'w')

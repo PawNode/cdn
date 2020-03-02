@@ -1,5 +1,3 @@
-from contextlib import contextmanager
-
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
@@ -7,7 +5,7 @@ import josepy as jose
 import OpenSSL
 from acme import challenges, client, crypto_util, errors, messages, standalone
 from os import path, unlink
-from config import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
+from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
 from loader import loadCertAndKey, storeCertAndKey
 
 DIRECTORY_URL = 'https://acme-staging-v02.api.letsencrypt.org/directory'
@@ -50,6 +48,9 @@ def perform_http01(client_acme, challb, orderr):
 
     resource = standalone.HTTP01RequestHandler.HTTP01Resource(
         chall=challb.chall, response=response, validation=validation)
+
+    # chall.path => validation
+
     # TODO: Upload challenge to blob
 
     # Let the CA server know that we are ready for the challenge.
