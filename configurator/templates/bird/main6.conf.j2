@@ -27,7 +27,7 @@ protocol kernel {
         # Actually insert routes into the kernel routing table
 }
 
-{% for neighbor in dynConfig._self.neighbors6 %}
+{% for neighbor in dynConfig._find('neighbors6') %}
     protocol bgp vultr {
             local as 207618;
             neighbor {{ neighbor.ip }} as {{ neighbor.as }};

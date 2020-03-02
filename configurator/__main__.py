@@ -20,11 +20,23 @@ osconfig = config['objectStorage']
 blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
 
 dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').content)
-for tag in tags:
-    if tag in dynConfig:
-        print("DynConf: Using %s as _self" % tag)
-        dynConfig['_self'] = dynConfig[tag]
-        break
+
+__closest_grp = {}
+def dynConfigFind(grp):
+    global __closest_grp
+
+    if grp in __closest_grp:
+        return __closest_grp[grp]
+
+    for tag in tags:
+        if tag in dynConfig:
+            print("DynConf: Using %s as closest for %s" % (tag, grp))
+            dc = dynConfig[tag][grp]
+            __closest_grp[grp] = dc
+            return dc
+
+dynConfig['_self'] = dynConfig[tags[0]] # 0 = FQDN
+dynConfig['_find'] = dynConfigFind
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']
