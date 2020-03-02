@@ -70,7 +70,7 @@ def get_client():
     if __cached_client_acme:
         return __cached_client_acme
 
-    account_pkey, account_data = loadCertAndKey("__account__", None)
+    account_pkey, account_data, _ = loadCertAndKey("__account__", None)
     acc_key_pkey = None
 
     if account_pkey:
