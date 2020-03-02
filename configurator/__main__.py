@@ -60,6 +60,7 @@ nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
 birdMainTemplate = j2env.get_template('bird/main4.conf.j2')
 bird6MainTemplate = j2env.get_template('bird/main6.conf.j2')
+ipTemplate = j2env.get_template('ips.txt.j2')
 
 def loadSiteNoop(site, oldSite, force):
     return
@@ -224,6 +225,11 @@ def run():
 
     if swapFile('/etc/bird/bird6.conf', bird6ConfStr):
         system('service bird6 reload')
+
+    ipConfStr = ipTemplate.render(confi=config, dynConfig=dynConfig, tags=tags)
+
+    if swapFile(path.join(OUTDIR, 'ips.txt'), ipConfStr):
+        system('bash %s' % path.join(__dir__, 'ipsetter.sh'))
 
     if reloadCertifier:
         system('python3 %s' % path.join(__dir__, '../certifier'))
