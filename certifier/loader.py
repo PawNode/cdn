@@ -8,8 +8,9 @@ from myglobals import config
 from Crypto.Cipher import AES
 from base64 import b64decode, b64encode
 
+osconfig = config['objectStorage']
 certconfig = config['certs']
-blob_client = BlockBlobService(account_name=certconfig['accountName'], account_key=certconfig['accessKey'])
+blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
 
 AES_KEY = b64decode(certconfig['encryptionKey'])
 CERT_MIN_VALID_DAYS = certconfig['minValidDays']

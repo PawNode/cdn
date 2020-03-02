@@ -1,8 +1,8 @@
 from azure.storage.blob import BlockBlobService
 from myglobals import config
 
-wkconfig = config['wellknown']
-blob_client = BlockBlobService(account_name=wkconfig['accountName'], account_key=wkconfig['accessKey'])
+osconfig = config['objectStorage']
+blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
 
 def uploadWellknown(path, data):
-    blob_client.create_blob_from_bytes(wkconfig['path'], path, data)
+    blob_client.create_blob_from_bytes('wellknown', path, data)
