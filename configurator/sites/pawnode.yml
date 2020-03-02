@@ -1,6 +1,7 @@
 domains:
     - pawnode.com
     - www.pawnode.com
+    - cdn.pawnode.com
 type: zip
 src: https://doridian.blob.core.windows.net/sites/pawnode.com.zip?v=1
 hsts: True
