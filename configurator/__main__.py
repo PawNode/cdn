@@ -230,6 +230,8 @@ def run():
 
     ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
 
+    print(dynConfigFindClosest('useRouteRules'))
+
     ipRuleConfStr = ""
     if dynConfigFindClosest('useRouteRules'):
         ipRuleConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
