@@ -27,13 +27,6 @@ protocol kernel {
         kernel table 666;
 }
 
-protocol kernel kernel_main {
-        metric 64;      # Use explicit kernel route metric to avoid collisions
-                        # with non-BIRD routes in the kernel routing table
-        import none;
-        export filter bgp_out;
-}
-
 {% for tag in tags if tag in dynConfig %}
     {% set cfg = dynConfig[tag] %}
     {% if 'neighbors' in cfg %}
