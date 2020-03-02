@@ -9,7 +9,7 @@ from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
 from loader import loadCertAndKey, storeCertAndKey
 from wellknown import uploadWellknown
 
-DIRECTORY_URL = 'https://acme-staging-v02.api.letsencrypt.org/directory'
+DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory'
 USER_AGENT = 'python-acme-pawnode-cdn'
 KEY_BITS = 4096
 
