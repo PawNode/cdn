@@ -14,15 +14,15 @@ config = None
 with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
 
-tags = config['tags']
-tags.append('all')
-tags.append(getfqdn())
+tags = [getfqdn()] + config['tags'] + ['all']
 
 osconfig = config['objectStorage']
 blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
 
 dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').content)
-dynConfig['_self'] = dynConfig[getfqdn()]
+for tag in tags:
+    if tag in dynConfig:
+        dynConfig['_self'] = dynConfig[tag]
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']
@@ -35,8 +35,8 @@ CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
 CERTDIR = path.abspath(path.join(CERTIFIER_DIR, 'certs'))
 KEYDIR = path.abspath(path.join(CERTIFIER_DIR, 'keys'))
 
-dynConfig['certDir'] = CERTDIR
-dynConfig['keyDir'] = KEYDIR
+dynConfig['_self']['certDir'] = CERTDIR
+dynConfig['_self']['keyDir'] = KEYDIR
 
 j2env = Environment(
     loader=FileSystemLoader(path.join(__dir__, 'templates')),
