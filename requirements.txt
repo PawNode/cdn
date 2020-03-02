@@ -4,3 +4,4 @@ OpenSSL
 cryptography
 azure-storage
 jinja2
+crypto
