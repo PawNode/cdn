@@ -1,0 +1,58 @@
+router id {{ dynConfig._self.routerId }};
+
+protocol device {
+        scan time 30;
+}
+
+protocol direct {
+        interface "ens*";
+        interface "eno*";
+        interface "eth*";
+}
+
+filter bgp_out {
+        if net = 0/0 then {
+                reject;
+        } else if source ~ [ RTS_STATIC_DEVICE, RTS_STATIC ] then {
+                accept;
+        }
+        reject;
+}
+
+protocol kernel {
+        metric 64;      # Use explicit kernel route metric to avoid collisions
+                        # with non-BIRD routes in the kernel routing table
+        import none;
+        export filter bgp_out;
+        # Actually insert routes into the kernel routing table
+}
+
+{% for neighbor in dynConfig._self.neighbors4 %}
+    protocol bgp vultr {
+            local as 207618;
+            neighbor {{ neighbor.ip }} as {{ neighbor.as }};
+            {% if 'multihop' in neighbor %}
+            multihop {{ neighbor.multihop }};
+            {% endif %}
+            {% if 'password' in neighbor %}
+            password {{ neighbor.password }};
+            {% endif %}
+            next hop self;
+            import all;
+            export filter bgp_out;
+    }
+{% endfor %}
+
+protocol static {
+        export all;
+
+{% for tag in tags if tag in dynConfig %}
+    {% set cfg = dynConfig[tag] %}
+    {% if 'subnet4' in cfg %}
+        {% for sn in cfg.subnet4 %}
+            route {{ sn }} unreachable;
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+}

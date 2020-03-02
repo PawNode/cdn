@@ -3,7 +3,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import listdir, path, unlink, rename, system, mkdir, symlink
 from requests import get as http_get
 from shutil import rmtree
-from yaml import load as yaml_load, dump as yaml_dump, loads as yaml_loads
+from yaml import load as yaml_load, dump as yaml_dump
 from zipfile import ZipFile
 from azure.storage.blob import BlockBlobService
 from socket import getfqdn
@@ -15,15 +15,14 @@ with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
 
 tags = config['tags']
+tags.append('all')
 tags.append(getfqdn())
 
 osconfig = config['objectStorage']
 blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
-dynConfig = yaml_loads(blob_client.get_blob_to_text('config', 'config.yml'))
-config['dynamic'] = dynConfig['all']
-for tag in tags:
-    if tag in dynConfig:
-        config['dynamic'] += dynConfig[tag]
+
+dynConfig = yaml_load(blob_client.get_blob_to_stream('config', 'config.yml').contents)
+dynConfig['_self'] = dynConfig[getfqdn()]
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']
@@ -36,8 +35,8 @@ CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
 CERTDIR = path.abspath(path.join(CERTIFIER_DIR, 'certs'))
 KEYDIR = path.abspath(path.join(CERTIFIER_DIR, 'keys'))
 
-config['certDir'] = CERTDIR
-config['keyDir'] = KEYDIR
+dynConfig['certDir'] = CERTDIR
+dynConfig['keyDir'] = KEYDIR
 
 j2env = Environment(
     loader=FileSystemLoader(path.join(__dir__, 'templates')),
@@ -120,7 +119,7 @@ SITE_LOADERS = {
 }
 
 def run():
-    nginxConfig = [nginxMainTemplate.render(config=config)]
+    nginxConfig = [nginxMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)]
     certifierConfig = []
     loadedSites = {}
     reloadNginx = False
@@ -192,7 +191,7 @@ def run():
             reloadCertifier = True
 
         certifierConfig.append(site)
-        nginxConfig.append(nginxSiteTemplate.render(site=site, config=config))
+        nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
 
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
@@ -203,8 +202,8 @@ def run():
     if swapFile(path.join(CERTIFIER_DIR, 'sites.yml'), certifierConfStr):
         reloadCertifier = True
 
-    birdConfStr = birdMainTemplate.render(config=config)
-    bird6ConfStr = bird6MainTemplate.render(config=config)
+    birdConfStr = birdMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
+    bird6ConfStr = bird6MainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
 
     if swapFile('/etc/bird/bird.conf', birdConfStr):
         system('service bird reload')
