@@ -3,3 +3,4 @@ josepy
 OpenSSL
 cryptography
 azure-storage
+jinja2
