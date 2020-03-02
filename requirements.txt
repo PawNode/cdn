@@ -2,3 +2,4 @@ acme
 josepy
 OpenSSL
 cryptography
+azure-storage

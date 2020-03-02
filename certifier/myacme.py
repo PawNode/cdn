@@ -7,6 +7,7 @@ from acme import challenges, client, crypto_util, errors, messages, standalone
 from os import path, unlink
 from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
 from loader import loadCertAndKey, storeCertAndKey
+from wellknown import uploadWellknown
 
 DIRECTORY_URL = 'https://acme-staging-v02.api.letsencrypt.org/directory'
 USER_AGENT = 'python-acme-pawnode-cdn'
@@ -41,17 +42,17 @@ def select_http01_chall(orderr):
 
     raise Exception('HTTP-01 challenge was not offered by the CA server.')
 
+# .well-known/
+# 123456789012
+
 def perform_http01(client_acme, challb, orderr):
     '''Set up standalone webserver and perform HTTP-01 challenge.'''
 
     response, validation = challb.response_and_validation(client_acme.net.key)
 
-    resource = standalone.HTTP01RequestHandler.HTTP01Resource(
-        chall=challb.chall, response=response, validation=validation)
-
-    # chall.path => validation
-
-    # TODO: Upload challenge to blob
+    if challb.chall.path[:13] != '/.well-known/':
+        raise Exception("Sorry, challenge does not begin with /.well-known/")
+    uploadWellknown(challb.chall.path[12:], validation.encode())
 
     # Let the CA server know that we are ready for the challenge.
     client_acme.answer_challenge(challb, response)
@@ -64,7 +65,7 @@ def perform_http01(client_acme, challb, orderr):
 
 __cached_client_acme = None
 def get_client():
-    nonlocal __cached_client_acme
+    global __cached_client_acme
 
     if __cached_client_acme:
         return __cached_client_acme
@@ -127,16 +128,17 @@ def get_ssl_for_site(site):
     domains = site['domains']
     site_name = site['name']
 
+    print(domains, site_name)
+
     client_acme = get_client()
 
     pkey_pem, fullchain_pem = loadCertAndKey(site_name, domains)
     if fullchain_pem:
-        return
+        return False
 
     pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
 
     # Issue certificate
-
     orderr = client_acme.new_order(csr_pem)
 
     # Select HTTP-01 within offered challenges by the CA server
@@ -146,3 +148,5 @@ def get_ssl_for_site(site):
     fullchain_pem = perform_http01(client_acme, challb, orderr)
 
     storeCertAndKey(site_name, pkey_pem, fullchain_pem)
+
+    return True
