@@ -55,7 +55,7 @@ def perform_http01(client_acme, challb, orderr):
     uploadWellknown(challb.chall.path[12:], validation.encode())
 
     # Let the CA server know that we are ready for the challenge.
-    client_acme.answer_challenge(challb, response)
+    print(client_acme.answer_challenge(challb, response))
 
     # Wait for challenge status and then issue a certificate.
     # It is possible to set a deadline time.
