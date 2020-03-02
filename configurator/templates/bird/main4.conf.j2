@@ -29,11 +29,11 @@ protocol kernel {
 
 {% for tag in tags if tag in dynConfig %}
     {% set cfg = dynConfig[tag] %}
-    {% if 'neighbors4' in cfg %}
-        {% for neighbor in cfg.neighbors4 %}
-            protocol bgp vultr {
+    {% if 'neighbors' in cfg %}
+        {% for neighbor in cfg.neighbors if 'ip4' in neighbor %}
+            protocol bgp {{ neighbor.name }} {
                     local as 207618;
-                    neighbor {{ neighbor.ip }} as {{ neighbor.as }};
+                    neighbor {{ neighbor.ip4 }} as {{ neighbor.as }};
                     {% if 'multihop' in neighbor %}
                     multihop {{ neighbor.multihop }};
                     {% endif %}
