@@ -8,5 +8,5 @@ server {
 
     {% include 'nginx/wellknown.conf.j2' %}
 
-    return 301 https://$host$request_uri;
+    root /var/www/empty;
 }

@@ -7,7 +7,7 @@ server {
 {% if site.dir %}
     root {{ site.dir }};
 {% else %}
-    return 404 "No content here";
+    root /var/www/empty;
 {% endif %}
 
     ssl on;
