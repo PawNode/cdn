@@ -3,9 +3,6 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-
-git pull
-
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites
 
 if [ ! -f /etc/ssl/default.crt ]
