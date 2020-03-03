@@ -27,7 +27,7 @@ def downloadSite(name):
         Bucket=config['dynConfig']['bucketName'],
         Key=('%s.yml' % name)
     )
-    return yaml_load(obj.Body)
+    return yaml_load(obj['Body'])
 
 dynConfig = downloadSite('__main__')
 
