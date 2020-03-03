@@ -1,7 +1,7 @@
 ; Zone for site
 $TTL    300
 {%- set mainDomain = site.domains[0] %}
-{%- set mainDomainStripLen = -((mainDomain | len) + 1) %}
+{%- set mainDomainStripLen = -((mainDomain | length) + 1) %}
 
 @       3600    IN      SOA     {{ mainDomain }}. root.{{ mainDomain }}. (
                         2033053301
