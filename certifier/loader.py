@@ -6,7 +6,7 @@ from myglobals import config
 from Crypto.Cipher import AES
 from base64 import b64decode, b64encode
 from boto3 import client as boto3_client
-from botocore.exceptions import ClientError
+from botocore.errorfactory import NoSuchKey
 
 osconfig = config['objectStorage']
 certconfig = config['certs']
@@ -121,8 +121,8 @@ def loadCertAndKeyRemote(name):
     try:
         key_pem = _downloadAndDecrypt('keys/%s.pem' % name)
         cert_pem = _downloadAndDecrypt('certs/%s.pem' % name)
-    except:
-        raise
+    except NoSuchKey:
+        pass
     return key_pem, cert_pem
 
 def storeCertAndKeyRemote(name, key_pem, cert_pem):
