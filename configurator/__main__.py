@@ -246,7 +246,7 @@ def run():
 
     ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
     if swapFile(path.join(OUTDIR, 'ips.sh'), ipConfStr):
-        system('bash '%s'' % path.join(OUTDIR, 'ips.sh'))
+        system('bash \'%s\'' % path.join(OUTDIR, 'ips.sh'))
 
     if swapFile('/etc/bird/bird.conf', birdConfStr):
         system('service bird reload')
