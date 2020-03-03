@@ -5,3 +5,4 @@ domains:
 type: zip
 src: https://doridian.blob.core.windows.net/sites/pawnode.com.zip?v=1
 hsts: True
+vanityNS: True

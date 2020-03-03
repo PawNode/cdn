@@ -10,9 +10,15 @@ $TTL    300
                         86400
                         3600 )
 
-{%- for ns in dynConfig._find('nsrecords') %}
+{%- if site.vanityNS %}
+    {%- for record in dynConfig._find('vanityNSRecords') %}
+{{ record }}
+    {%- endfor %}
+{%- else %}
+    {%- for ns in dynConfig._find('nsrecords') %}
 @       IN      NS      {{ ns }}
-{%- endfor %}
+    {%- endfor %}
+{%- endif %}
 
 {%- for domain in site.domains %}
     {%- if domain == mainDomain %}
@@ -25,4 +31,8 @@ $TTL    300
     {%- else %}
 {{ domain[:-mainDomainStripLen] }} IN CNAME {{ dynConfig._find('sitecname') }}
     {%- endif %}
+{%- endfor %}
+
+{%- for record in site.records %}
+{{ record }}
 {%- endfor %}
