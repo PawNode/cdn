@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+ID="$1"
+
 cd "$(dirname "$0")"
 
 addIfMissing() {
@@ -17,6 +19,8 @@ enableStart() {
     systemctl enable "$1"
     systemctl start "$1"
 }
+
+echo "$ID * * * * python3 /opt/cdn/certifier" | crontab
 
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites
 
