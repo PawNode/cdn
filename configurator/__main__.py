@@ -60,7 +60,7 @@ def dynConfigFindClosest(grp):
         __closest_grp[grp] = dc
         return dc
 
-dynConfig['_self'] = dynConfig[tags[0]] # 0 = FQDN
+dynConfig['_self'] = dynConfig[getfqdn()]
 dynConfig['_find'] = dynConfigFindClosest
 
 SITEDIR = config['siteDir']
