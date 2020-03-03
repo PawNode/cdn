@@ -64,7 +64,7 @@ birdMainTemplate = j2env.get_template('bird/main4.conf.j2')
 bird6MainTemplate = j2env.get_template('bird/main6.conf.j2')
 ipTemplate = j2env.get_template('ips.sh.j2')
 bindZoneTemplate = j2env.get_template('bind/zone.j2')
-bindZoneListTemplate = j2env.get_template('bind/zones.conf.j2')
+bindSiteTemplate = j2env.get_template('bind/site.conf.j2')
 
 def loadSiteNoop(site, oldSite, force):
     return
@@ -214,7 +214,7 @@ def run():
         certifierConfig.append(site)
         nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
 
-        zoneListConfig.append(bindZoneListTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
+        zoneListConfig.append(bindSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
         zoneConfig = bindZoneTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags)
         if swapFile('/etc/bind/sites/db.%s' % site_name, zoneConfig):
             reloadBind = True
