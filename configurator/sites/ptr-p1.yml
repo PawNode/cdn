@@ -1,0 +1,9 @@
+domains:
+    - 28.244.185.in-addr.arpa
+type: none
+records:
+    - 1 IN PTR any.p1.pawnode.com.
+    - 2 IN PTR cdn.pawnode.com.
+    - 3 IN PTR cdn.pawnode.com.
+    - 53 IN PTR ns1.pawnode.com.
+    - 54 IN PTR ns2.pawnode.com.

@@ -1,0 +1,13 @@
+domains:
+    - 0.f.4.4.d.7.e.0.a.2.ip6.arpa
+type: none
+records:
+    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0     IN      PTR     van-unmetered.p2.pawnode.com.
+    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0     IN      PTR     van-evix.p2.pawnode.com.
+    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0     IN      PTR     sea.p2.pawnode.com.
+    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3.0     IN      PTR     nyc.p2.pawnode.com.
+    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.4.0     IN      PTR     fra.p2.pawnode.com.
+    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.e.0     IN      PTR     van.p2.pawnode.com.
+    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.0     IN      PTR     any.p2.pawnode.com.
+    - 5.3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.0     IN      PTR     ns2.pawnode.com.
+    - 2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.0     IN      PTR     cdn.pawnode.com.
