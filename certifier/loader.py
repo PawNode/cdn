@@ -93,11 +93,11 @@ def storeCertAndKeyLocal(name, pkey_pem, cert_pem):
     fh.close()
 
 def _downloadAndDecrypt(fn):
+    print(BUCKET_NAME)
     blob = s3_client.get_object(
         Bucket=BUCKET_NAME,
         Key=fn
     )
-    print(BUCKET_NAME)
     iv = b64decode(blob['Metadata']['crypto_iv'])
     aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
     pem = aes.decrypt(blob['Body'])
