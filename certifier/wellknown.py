@@ -11,4 +11,4 @@ s3_client = boto3_client('s3',
 BUCKET_NAME = config['wellknown']['bucketName']
 
 def uploadWellknown(path, data):
-    s3_client.create_blob_from_bytes(Bucket=BUCKET_NAME, Key=path, Body=data)
+    s3_client.put_object(Bucket=BUCKET_NAME, Key=path, Body=data)
