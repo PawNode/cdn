@@ -10,9 +10,22 @@ addIfMissing() {
     fi
 }
 
+apt update
+apt -y install bind9 nginx python3 python3-acme python3-azure-storage python3-josepy python3-jinja2 python3-crypto bird
+
+enableStart() {
+    systemctl enable "$1"
+    systemctl start "$1"
+}
+
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites
 
 addIfMissing /etc/bind/named.conf.local 'include "/etc/bind/sites.conf";'
+
+enableStart bird
+enableStart bird6
+enableStart bind9
+enableStart nginx
 
 if [ ! -f /etc/ssl/default.crt ]
 then
