@@ -34,9 +34,8 @@ def recurseTags(tag):
         return
 
     subTags = cfg['tags']
-    print("X", subTags)
     for subTag in subTags:
-        recurseTags(tag)
+        recurseTags(subTag)
 
 recurseTags(getfqdn())
 recurseTags("all")
