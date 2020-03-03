@@ -166,8 +166,6 @@ def run():
     certifierConfig = []
     loadedSites = {}
     reloadBind = False
-    reloadNginx = False
-    reloadCertifier = False
 
     files = listdir(DIR)
 
@@ -207,8 +205,6 @@ def run():
                 'domains': [],
                 'type': 'none',
             }
-            reloadNginx = True
-            reloadCertifier = True
         
         oldSite['name'] = site_name
 
@@ -217,8 +213,6 @@ def run():
         typeChanged = site['type'] != oldSite['type']
         if typeChanged:
             print('[%s] Type changed from %s to %s' % (site_name, oldSite['type'], site['type']))
-            reloadNginx = True
-            reloadCertifier = True
 
         try:
             loader = SITE_LOADERS[site['type']]
@@ -232,8 +226,6 @@ def run():
             domainsChanged = oldSite['domains'] != site['domains']
             if domainsChanged:
                 print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(site['domains'])))
-                reloadNginx = True
-                reloadCertifier = True
             certifierConfig.append(site)
             nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
         else:
@@ -248,14 +240,12 @@ def run():
     nginxConfStr = '\n'.join(nginxConfig)
     zoneListConfigStr = '\n'.join(zoneListConfig)
 
-    if swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
-        reloadNginx = True
-
-    if swapFile(path.join(CERTIFIER_DIR, 'sites.yml'), certifierConfStr):
-        reloadCertifier = True
-
     birdConfStr = birdMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
     bird6ConfStr = bird6MainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
+
+    ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
+    if swapFile(path.join(OUTDIR, 'ips.sh'), ipConfStr):
+        system('bash "%s"' % path.join(OUTDIR, 'ips.sh'))
 
     if swapFile('/etc/bird/bird.conf', birdConfStr):
         system('service bird reload')
@@ -263,21 +253,14 @@ def run():
     if swapFile('/etc/bird/bird6.conf', bird6ConfStr):
         system('service bird6 reload')
 
-    if swapFile('/etc/bind/sites.conf', zoneListConfigStr):
-        reloadBind = True
-
-    ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
-    if swapFile(path.join(OUTDIR, 'ips.sh'), ipConfStr):
-        system('bash "%s"' % path.join(OUTDIR, 'ips.sh'))
-
-    if reloadBind:
+    if swapFile('/etc/bind/sites.conf', zoneListConfigStr) or reloadBind:
         system('service bind9 reload')
 
-    if reloadCertifier:
-        system('python3 %s' % path.join(__dir__, '../certifier'))
-
-    if reloadNginx:
+    if swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         system('service nginx reload')
+
+    if swapFile(path.join(CERTIFIER_DIR, 'sites.yml'), certifierConfStr):
+        system('python3 %s' % path.join(__dir__, '../certifier'))
 
     for name in loadedSites:
         oldName = path.join(OLDDIR, '%s.yml' % name)
