@@ -175,7 +175,7 @@ def run():
         if tag not in dynConfig:
             continue
         cfg = dynConfig[tag]
-        if 'sites' in tag:
+        if 'sites' in cfg:
             sites += cfg['sites']
 
     print('Found sites: %s' % ', '.join(sites))
