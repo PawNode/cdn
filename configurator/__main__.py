@@ -21,14 +21,14 @@ s3_client = boto3_client('s3',
 )
 
 CFG_BUCKET_NAME = config['dynConfig']['bucketName']
-def downloadSite(name):
+def downloadSite(name, prefix='sites/'):
     obj = s3_client.get_object(
         Bucket=CFG_BUCKET_NAME,
-        Key=('%s.yml' % name)
+        Key=('%s%s.yml' % (prefix, name))
     )
     return yaml_load(obj['Body'])
 
-dynConfig = downloadSite('__main__')
+dynConfig = downloadSite('main', '')
 
 tags = []
 def recurseTags(tag):

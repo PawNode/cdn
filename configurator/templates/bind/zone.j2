@@ -40,3 +40,12 @@ $TTL    300
 {%- for record in site.records %}
 {{ record }}
 {%- endfor %}
+
+{%- if site.useGoogleMX %}
+@	IN	MX	5 alt2.aspmx.l.google.com.
+@   IN	MX	5 alt1.aspmx.l.google.com.
+@	IN	MX	1 aspmx.l.google.com.
+@	IN	MX	10 aspmx3.googlemail.com.
+@	IN	MX	10 aspmx2.googlemail.com.
+@	IN	TXT	"v=spf1 include:_spf.google.com mx ~all"
+{% endif %}
