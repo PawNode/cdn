@@ -171,7 +171,9 @@ def run():
     reloadBind = False
 
     sites = []
-    for tag in tags if tag in dynConfig:
+    for tag in tags:
+        if tag not in dynConfig:
+            continue
         cfg = dynConfig[tag]
         if 'sites' in tag:
             sites += cfg['sites']
