@@ -33,3 +33,4 @@ then
 fi
 
 python3 ./configurator
+python3 ./certifier
