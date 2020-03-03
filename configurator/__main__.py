@@ -235,7 +235,11 @@ def run():
             domainsChanged = oldSite['domains'] != site['domains']
             if domainsChanged:
                 print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(site['domains'])))
-            certifierConfig.append(site)
+            certSite = {
+                'name': site_name,
+                'domains': site['domains']
+            }
+            certifierConfig.append(certSite)
             nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
         else:
             print('[%s] Site is type none. Not rendering nginx or certifier config' % site_name)
