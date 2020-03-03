@@ -99,7 +99,7 @@ def _downloadAndDecrypt(fn):
     )
     iv = b64decode(blob['Metadata']['crypto_iv'])
     aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
-    pem = aes.decrypt(blob['Body'])
+    pem = aes.decrypt(blob['Body'].read())
     return pem
 
 def _uploadAndEncrypt(fn, data):
