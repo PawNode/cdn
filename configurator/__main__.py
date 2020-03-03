@@ -246,7 +246,7 @@ def run():
         system('bash "%s"' % path.join(OUTDIR, 'ips.sh'))
 
     if reloadBind:
-        system('service named reload')
+        system('service bind9 reload')
 
     if reloadCertifier:
         system('python3 %s' % path.join(__dir__, '../certifier'))
