@@ -1,6 +1,6 @@
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from os import listdir, path, unlink, rename, system, mkdir, symlink
+from os import path, unlink, rename, system, mkdir, symlink
 from requests import get as http_get
 from shutil import rmtree
 from yaml import load as yaml_load, dump as yaml_dump
@@ -17,7 +17,10 @@ with open(path.join(__dir__, '../config.yml'), 'r') as f:
 osconfig = config['objectStorage']
 blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
 
-dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').content)
+def downloadSite(name):
+    return yaml_load(blob_client.get_blob_to_text('config', '%s.yml' % name).content)
+
+dynConfig = downloadSite('__main__')
 
 tags = []
 def recurseTags(tag):
@@ -38,9 +41,9 @@ def recurseTags(tag):
         recurseTags(subTag)
 
 recurseTags(getfqdn())
-recurseTags("all")
+recurseTags('all')
 
-print("My tags are: %s" % ', '.join(tags))
+print('My tags are: %s' % ', '.join(tags))
 
 __closest_grp = {}
 def dynConfigFindClosest(grp):
@@ -55,7 +58,7 @@ def dynConfigFindClosest(grp):
         cfg = dynConfig[tag]
         if grp not in cfg:
             continue
-        print("DynConf: Using %s as closest for %s" % (tag, grp))
+        print('DynConf: Using %s as closest for %s' % (tag, grp))
         dc = cfg[grp]
         __closest_grp[grp] = dc
         return dc
@@ -167,24 +170,20 @@ def run():
     loadedSites = {}
     reloadBind = False
 
-    files = listdir(DIR)
+    sites = []
+    for tag in tags if tag in dynConfig:
+        cfg = dynConfig[tag]
+        if 'sites' in tag:
+            sites += cfg['sites']
 
-    print('Found site files: %s' % ', '.join(files))
+    print('Found sites: %s' % ', '.join(sites))
 
-    for file in files:
-        if file[0] == '.' or file[-4:] != '.yml':
-            continue
-
-        site_name = file[:-4]
-
-        curName = path.join(DIR, file)
+    for site_name in sites:
         oldName = path.join(OLDDIR, file)
 
         print('[%s] Processing...' % site_name)
 
-        fh = open(curName, 'r')
-        site = yaml_load(fh)
-        fh.close()
+        site = downloadSite(site_name)
 
         site['name'] = site_name
 
@@ -245,7 +244,7 @@ def run():
 
     ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
     if swapFile(path.join(OUTDIR, 'ips.sh'), ipConfStr):
-        system('bash "%s"' % path.join(OUTDIR, 'ips.sh'))
+        system('bash '%s'' % path.join(OUTDIR, 'ips.sh'))
 
     if swapFile('/etc/bird/bird.conf', birdConfStr):
         system('service bird reload')

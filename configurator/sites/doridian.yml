@@ -1,6 +1,0 @@
-domains:
-    - doridian.net
-    - www.doridian.net
-type: zip
-src: https://doridian.blob.core.windows.net/sites/doridian.net.zip?v=1
-hsts: True
