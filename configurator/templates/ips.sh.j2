@@ -3,19 +3,19 @@
     {%- set cfg = dynConfig[tag] %}
     {%- if 'ips4' in cfg %}
         {%- for addr in cfg.ips4 %}
-ip -4 addr add {{ addr }} dev lo
+ip -4 addr add "{{ addr }}" dev lo
             {%- if useRouteRule %}
 while ip -4 rule del from {{ addr }} table 666; do :; done
-ip -4 rule add from {{ addr }} table 666
+ip -4 rule add from "{{ addr }}" table 666
             {% endif %}
         {%- endfor %}
     {%- endif %}
     {%- if 'ips6' in cfg %}
         {%- for addr in cfg.ips6 %}
-ip -6 addr add {{ addr }} dev lo
+ip -6 addr add "{{ addr }}" dev lo
             {%- if useRouteRule %}
 while ip -6 rule del from {{ addr }} table 666; do :; done
-ip -6 rule add from {{ addr }} table 666
+ip -6 rule add from "{{ addr }}" table 666
             {% endif %}
         {%- endfor %}
     {%- endif %}
