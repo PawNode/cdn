@@ -6,6 +6,7 @@ from myglobals import config
 from Crypto.Cipher import AES
 from base64 import b64decode, b64encode
 from boto3 import client as boto3_client
+from botocore.exceptions import ClientError
 
 osconfig = config['objectStorage']
 certconfig = config['certs']
@@ -96,6 +97,7 @@ def _downloadAndDecrypt(fn):
         Bucket=BUCKET_NAME,
         Key=fn
     )
+    print(BUCKET_NAME)
     iv = b64decode(blob['Metadata']['crypto_iv'])
     aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
     pem = aes.decrypt(blob['Body'])
