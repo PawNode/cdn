@@ -1,0 +1,27 @@
+; Zone for site
+$TTL    300
+{%- set mainDomain = site.domains[0] %}
+
+@       3600    IN      SOA     {{ mainDomain }}. root.{{ mainDomain }}. (
+                        2033053301
+                        7200
+                        3600
+                        86400
+                        3600 )
+
+{%- for ns in dynConfig.find('nsrecords') %}
+@       IN      NS      {{ ns }}
+{%- endfor %}
+
+{%- for domain in site.domains %}
+    {%- if domain == mainDomain %}
+        {%- for ip in dynConfig.find('siteips4') %}
+{{ domain }} IN A {{ ip }}
+        {%- endfor %}
+        {%- for ip in dynConfig.find('siteips6') %}
+{{ domain }} IN AAAA {{ ip }}
+        {%- endfor %}
+    {%- else %}
+{{ domain[:-(len(mainDomain)+1)] }} IN CNAME {{ dynConfig.find('sitecname') }}
+    {%- endif %}
+{%- endfor %}

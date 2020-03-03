@@ -63,6 +63,8 @@ nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
 birdMainTemplate = j2env.get_template('bird/main4.conf.j2')
 bird6MainTemplate = j2env.get_template('bird/main6.conf.j2')
 ipTemplate = j2env.get_template('ips.sh.j2')
+bindZoneTemplate = j2env.get_template('bind/zone.j2')
+bindZoneListTemplate = j2env.get_template('bind/zones.conf.j2')
 
 def loadSiteNoop(site, oldSite, force):
     return
@@ -137,8 +139,10 @@ SITE_LOADERS = {
 
 def run():
     nginxConfig = [nginxMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)]
+    zoneListConfig = []
     certifierConfig = []
     loadedSites = {}
+    reloadBind = False
     reloadNginx = False
     reloadCertifier = False
 
@@ -210,8 +214,14 @@ def run():
         certifierConfig.append(site)
         nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
 
+        zoneListConfig.append(bindZoneListTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
+        zoneConfig = bindZoneTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags)
+        if swapFile('/etc/bind/sites/db.%s' % site_name, zoneConfig):
+            reloadBind = True
+
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
+    zoneListConfigStr = '\n'.join(zoneListConfig)
 
     if swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         reloadNginx = True
@@ -228,9 +238,15 @@ def run():
     if swapFile('/etc/bird/bird6.conf', bird6ConfStr):
         system('service bird6 reload')
 
+    if swapFile('/etc/bind/sites.conf', zoneListConfigStr):
+        reloadBind = True
+
     ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
     if swapFile(path.join(OUTDIR, 'ips.sh'), ipConfStr):
         system('bash "%s"' % path.join(OUTDIR, 'ips.sh'))
+
+    if reloadBind:
+        system('service named reload')
 
     if reloadCertifier:
         system('python3 %s' % path.join(__dir__, '../certifier'))
