@@ -15,16 +15,15 @@ with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
 
 osconfig = config['objectStorage']
-
-# Let's use Amazon S3
 s3_client = boto3_client('s3',
     aws_access_key_id=osconfig['accessKeyID'],
     aws_secret_access_key=osconfig['secretAccessKey']
 )
 
+CFG_BUCKET_NAME = config['dynConfig']['bucketName']
 def downloadSite(name):
     obj = s3_client.get_object(
-        Bucket=config['dynConfig']['bucketName'],
+        Bucket=CFG_BUCKET_NAME,
         Key=('%s.yml' % name)
     )
     return yaml_load(obj['Body'])

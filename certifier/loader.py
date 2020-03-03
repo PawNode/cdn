@@ -2,15 +2,18 @@ from os import path, unlink, urandom
 from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError
 import OpenSSL
 from datetime import datetime, timedelta
-from azure.storage.blob import BlockBlobService
-from azure.common import AzureMissingResourceHttpError
 from myglobals import config
 from Crypto.Cipher import AES
 from base64 import b64decode, b64encode
+from boto3 import client as boto3_client
 
 osconfig = config['objectStorage']
 certconfig = config['certs']
-blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
+s3_client = boto3_client('s3',
+    aws_access_key_id=osconfig['accessKeyID'],
+    aws_secret_access_key=osconfig['secretAccessKey']
+)
+BUCKET_NAME = certconfig['bucketName']
 
 AES_KEY = b64decode(certconfig['encryptionKey'])
 CERT_MIN_VALID_DAYS = certconfig['minValidDays']
@@ -89,10 +92,13 @@ def storeCertAndKeyLocal(name, pkey_pem, cert_pem):
     fh.close()
 
 def _downloadAndDecrypt(fn):
-    blob = blob_client.get_blob_to_bytes('ssl', fn)
-    iv = b64decode(blob.metadata['crypto_iv'])
+    blob = s3_client.get_object(
+        Bucket=BUCKET_NAME,
+        Key=fn
+    )
+    iv = b64decode(blob['Metadata']['crypto_iv'])
     aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
-    pem = aes.decrypt(blob.content)
+    pem = aes.decrypt(blob['Body'])
     return pem
 
 def _uploadAndEncrypt(fn, data):
@@ -102,7 +108,7 @@ def _uploadAndEncrypt(fn, data):
     iv = urandom(16)
     aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
     data = aes.encrypt(data)
-    blob_client.create_blob_from_bytes('ssl', fn, data, metadata={
+    s3_client.put_object(Bucket=BUCKET_NAME, Key=fn, Body=data, Metadata={
         'crypto_version': '1',
         'crypto_iv': b64encode(iv).decode('ascii'),
     })
@@ -113,8 +119,8 @@ def loadCertAndKeyRemote(name):
     try:
         key_pem = _downloadAndDecrypt('keys/%s.pem' % name)
         cert_pem = _downloadAndDecrypt('certs/%s.pem' % name)
-    except AzureMissingResourceHttpError:
-        pass
+    except:
+        raise
     return key_pem, cert_pem
 
 def storeCertAndKeyRemote(name, key_pem, cert_pem):
