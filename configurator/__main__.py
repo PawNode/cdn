@@ -5,8 +5,8 @@ from requests import get as http_get
 from shutil import rmtree
 from yaml import load as yaml_load, dump as yaml_dump
 from zipfile import ZipFile
-from azure.storage.blob import BlockBlobService
 from socket import getfqdn
+from boto3 import client as boto3_client
 
 __dir__ = path.dirname(__file__)
 
@@ -15,10 +15,19 @@ with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
 
 osconfig = config['objectStorage']
-blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
+
+# Let's use Amazon S3
+s3_client = boto3_client('s3',
+    aws_access_key_id=osconfig['accessKeyID'],
+    aws_secret_access_key=osconfig['secretAccessKey']
+)
 
 def downloadSite(name):
-    return yaml_load(blob_client.get_blob_to_text('config', '%s.yml' % name).content)
+    obj = s3_client.get_object(
+        Bucket=config['dynConfig']['bucketName'],
+        Key=('%s.yml' % name)
+    )
+    return yaml_load(obj.Body)
 
 dynConfig = downloadSite('__main__')
 

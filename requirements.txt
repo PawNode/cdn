@@ -2,6 +2,6 @@ acme
 josepy
 OpenSSL
 cryptography
-azure-storage
+boto3
 jinja2
 crypto
