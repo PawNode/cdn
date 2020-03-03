@@ -14,12 +14,30 @@ config = None
 with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
 
-tags = [getfqdn()] + config['tags'] + ['all']
-
 osconfig = config['objectStorage']
 blob_client = BlockBlobService(account_name=osconfig['accountName'], account_key=osconfig['accessKey'])
 
 dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').content)
+
+tags = []
+def recurseTags(tag):
+    global tags
+    if tag in tags:
+        return
+    tags.append(tag)
+    if tag not in dynConfig:
+        return
+    cfg = dynConfig[tag]
+    if 'tags' not in cfg:
+        return
+    subTags = cfg['tags']
+    for subTag in subTags:
+        recurseTags(tag)
+
+recurseTags(getfqdn())
+recurseTags("all")
+
+print("My tags are: %s" % ', '.join(tags))
 
 __closest_grp = {}
 def dynConfigFindClosest(grp):
@@ -29,13 +47,15 @@ def dynConfigFindClosest(grp):
         return __closest_grp[grp]
 
     for tag in tags:
-        if tag in dynConfig:
-            cfg = dynConfig[tag]
-            if grp in cfg:
-                print("DynConf: Using %s as closest for %s" % (tag, grp))
-                dc = cfg[grp]
-                __closest_grp[grp] = dc
-                return dc
+        if tag not in dynConfig:
+            continue
+        cfg = dynConfig[tag]
+        if grp not in cfg:
+            continue
+        print("DynConf: Using %s as closest for %s" % (tag, grp))
+        dc = cfg[grp]
+        __closest_grp[grp] = dc
+        return dc
 
 dynConfig['_self'] = dynConfig[tags[0]] # 0 = FQDN
 dynConfig['_find'] = dynConfigFindClosest
