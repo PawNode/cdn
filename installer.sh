@@ -4,9 +4,9 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 addIfMissing() {
-    if ! grep -q "$1" "$2"
+    if ! grep -q "$2" "$1"
     then
-        echo "$1" >> "$2"
+        echo "$2" >> "$1"
     fi
 }
 
