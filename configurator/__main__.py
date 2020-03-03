@@ -21,15 +21,18 @@ dynConfig = yaml_load(blob_client.get_blob_to_text('config', 'config.yml').conte
 
 tags = []
 def recurseTags(tag):
+    global dynConfig
     global tags
     if tag in tags:
         return
     tags.append(tag)
+
     if tag not in dynConfig:
         return
     cfg = dynConfig[tag]
     if 'tags' not in cfg:
         return
+
     subTags = cfg['tags']
     for subTag in subTags:
         recurseTags(tag)
