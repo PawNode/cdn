@@ -181,7 +181,7 @@ def run():
     print('Found sites: %s' % ', '.join(sites))
 
     for site_name in sites:
-        oldName = path.join(OLDDIR, file)
+        oldName = path.join(OLDDIR, '%s.yml' % site_name)
 
         print('[%s] Processing...' % site_name)
 
