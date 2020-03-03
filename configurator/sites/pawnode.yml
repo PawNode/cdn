@@ -6,3 +6,9 @@ type: zip
 src: https://doridian.blob.core.windows.net/sites/pawnode.com.zip?v=1
 hsts: True
 vanityNS: True
+records:
+    - fra01 IN A 95.179.240.248
+    - nyc01 IN A 108.61.78.245
+    - sea01 IN A 66.42.79.223
+    - sea01 IN A 104.192.102.159
+    - van01 IN A 104.218.61.216

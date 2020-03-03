@@ -16,20 +16,24 @@ $TTL    300
     {%- endfor %}
 {%- else %}
     {%- for ns in dynConfig._find('nsrecords') %}
-@       IN      NS      {{ ns }}
+@       IN      NS      {{ ns }}.
     {%- endfor %}
 {%- endif %}
 
 {%- for domain in site.domains %}
-    {%- if domain == mainDomain %}
+    {%- set domain_short = domain[:mainDomainStripLen] %}
+    {%- if domain == mainDomain or domain == dynConfig._find('sitecname') %}
+        {%- if domain == mainDomain %}
+            {%- set domain_short = '@' %}
+        {%- endif %}
         {%- for ip in dynConfig._find('siteips4') %}
-{{ domain }} IN A {{ ip }}
+{{ domain_short }} IN A {{ ip }}
         {%- endfor %}
         {%- for ip in dynConfig._find('siteips6') %}
-{{ domain }} IN AAAA {{ ip }}
+{{ domain_short }} IN AAAA {{ ip }}
         {%- endfor %}
     {%- else %}
-{{ domain[:mainDomainStripLen] }} IN CNAME {{ dynConfig._find('sitecname') }}
+{{ domain_short }} IN CNAME {{ dynConfig._find('sitecname') }}.
     {%- endif %}
 {%- endfor %}
 
