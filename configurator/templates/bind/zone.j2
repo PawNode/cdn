@@ -29,7 +29,7 @@ $TTL    300
 {{ domain }} IN AAAA {{ ip }}
         {%- endfor %}
     {%- else %}
-{{ domain[:-mainDomainStripLen] }} IN CNAME {{ dynConfig._find('sitecname') }}
+{{ domain[:mainDomainStripLen] }} IN CNAME {{ dynConfig._find('sitecname') }}
     {%- endif %}
 {%- endfor %}
 
