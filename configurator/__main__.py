@@ -228,14 +228,16 @@ def run():
             print('[%s] Error loading site:' % site_name, e)
             pass
 
-        domainsChanged = oldSite['domains'] != site['domains']
-        if domainsChanged:
-            print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(site['domains'])))
-            reloadNginx = True
-            reloadCertifier = True
-
-        certifierConfig.append(site)
-        nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
+        if site['type'] != 'none':
+            domainsChanged = oldSite['domains'] != site['domains']
+            if domainsChanged:
+                print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(site['domains'])))
+                reloadNginx = True
+                reloadCertifier = True
+            certifierConfig.append(site)
+            nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
+        else:
+            print('[%s] Site is type none. Not rendering nginx or certifier config' % site_name)
 
         zoneListConfig.append(bindSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
         zoneConfig = bindZoneTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags)
