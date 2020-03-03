@@ -20,7 +20,7 @@ enableStart() {
     systemctl start "$1"
 }
 
-echo "$ID * * * * python3 /opt/cdn/certifier" | crontab
+printf "$ID * * * * python3 /opt/cdn/certifier\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites
 
