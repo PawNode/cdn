@@ -9,19 +9,19 @@ $TTL    300
                         86400
                         3600 )
 
-{%- for ns in dynConfig.find('nsrecords') %}
+{%- for ns in dynConfig._find('nsrecords') %}
 @       IN      NS      {{ ns }}
 {%- endfor %}
 
 {%- for domain in site.domains %}
     {%- if domain == mainDomain %}
-        {%- for ip in dynConfig.find('siteips4') %}
+        {%- for ip in dynConfig._find('siteips4') %}
 {{ domain }} IN A {{ ip }}
         {%- endfor %}
-        {%- for ip in dynConfig.find('siteips6') %}
+        {%- for ip in dynConfig._find('siteips6') %}
 {{ domain }} IN AAAA {{ ip }}
         {%- endfor %}
     {%- else %}
-{{ domain[:-(len(mainDomain)+1)] }} IN CNAME {{ dynConfig.find('sitecname') }}
+{{ domain[:-(len(mainDomain)+1)] }} IN CNAME {{ dynConfig._find('sitecname') }}
     {%- endif %}
 {%- endfor %}
