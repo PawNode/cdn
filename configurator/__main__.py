@@ -85,6 +85,7 @@ CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
 CERTDIR = path.abspath(path.join(CERTIFIER_DIR, 'certs'))
 KEYDIR = path.abspath(path.join(CERTIFIER_DIR, 'keys'))
 
+dynConfig['_self']['dnssecDir'] = path.abspath(path.join(CERTIFIER_DIR, 'dnssec'))
 dynConfig['_self']['certDir'] = CERTDIR
 dynConfig['_self']['keyDir'] = KEYDIR
 

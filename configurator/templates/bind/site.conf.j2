@@ -3,4 +3,7 @@
 zone "{{ mainDomain }}" {
     type master;
     file "/etc/bind/sites/db.{{ site.name }}";
+    key-directory "{{ dynConfig._self.dnssecDir }}";
+    inline-signing yes;
+    auto-dnssec maintain;
 };
