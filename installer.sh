@@ -28,6 +28,8 @@ ln -s /etc/bind/dnssec certifier/dnssec
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites /etc/bind/dnssec
 chown bind:bind /etc/bind/sites /etc/bind/dnssec
 
+cp files/named.conf.options /etc/bind/named.conf.options
+
 addIfMissing /etc/bind/named.conf.local 'include "/etc/bind/sites.conf";'
 
 enableStart bird
