@@ -71,7 +71,9 @@ def get_client():
         return __cached_client_acme
 
     account_pkey = loadFile("le/account.pem")
-    account_data = loadFile("le/account.json")
+    account_data = None
+    if account_pkey:
+        account_data = loadFile("le/account.json")
     acc_key_pkey = None
 
     if account_pkey:
