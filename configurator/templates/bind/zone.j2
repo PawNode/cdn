@@ -16,7 +16,7 @@ $TTL    300
     {%- endfor %}
 {%- else %}
     {%- for ns in dynConfig._find('nsrecords') %}
-@       IN      NS      {{ ns }}.
+@       3600    IN      NS      {{ ns }}.
     {%- endfor %}
 {%- endif %}
 
