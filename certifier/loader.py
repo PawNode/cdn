@@ -128,7 +128,7 @@ def storeCertAndKeyRemote(name, key_pem, cert_pem):
 
 def loadFile(name):
     if path.exists(name):
-        fh = open(path.join(__dir__, name), 'r')
+        fh = open(path.join(__dir__, name), 'rb')
         fd = fh.read()
         fh.close()
         return fd
@@ -139,7 +139,7 @@ def loadFile(name):
 
 def storeFile(name, fd):
     uploadAndEncrypt(name, fd)
-    fh = open(path.join(__dir__, name), 'w')
+    fh = open(path.join(__dir__, name), 'wb')
     fh.write(fd)
     fh.close()
 
