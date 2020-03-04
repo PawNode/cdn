@@ -1,17 +1,11 @@
 from os import path, unlink, urandom
-from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError, config, __dir__
+from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError, config, __dir__, s3_client
 import OpenSSL
 from datetime import datetime, timedelta
 from Crypto.Cipher import AES
 from base64 import b64decode, b64encode
-from boto3 import client as boto3_client
 
-osconfig = config['objectStorage']
 certconfig = config['certs']
-s3_client = boto3_client('s3',
-    aws_access_key_id=osconfig['accessKeyID'],
-    aws_secret_access_key=osconfig['secretAccessKey']
-)
 BUCKET_NAME = certconfig['bucketName']
 
 AES_KEY = b64decode(certconfig['encryptionKey'])
@@ -133,12 +127,16 @@ def loadFile(name):
         fh.close()
         return fd
     try:
-        return downloadAndDecrypt(name)
+        data = downloadAndDecrypt(name)
+        if data:
+            storeFile(name, data, True)
+        return data
     except s3_client.exceptions.NoSuchKey:
         return None
 
-def storeFile(name, fd):
-    uploadAndEncrypt(name, fd)
+def storeFile(name, fd, localOnly=False):
+    if not localOnly:
+        uploadAndEncrypt(name, fd)
     fh = open(path.join(__dir__, name), 'wb')
     fh.write(fd)
     fh.close()
