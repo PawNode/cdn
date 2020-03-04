@@ -13,7 +13,8 @@ addIfMissing() {
 }
 
 apt update
-apt -y install bind9 nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird
+apt -y install bind9 nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils
+aa-complain /usr/sbin/named
 
 enableStart() {
     systemctl enable "$1"
