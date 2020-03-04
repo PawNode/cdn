@@ -84,7 +84,7 @@ OLDDIR = path.abspath(path.join(OUTDIR, 'sites'))
 CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
 CERTDIR = path.abspath(path.join(CERTIFIER_DIR, 'certs'))
 KEYDIR = path.abspath(path.join(CERTIFIER_DIR, 'keys'))
-DNSSECDIR = path.abspath(path.join(CERTIFIER_DIR, 'dnssec'))
+DNSSECDIR = '/etc/bind/dnssec'
 
 dynConfig['_self']['dnssecDir'] = DNSSECDIR
 dynConfig['_self']['certDir'] = CERTDIR

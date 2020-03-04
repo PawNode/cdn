@@ -23,6 +23,7 @@ for page in paginator.paginate(Bucket=BUCKET_NAME, Prefix='dnssec'):
         else:
             keyFiles[k] = 1
 
+reloadBind = False
 reloadNginx = False
 for site in sites:
     reloadNginx |= get_ssl_for_site(site)
@@ -45,8 +46,11 @@ for zone in zones:
         fd = fh.read()
         fh.close()
         storeFile('dnssec/%s' % fn, fd)
-    
-    
+    reloadBind = True
+
+if reloadBind:
+    system('chown -R bind:bind %s' % DNSSEC_DIR)
+    system('service bind9 reload')
 
 if reloadNginx:
     system('service nginx reload')
