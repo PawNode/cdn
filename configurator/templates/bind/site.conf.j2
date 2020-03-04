@@ -1,6 +1,6 @@
 {%- set mainDomain = site.domains[0] %}
 
-zone "{{ mainDomain }}" {
+zone "{{ mainDomain }}." {
     type master;
     file "/etc/bind/sites/db.{{ site.name }}";
     key-directory "{{ dynConfig._self.dnssecDir }}";
