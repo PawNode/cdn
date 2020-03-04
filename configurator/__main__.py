@@ -1,3 +1,4 @@
+from datetime import timezone
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path, unlink, rename, system, mkdir, symlink
@@ -26,7 +27,7 @@ def downloadSite(name, prefix='sites/'):
         Bucket=CFG_BUCKET_NAME,
         Key=('%s%s.yml' % (prefix, name))
     )
-    return yaml_load(obj['Body'])
+    return yaml_load(obj['Body']), obj
 
 dynConfig = downloadSite('main', '')
 
@@ -195,8 +196,11 @@ def run():
 
         print('[%s] Processing...' % site_name)
 
-        site = downloadSite(site_name)
+        site, obj = downloadSite(site_name)
 
+        lastModified = obj['LastModified']
+        
+        site['zoneSerial'] = "%d" % lastModified.replace(tzinfo=timezone.utc).timestamp()
         site['name'] = site_name
 
         loadedSites[site_name] = site
