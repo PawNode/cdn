@@ -29,7 +29,7 @@ def downloadSite(name, prefix='sites/'):
     )
     return yaml_load(obj['Body']), obj
 
-dynConfig = downloadSite('main', '')
+dynConfig, _ = downloadSite('main', '')
 
 tags = []
 def recurseTags(tag):
