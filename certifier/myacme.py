@@ -6,7 +6,7 @@ import OpenSSL
 from acme import challenges, client, crypto_util, errors, messages, standalone
 from os import path, unlink
 from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
-from loader import loadCertAndKey, storeCertAndKey
+from loader import loadCertAndKey, storeCertAndKey, loadFile, storeFile
 from wellknown import uploadWellknown
 
 DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory'
@@ -70,7 +70,8 @@ def get_client():
     if __cached_client_acme:
         return __cached_client_acme
 
-    account_pkey, account_data, _ = loadCertAndKey("__account__", None)
+    account_pkey = loadFile("le/account.pem")
+    account_data = loadFile("le/account.json")
     acc_key_pkey = None
 
     if account_pkey:
@@ -106,10 +107,10 @@ def get_client():
                 messages.NewRegistration.from_data(
                     email=email, terms_of_service_agreed=True))
             
-            storeCertAndKey("__account__", account_pkey, regr.json_dumps().encode())
+            storeFile("le/account.json", regr.json_dumps().encode())
+            storeFile("le/account.pem", account_pkey)
     except errors.ConflictError:
-        unlink(ACCOUNT_KEY_FILE)
-        return get_client()
+        raise # TODO: Maybe handle? This happens when an account has been made with a key already
 
     __cached_client_acme = client_acme
     return client_acme

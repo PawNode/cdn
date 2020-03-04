@@ -1,8 +1,7 @@
 from os import path, unlink, urandom
-from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError
+from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError, config, __dir__
 import OpenSSL
 from datetime import datetime, timedelta
-from myglobals import config
 from Crypto.Cipher import AES
 from base64 import b64decode, b64encode
 from boto3 import client as boto3_client
@@ -91,7 +90,7 @@ def storeCertAndKeyLocal(name, pkey_pem, cert_pem):
     fh.write(cert_pem)
     fh.close()
 
-def _downloadAndDecrypt(fn):
+def downloadAndDecrypt(fn):
     blob = s3_client.get_object(
         Bucket=BUCKET_NAME,
         Key=fn
@@ -101,7 +100,7 @@ def _downloadAndDecrypt(fn):
     pem = aes.decrypt(blob['Body'].read())
     return pem
 
-def _uploadAndEncrypt(fn, data):
+def uploadAndEncrypt(fn, data):
     if not data:
         return
 
@@ -117,15 +116,32 @@ def loadCertAndKeyRemote(name):
     key_pem = None
     cert_pem = None
     try:
-        key_pem = _downloadAndDecrypt('keys/%s.pem' % name)
-        cert_pem = _downloadAndDecrypt('certs/%s.pem' % name)
+        key_pem = downloadAndDecrypt('keys/%s.pem' % name)
+        cert_pem = downloadAndDecrypt('certs/%s.pem' % name)
     except s3_client.exceptions.NoSuchKey:
         pass
     return key_pem, cert_pem
 
 def storeCertAndKeyRemote(name, key_pem, cert_pem):
-    _uploadAndEncrypt('certs/%s.pem' % name, cert_pem)
-    _uploadAndEncrypt('keys/%s.pem' % name, key_pem)
+    uploadAndEncrypt('certs/%s.pem' % name, cert_pem)
+    uploadAndEncrypt('keys/%s.pem' % name, key_pem)
+
+def loadFile(name):
+    if path.exists(name):
+        fh = open(path.join(__dir__, name), 'r')
+        fd = fh.read()
+        fh.close()
+        return fd
+    try:
+        return downloadAndDecrypt(name)
+    except s3_client.exceptions.NoSuchKey:
+        return None
+
+def storeFile(name, fd):
+    uploadAndEncrypt(name, fd)
+    fh = open(path.join(__dir__, name), 'w')
+    fh.write(fd)
+    fh.close()
 
 def loadCertAndKey(name, domains):
     try:
