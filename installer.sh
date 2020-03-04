@@ -22,6 +22,8 @@ enableStart() {
 
 printf "$ID * * * * python3 /opt/cdn/certifier\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
+rm -rf certifier/dnssec
+ln -s /etc/bind/dnssec certifier/dnssec
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites /etc/bind/dnssec
 chown bind:bind /etc/bind/sites /etc/bind/dnssec
 
