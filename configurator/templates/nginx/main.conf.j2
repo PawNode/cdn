@@ -10,3 +10,18 @@ server_tokens off;
 
 include /etc/nginx/includes/proxy.conf;
 include /etc/nginx/includes/headers.conf;
+
+{%- set selfNetwork = dynConfig._find('network') %}
+
+{%- for loc in dynConfig._locations %}
+upstream location_{{ loc }} {
+{%- for server in dynConfig._locations[loc] %}
+{%- set serverCfg = dynConfig[server] %}
+{%- if selfNetwork == serverCfg.network and selfNetwork in serverCfg.networkIp %}
+    server {{ serverCfg.networkIp[selfNetwork] }};
+{%- else %}
+    server {{ serverCfg.primaryIp }};
+{%- endif %}
+{%- endfor %}
+}
+{%- endfor %}

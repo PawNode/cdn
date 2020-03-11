@@ -54,6 +54,16 @@ recurseTags('all')
 
 print('My tags are: %s' % ', '.join(tags))
 
+location_nodes = {}
+for tag in dynConfig:
+    val = dynConfig[tag]
+    if 'location' in val:
+        loc = val['location']
+        if loc not in location_nodes:
+            location_nodes[loc] = set()
+        location_nodes[loc].add(tag)
+dynConfig['_locations'] = location_nodes
+
 __closest_grp = {}
 def dynConfigFindClosest(grp):
     global __closest_grp

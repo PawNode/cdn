@@ -1,11 +1,15 @@
-{% if site.type == 'directproxy' %}
+{%- if site.type == 'directproxy' %}
 map $http_host $direct_proxy_{{ site.name }} {
     default "";
-    {% for target in site.targets %}
+{%- for target in site.targets %}
+{%- if 'shield' in target and target.shield != dynConfig._find('location') %}
+    "{{ target.host }}" "location_{{ target.shield }}";
+{%- else %}
     "{{ target.host }}" "{{ target.proxy }}";
-    {% endfor %}
+{%- endif %}
+{%- endfor %}
 }
-{% endif %}
+{%- endif %}
 
 server {
     listen 443 http2 ssl;
@@ -20,18 +24,18 @@ server {
     ssl_certificate {{ dynConfig._self.certDir }}/{{ site.name }}.pem;
     ssl_certificate_key {{ dynConfig._self.keyDir }}/{{ site.name }}.pem;
 
-{% if site.dir %}
+{%- if site.dir %}
     location / {
-{% if site.hsts %}
+{%- if site.hsts %}
         include /etc/nginx/includes/hsts.conf;
-{% endif %}
+{%- endif %}
         root {{ site.dir }};
     }
-{% endif %}
+{%- endif %}
 
     include /etc/nginx/includes/wellknown.conf;
 
-{% if site.type == 'directproxy' %}
+{%- if site.type == 'directproxy' %}
     location @well-known-fallback {
         if ($direct_proxy_{{ site.name }} = "") {
             return 502 "Bad gateway";
@@ -40,30 +44,30 @@ server {
     }
 
     location / {
-{% if site.hsts %}
+{%- if site.hsts %}
         include /etc/nginx/includes/hsts.conf;
-{% endif %}
+{%- endif %}
         if ($direct_proxy_{{ site.name }} = "") {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
     }
-{% else %}
+{%- else %}
     location @well-known-fallback {
         return 404;
     }
-{% endif %}
+{%- endif %}
 
-{% if site.type == 'proxy' %}
+{%- if site.type == 'proxy' %}
     include /etc/nginx/includes/varnish.conf;
-{% endif %}
+{%- endif %}
 
-{% if site.type == 'redirect' %}
+{%- if site.type == 'redirect' %}
     location / {
-{% if site.hsts %}
+{%- if site.hsts %}
         include /etc/nginx/includes/hsts.conf;
-{% endif %}
+{%- endif %}
         return 301 {{ site.target }};
     }
-{% endif %}
+{%- endif %}
 }
