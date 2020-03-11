@@ -1,0 +1,2 @@
+- add directproxy function (like CF orange cloud with caching off)
+- proxy .well-known to downstream on 404
