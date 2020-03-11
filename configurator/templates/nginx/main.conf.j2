@@ -6,5 +6,7 @@ proxy_set_header Host $http_host;
 proxy_ssl_name $http_host;
 
 ssl_protocols TLSv1.2;
+server_tokens off;
 
 include /etc/nginx/includes/proxy.conf;
+include /etc/nginx/includes/headers.conf;

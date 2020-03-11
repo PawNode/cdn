@@ -73,6 +73,7 @@ def dynConfigFindClosest(grp):
         return dc
 
 dynConfig['_self'] = dynConfig[getfqdn()]
+dynConfig['_self']['_name'] = getfqdn()
 dynConfig['_find'] = dynConfigFindClosest
 
 SITEDIR = config['siteDir']
@@ -100,13 +101,13 @@ nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
 bindZoneTemplate = j2env.get_template('bind/zone.j2')
 bindSiteTemplate = j2env.get_template('bind/site.conf.j2')
 
-def writeGlobalTpl(name, target, tags):
+def writeGlobalTpl(name, target):
     tpl = j2env.get_template(name)
     data = tpl.render(config=config,dynConfig=dynConfig,tags=tags)
     return swapFile(target, data)
 
-def writeNginxInclude(name, tags):
-    return writeGlobalTpl('nginx/%s.conf.j2' % name, '/etc/nginx/includes/%s.conf' % name, tags)
+def writeNginxInclude(name):
+    return writeGlobalTpl('nginx/%s.conf.j2' % name, '/etc/nginx/includes/%s.conf' % name)
 
 def loadSiteNoop(site, oldSite, force):
     return
@@ -265,22 +266,23 @@ def run():
     nginxConfStr = '\n'.join(nginxConfig)
     zoneListConfigStr = '\n'.join(zoneListConfig)
 
-    if writeGlobalTpl('ips.sh.j2', path.join(OUTDIR, 'ips.sh'), tags):
+    if writeGlobalTpl('ips.sh.j2', path.join(OUTDIR, 'ips.sh')):
         system('bash \'%s\'' % path.join(OUTDIR, 'ips.sh'))
 
-    if writeGlobalTpl('bird/main4.conf.j2', '/etc/bird/bird.conf', tags):
+    if writeGlobalTpl('bird/main4.conf.j2', '/etc/bird/bird.conf'):
         system('service bird reload')
 
-    if writeGlobalTpl('bird/main6.conf.j2', '/etc/bird/bird6.conf', tags):
+    if writeGlobalTpl('bird/main6.conf.j2', '/etc/bird/bird6.conf'):
         system('service bird6 reload')
 
     if swapFile('/etc/bind/sites.conf', zoneListConfigStr) or reloadBind:
         system('service bind9 reload')
 
-    if writeNginxInclude('hsts', tags) | \
-        writeNginxInclude('proxy', tags) | \
-        writeNginxInclude('varnish', tags) | \
-        writeNginxInclude('wellknown', tags) | \
+    if writeNginxInclude('hsts') | \
+        writeNginxInclude('proxy') | \
+        writeNginxInclude('varnish') | \
+        writeNginxInclude('wellknown') | \
+        writeNginxInclude('headers') | \
         swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         system('service nginx reload')
 
