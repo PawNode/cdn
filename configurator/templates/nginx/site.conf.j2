@@ -17,7 +17,6 @@ server {
 
     root {{ site.dir | default('/var/www/empty') }};
 
-    ssl on;
     ssl_certificate {{ dynConfig._self.certDir }}/{{ site.name }}.pem;
     ssl_certificate_key {{ dynConfig._self.keyDir }}/{{ site.name }}.pem;
     ssl_protocols TLSv1.2;
