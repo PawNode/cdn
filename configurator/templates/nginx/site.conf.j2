@@ -1,8 +1,8 @@
 {% if site.type == 'directproxy' %}
 map $http_host $direct_proxy_{{ site.name }} {
     default "";
-    {% for pattern in site.targets %}
-    "{{ pattern }}" "{{ site.targets[pattern] }}";
+    {% for target in site.targets %}
+    "{{ target.host }}" "{{ target.proxy }}";
     {% endfor %}
 }
 {% endif %}
