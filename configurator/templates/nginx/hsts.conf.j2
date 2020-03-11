@@ -1,0 +1,4 @@
+add_header "Strict-Transport-Security" "max-age=63072000; includeSubDomains; preload" always;
+if ($scheme = "http") {
+    return 301 https://$http_host$request_uri;
+}

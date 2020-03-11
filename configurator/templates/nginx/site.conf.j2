@@ -10,6 +10,8 @@ map $http_host $direct_proxy_{{ site.name }} {
 server {
     listen 443 http2 ssl;
     listen [::]:443 http2 ssl;
+    listen 80;
+    listen [::]:80;
 
     server_name {{ site.domains | join(' ') }};
 
@@ -21,30 +23,33 @@ server {
     ssl_protocols TLSv1.2;
 
 {% if site.hsts %}
-    add_header "Strict-Transport-Security" "max-age=63072000; includeSubDomains; preload" always;
+    include /etc/nginx/includes/hsts.conf;
 {% endif %}
 
-    {% include 'nginx/wellknown.conf.j2' %}
+    include /etc/nginx/includes/wellknown.conf;
 
 {% if site.type == 'directproxy' %}
     location @well-known-fallback {
         if ($direct_proxy_{{ site.name }} = "") {
             return 502 "Bad gateway";
         }
-        proxy_pass $direct_proxy_{{ site.name }};
+        proxy_pass $scheme://$direct_proxy_{{ site.name }};
         proxy_set_header Host $http_host;
         proxy_ssl_name $http_host;
-        {% include 'nginx/proxy.conf.j2' %}
+        include /etc/nginx/includes/proxy.conf;
     }
 
     location / {
+{% if site.hsts %}
+        include /etc/nginx/includes/hsts.conf;
+{% endif %}
         if ($direct_proxy_{{ site.name }} = "") {
             return 502 "Bad gateway";
         }
-        proxy_pass $direct_proxy_{{ site.name }};
+        proxy_pass $scheme://$direct_proxy_{{ site.name }};
         proxy_set_header Host $http_host;
         proxy_ssl_name $http_host;
-        {% include 'nginx/proxy.conf.j2' %}
+        include /etc/nginx/includes/proxy.conf;
     }
 {% else %}
     location @well-known-fallback {
@@ -52,12 +57,15 @@ server {
     }
 {% endif %}
 
-{% if site.vcl %}
-    {% include 'nginx/varnish.conf.j2' %}
+{% if site.type == 'proxy' %}
+    include /etc/nginx/includes/varnish.conf;
 {% endif %}
 
 {% if site.type == 'redirect' %}
     location / {
+{% if site.hsts %}
+        include /etc/nginx/includes/hsts.conf;
+{% endif %}
         return 301 {{ site.target }};
     }
 {% endif %}

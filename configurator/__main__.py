@@ -97,11 +97,16 @@ j2env = Environment(
 )
 nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
-birdMainTemplate = j2env.get_template('bird/main4.conf.j2')
-bird6MainTemplate = j2env.get_template('bird/main6.conf.j2')
-ipTemplate = j2env.get_template('ips.sh.j2')
 bindZoneTemplate = j2env.get_template('bind/zone.j2')
 bindSiteTemplate = j2env.get_template('bind/site.conf.j2')
+
+def writeGlobalTpl(name, target, tags):
+    tpl = j2env.get_template(name)
+    data = tpl.render(config=config,dynConfig=dynConfig,tags=tags)
+    return swapFile(target, data)
+
+def writeNginxInclude(name, tags):
+    return writeGlobalTpl('nginx/%s.conf.j2' % name, '/etc/nginx/includes/%s.conf' % name, tags)
 
 def loadSiteNoop(site, oldSite, force):
     return
@@ -260,23 +265,23 @@ def run():
     nginxConfStr = '\n'.join(nginxConfig)
     zoneListConfigStr = '\n'.join(zoneListConfig)
 
-    birdConfStr = birdMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
-    bird6ConfStr = bird6MainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
-
-    ipConfStr = ipTemplate.render(config=config, dynConfig=dynConfig, tags=tags)
-    if swapFile(path.join(OUTDIR, 'ips.sh'), ipConfStr):
+    if writeGlobalTpl('ips.sh.j2', path.join(OUTDIR, 'ips.sh'), tags):
         system('bash \'%s\'' % path.join(OUTDIR, 'ips.sh'))
 
-    if swapFile('/etc/bird/bird.conf', birdConfStr):
+    if writeGlobalTpl('bird/main4.conf.j2', '/etc/bird/bird.conf', tags):
         system('service bird reload')
 
-    if swapFile('/etc/bird/bird6.conf', bird6ConfStr):
+    if writeGlobalTpl('bird/main6.conf.j2', '/etc/bird/bird6.conf', tags):
         system('service bird6 reload')
 
     if swapFile('/etc/bind/sites.conf', zoneListConfigStr) or reloadBind:
         system('service bind9 reload')
 
-    if swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
+    if writeNginxInclude('hsts', tags) | \
+        writeNginxInclude('proxy', tags) | \
+        writeNginxInclude('varnish', tags) | \
+        writeNginxInclude('wellknown', tags) | \
+        swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         system('service nginx reload')
 
     if swapFile(path.join(CERTIFIER_DIR, 'sites.yml'), certifierConfStr):

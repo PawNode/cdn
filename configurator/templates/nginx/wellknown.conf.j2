@@ -2,5 +2,6 @@ location /.well-known/ {
     proxy_pass https://{{ config.wellknown.domain }}{{ config.wellknown.path }}/;
     proxy_set_header Host {{ config.wellknown.domain }};
     error_page 404 = @well-known-fallback;
-    {% include 'nginx/proxy.conf.j2' %}
+    error_page 403 = @well-known-fallback;
+    include /etc/nginx/includes/proxy.conf;
 }

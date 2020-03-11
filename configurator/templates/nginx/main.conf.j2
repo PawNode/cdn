@@ -1,14 +1,3 @@
 resolver 1.1.1.1 1.0.0.1;
 map_hash_bucket_size 2048;
 proxy_ssl_server_name on;
-
-server {
-    listen 80 default;
-    listen [::]:80 default;
-
-    server_name _;
-
-    {% include 'nginx/wellknown.conf.j2' %}
-
-    root /var/www/empty;
-}
