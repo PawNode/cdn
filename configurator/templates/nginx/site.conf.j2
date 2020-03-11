@@ -15,14 +15,18 @@ server {
 
     server_name {{ site.domains | join(' ') }};
 
-    root {{ site.dir | default('/var/www/empty') }};
+    root /var/www/empty;
 
     ssl_certificate {{ dynConfig._self.certDir }}/{{ site.name }}.pem;
     ssl_certificate_key {{ dynConfig._self.keyDir }}/{{ site.name }}.pem;
-    ssl_protocols TLSv1.2;
 
+{% if site.dir %}
+    location / {
 {% if site.hsts %}
-    include /etc/nginx/includes/hsts.conf;
+        include /etc/nginx/includes/hsts.conf;
+{% endif %}
+        root {{ site.dir }};
+    }
 {% endif %}
 
     include /etc/nginx/includes/wellknown.conf;
@@ -33,8 +37,6 @@ server {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
-        proxy_set_header Host $http_host;
-        proxy_ssl_name $http_host;
         include /etc/nginx/includes/proxy.conf;
     }
 
@@ -46,8 +48,6 @@ server {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
-        proxy_set_header Host $http_host;
-        proxy_ssl_name $http_host;
         include /etc/nginx/includes/proxy.conf;
     }
 {% else %}
