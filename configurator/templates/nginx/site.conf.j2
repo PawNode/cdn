@@ -33,6 +33,7 @@ server {
         }
         proxy_pass $direct_proxy_{{ site.name }};
         proxy_set_header Host $http_host;
+        proxy_ssl_name $http_host;
         {% include 'nginx/proxy.conf.j2' %}
     }
 
@@ -42,6 +43,7 @@ server {
         }
         proxy_pass $direct_proxy_{{ site.name }};
         proxy_set_header Host $http_host;
+        proxy_ssl_name $http_host;
         {% include 'nginx/proxy.conf.j2' %}
     }
 {% else %}
