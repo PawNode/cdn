@@ -171,6 +171,7 @@ def symlinkCert(name):
 SITE_LOADERS = {
     'redirect': loadSiteNoop,
     'none': loadSiteNoop,
+    'directproxy': loadSiteNoop,
     'zip': loadSiteZIP
 }
 

@@ -1,3 +1,12 @@
+{% if site.type == 'directproxy' %}
+map $http_host $direct_proxy_{{ site.name }} {
+    default "";
+    {% for pattern in site.targets %}
+    "{{ pattern }}" "{{ site.targets[pattern] }}";
+    {% endfor %}
+}
+{% endif %}
+
 server {
     listen 443 http2 ssl;
     listen [::]:443 http2 ssl;
@@ -16,6 +25,30 @@ server {
 {% endif %}
 
     {% include 'nginx/wellknown.conf.j2' %}
+
+{% if site.type == 'directproxy' %}
+    location @well-known-fallback {
+        if ($direct_proxy_{{ site.name }} = "") {
+            return 502 "Bad gateway";
+        }
+        proxy_pass $direct_proxy_{{ site.name }};
+        proxy_set_header Host $http_host;
+        {% include 'nginx/proxy.conf.j2' %}
+    }
+
+    location / {
+        if ($direct_proxy_{{ site.name }} = "") {
+            return 502 "Bad gateway";
+        }
+        proxy_pass $direct_proxy_{{ site.name }};
+        proxy_set_header Host $http_host;
+        {% include 'nginx/proxy.conf.j2' %}
+    }
+{% else %}
+    location @well-known-fallback {
+        return 404;
+    }
+{% endif %}
 
 {% if site.vcl %}
     {% include 'nginx/varnish.conf.j2' %}
