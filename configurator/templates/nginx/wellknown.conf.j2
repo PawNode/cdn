@@ -5,5 +5,4 @@ location /.well-known/ {
     proxy_intercept_errors on;
     error_page 404 = @well-known-fallback;
     error_page 403 = @well-known-fallback;
-    include /etc/nginx/includes/proxy.conf;
 }

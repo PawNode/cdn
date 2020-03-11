@@ -37,7 +37,6 @@ server {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
-        include /etc/nginx/includes/proxy.conf;
     }
 
     location / {
@@ -48,7 +47,6 @@ server {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
-        include /etc/nginx/includes/proxy.conf;
     }
 {% else %}
     location @well-known-fallback {
