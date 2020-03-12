@@ -27,8 +27,11 @@ rm -rf certifier/dnssec
 ln -s /etc/bind/dnssec certifier/dnssec
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites /etc/bind/dnssec /etc/nginx/includes
 chown bind:bind /etc/bind/sites /etc/bind/dnssec
+chmod 700 /etc/bind/dnssec
+chmod 700 /opt/cdn
 
 cp files/named.conf.options /etc/bind/named.conf.options
+
 
 addIfMissing /etc/bind/named.conf.local 'include "/etc/bind/sites.conf";'
 
