@@ -323,7 +323,7 @@ def run():
 
             certSite = {
                 'name': site_name,
-                'domains': domains + [val['from'] for val in redirectDomains.values()])
+                'domains': domains + [val['from'] for val in redirectDomains.values()]
             }
             certifierConfig['sites'].append(certSite)
             nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
