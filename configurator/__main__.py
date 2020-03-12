@@ -310,7 +310,7 @@ def run():
 
             if 'redirectWWW' in site and site['redirectWWW']:
                 newDomains = []
-                for domain in domains:
+                for domain in sorted(domains):
                     if domain[0:4] != 'www.':
                         newDomains.append(domain)
                         continue
@@ -323,7 +323,7 @@ def run():
 
             certSite = {
                 'name': site_name,
-                'domains': domains + [val['from'] for val in redirectDomains.values()]
+                'domains': domains + [val['from'] for val in redirectDomains]
             }
             certifierConfig['sites'].append(certSite)
             nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
