@@ -63,7 +63,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name {{ site.domains | sort | join(' ') }};
+    server_name {{ site.redirectDomains | map(attribute='from') | sort | join(' ') }} {{ site.domains | sort | join(' ') }};
 
     root /var/www/empty;
 
