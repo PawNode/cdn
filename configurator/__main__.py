@@ -232,7 +232,10 @@ def addZoneFor(domain, site):
 
 def run():
     nginxConfig = [nginxMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)]
-    certifierConfig = []
+    certifierConfig = {
+        'sites': [],
+        'zones': [],
+    }
     zoneListConfig = []
     loadedSites = {}
     reloadBind = False
@@ -301,7 +304,7 @@ def run():
                 'name': site_name,
                 'domains': site['domains']
             }
-            certifierConfig.append(certSite)
+            certifierConfig['sites'].append(certSite)
             nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
         else:
             print('[%s] Site is type none. Not rendering nginx or certifier config' % site_name)
@@ -312,6 +315,11 @@ def run():
     for zone_name in sorted(zones):
         zone = zones[zone_name]
         zone['name'] = zone_name
+        certZone = {
+            'name': zone_name,
+            'domains': zone['domains'],
+        }
+        certifierConfig['zones'].append(certZone)
         zoneListConfig.append(bindSiteTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags))
         zoneConfig = bindZoneTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags)
         if swapFile('/etc/bind/sites/db.%s' % zone_name, zoneConfig):
@@ -341,7 +349,7 @@ def run():
         swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         system('service nginx reload')
 
-    if swapFile(path.join(CERTIFIER_DIR, 'sites.yml'), certifierConfStr):
+    if swapFile(path.join(CERTIFIER_DIR, 'config.yml'), certifierConfStr):
         system('python3 %s' % path.join(__dir__, '../certifier'))
 
     for name in loadedSites:

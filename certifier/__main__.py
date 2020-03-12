@@ -10,8 +10,10 @@ BUCKET_NAME = config['certs']['bucketName']
 sites = []
 zones = []
 keyFiles = {}
-with open(path.join(__dir__, 'sites.yml'), 'r') as f:
-    sites = yaml_load(f.read())
+with open(path.join(__dir__, 'config.yml'), 'r') as f:
+    ccConfig = yaml_load(f.read())
+    sites = ccConfig['sites']
+    zones = ccConfig['zones']
 
 paginator = s3_client.get_paginator('list_objects_v2')
 for page in paginator.paginate(Bucket=BUCKET_NAME, Prefix='dnssec'):
@@ -27,18 +29,18 @@ reloadBind = False
 reloadNginx = False
 for site in sites:
     reloadNginx |= get_ssl_for_site(site)
-    zones.append(site['domains'][0])
 
 for zone in zones:
-    k = 'K%s.' % zone
+    zone_name = zone['name']
+    k = 'K%s.' % zone_name
     if k in keyFiles and keyFiles[k] >= 4:
         continue
-    print('[%s] Generating DNSSEC keys for zone' % zone)
+    print('[%s] Generating DNSSEC keys for zone' % zone_name)
     files = []
-    res = run(['dnssec-keygen', '-K', DNSSEC_DIR, '-a', 'ECDSAP256SHA256', zone], stdout=PIPE, encoding='ascii').stdout.strip()
+    res = run(['dnssec-keygen', '-K', DNSSEC_DIR, '-a', 'ECDSAP256SHA256', zone_name], stdout=PIPE, encoding='ascii').stdout.strip()
     files.append("%s.key" % res)
     files.append("%s.private" % res)
-    res = run(['dnssec-keygen', '-K', DNSSEC_DIR, '-fk', '-a', 'ECDSAP256SHA256', zone], stdout=PIPE, encoding='ascii').stdout.strip()
+    res = run(['dnssec-keygen', '-K', DNSSEC_DIR, '-fk', '-a', 'ECDSAP256SHA256', zone_name], stdout=PIPE, encoding='ascii').stdout.strip()
     files.append("%s.key" % res)
     files.append("%s.private" % res)
     for fn in files:
