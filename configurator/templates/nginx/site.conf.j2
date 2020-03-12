@@ -34,7 +34,9 @@ server {
     ssl_certificate {{ dynConfig._self.certDir }}/{{ site.name }}.pem;
     ssl_certificate_key {{ dynConfig._self.keyDir }}/{{ site.name }}.pem;
 
-{%- if not site.hsts %}
+{%- if site.hsts %}
+    include /etc/nginx/includes/hsts.conf;
+{%- else %}
     include /etc/nginx/includes/wellknown.conf;
 
 {%- if site.type == 'directproxy' %}
@@ -49,7 +51,7 @@ server {
         return 404;
     }
 {%- endif %}
-
+    
 {%- endif %}
 
     location / {
