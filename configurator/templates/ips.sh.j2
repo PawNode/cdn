@@ -1,8 +1,8 @@
 {%- set useRouteRule = dynConfig._find('useRouteRules') %}
-{%- for tag in tags if tag in dynConfig %}
+{%- for tag in sorted(tags) if tag in dynConfig %}
     {%- set cfg = dynConfig[tag] %}
     {%- if 'ips4' in cfg %}
-        {%- for addr in cfg.ips4 %}
+        {%- for addr in sorted(cfg.ips4) %}
 ip -4 addr add '{{ addr }}' dev lo
             {%- if useRouteRule %}
 while ip -4 rule del from '{{ addr }}' table 666; do :; done
@@ -11,7 +11,7 @@ ip -4 rule add from '{{ addr }}' table 666
         {%- endfor %}
     {%- endif %}
     {%- if 'ips6' in cfg %}
-        {%- for addr in cfg.ips6 %}
+        {%- for addr in sorted(cfg.ips6) %}
 ip -6 addr add '{{ addr }}' dev lo
             {%- if useRouteRule %}
 while ip -6 rule del from '{{ addr }}' table 666; do :; done

@@ -1,7 +1,7 @@
 {%- if site.type == 'directproxy' %}
 map $http_host $direct_proxy_{{ site.name }} {
     default "";
-{%- for target in site.targets %}
+{%- for target in sorted(site.targets) %}
 {%- if 'shield' in target and target.shield != dynConfig._find('location') %}
     "{{ target.host }}" "location_{{ target.shield }}";
 {%- else %}

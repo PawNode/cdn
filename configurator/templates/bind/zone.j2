@@ -12,25 +12,25 @@ $TTL    300
                         3600 )
 
 {%- if site.vanityNS %}
-    {%- for record in dynConfig._find('vanityNSRecords') %}
+    {%- for record in sorted(dynConfig._find('vanityNSRecords')) %}
 {{ record }}
     {%- endfor %}
 {%- else %}
-    {%- for ns in dynConfig._find('nsrecords') %}
+    {%- for ns in sorted(dynConfig._find('nsrecords')) %}
 @       3600    IN      NS      {{ ns }}.
     {%- endfor %}
 {%- endif %}
 
-{%- for domain in site.domains %}
+{%- for domain in sorted(zone.domains) %}
     {%- set domain_short = domain[:mainDomainStripLen] %}
     {%- if domain == mainDomain or domain == dynConfig._find('sitecname') %}
         {%- if domain == mainDomain %}
             {%- set domain_short = '@' %}
         {%- endif %}
-        {%- for ip in dynConfig._find('siteips4') %}
+        {%- for ip in sorted(dynConfig._find('siteips4')) %}
 {{ domain_short }} IN A {{ ip }}
         {%- endfor %}
-        {%- for ip in dynConfig._find('siteips6') %}
+        {%- for ip in sorted(dynConfig._find('siteips6')) %}
 {{ domain_short }} IN AAAA {{ ip }}
         {%- endfor %}
     {%- else %}
@@ -38,7 +38,7 @@ $TTL    300
     {%- endif %}
 {%- endfor %}
 
-{%- for record in site.records %}
+{%- for record in sorted(site.records) %}
 {{ record }}
 {%- endfor %}
 

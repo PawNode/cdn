@@ -247,7 +247,7 @@ def run():
 
     print('Found sites: %s' % ', '.join(sites))
 
-    for site_name in sites:
+    for site_name in sorted(sites):
         oldName = path.join(OLDDIR, '%s.yml' % site_name)
 
         print('[%s] Processing...' % site_name)
@@ -309,7 +309,7 @@ def run():
         for domain in site['domains']:
             addZoneFor(domain, site)
 
-    for zone_name in zones:
+    for zone_name in sorted(zones):
         zone = zones[zone_name]
         zone['name'] = zone_name
         zoneListConfig.append(bindSiteTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags))

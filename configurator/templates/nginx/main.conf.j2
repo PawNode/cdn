@@ -11,7 +11,7 @@ server_tokens off;
 include /etc/nginx/includes/proxy.conf;
 include /etc/nginx/includes/headers.conf;
 
-{%- for ip in dynConfig._ips %}
+{%- for ip in sorted(dynConfig._ips) %}
 set_real_ip_from {{ ip }};
 {%- endfor %}
 
@@ -26,9 +26,9 @@ real_ip_header X-Forwarded-For;
 
 {%- set selfNetwork = dynConfig._find('network') %}
 
-{%- for loc in dynConfig._locations %}
+{%- for loc in sorted(dynConfig._locations) %}
 upstream location_{{ loc }} {
-{%- for server in dynConfig._locations[loc] %}
+{%- for server in sorted(dynConfig._locations[loc]) %}
 {%- set serverCfg = dynConfig[server] %}
 {%- if selfNetwork == serverCfg.network and selfNetwork in serverCfg.networkIp %}
     server {{ serverCfg.networkIp[selfNetwork] }};
