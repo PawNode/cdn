@@ -21,6 +21,7 @@ $TTL    300
     {%- endfor %}
 {%- endif %}
 
+{%- if site.type != 'none' %}
 {%- for domain in zone.domains|sort %}
     {%- set domain_short = domain[:mainDomainStripLen] %}
     {%- if domain == mainDomain or domain == dynConfig._find('sitecname') %}
@@ -37,6 +38,7 @@ $TTL    300
 {{ domain_short }} IN CNAME {{ dynConfig._find('sitecname') }}.
     {%- endif %}
 {%- endfor %}
+{%- endif %}
 
 {%- for record in site.records|sort %}
 {{ record }}
