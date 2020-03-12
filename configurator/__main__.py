@@ -296,6 +296,8 @@ def run():
             print('[%s] Error loading site:' % site_name, e)
             pass
 
+        allDomains = domains
+
         if site['type'] != 'none':
             domains = site['domains']
             domainsChanged = oldSite['domains'] != domains
@@ -321,16 +323,18 @@ def run():
                 domains = newDomains
                 site['domains'] = domains                    
 
+            allDomains = domains + [val['from'] for val in redirectDomains]
+
             certSite = {
                 'name': site_name,
-                'domains': domains + [val['from'] for val in redirectDomains]
+                'domains': allDomains
             }
             certifierConfig['sites'].append(certSite)
             nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
         else:
             print('[%s] Site is type none. Not rendering nginx or certifier config' % site_name)
 
-        for domain in site['domains']:
+        for domain in allDomains:
             addZoneFor(domain, site)
 
     for zone_name in sorted(zones):
