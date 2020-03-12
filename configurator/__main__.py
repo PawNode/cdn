@@ -195,10 +195,45 @@ SITE_LOADERS = {
     'zip': loadSiteZIP
 }
 
+zones = {}
+def addZoneFor(domain, site):
+    if domain in zones:
+        return
+
+    spl = domain.split('.')
+    for i in range(1, len(spl) + 1):
+        out = '.'.join(spl[-i:])
+        if out in zones:
+            zone = zones[out]
+            zone['domains'].add(domain)
+            if site['zoneSerial'] > zone['serial']:
+                zone['serial'] = site['zoneSerial']
+            return
+
+    zone = {
+        'domains': set([domain]),
+        'site': site,
+        'serial': site['zoneSerial'],
+        'name': domain
+    }
+    zones[domain] = zone
+
+    dotted = '.%s' % domain
+    todel = set()
+    for zone_name in zones:
+        if zone_name[-len(dotted):] == dotted:
+            otherZone = zones[zone_name]
+            if otherZone['serial'] > zone['serial']:
+                zone['serial'] = otherZone['serial']
+            zone['domains'].add(zone_name)
+            todel.add(zone_name)
+    for zone_name in todel:
+        del zones[zone_name]
+
 def run():
     nginxConfig = [nginxMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)]
-    zoneListConfig = []
     certifierConfig = []
+    zoneListConfig = []
     loadedSites = {}
     reloadBind = False
 
@@ -221,7 +256,7 @@ def run():
 
         lastModified = obj['LastModified']
         
-        site['zoneSerial'] = "%d" % lastModified.replace(tzinfo=timezone.utc).timestamp()
+        site['zoneSerial'] = lastModified.replace(tzinfo=timezone.utc).timestamp()
         site['name'] = site_name
 
         loadedSites[site_name] = site
@@ -271,9 +306,15 @@ def run():
         else:
             print('[%s] Site is type none. Not rendering nginx or certifier config' % site_name)
 
-        zoneListConfig.append(bindSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
-        zoneConfig = bindZoneTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags)
-        if swapFile('/etc/bind/sites/db.%s' % site_name, zoneConfig):
+        for domain in site['domains']:
+            addZoneFor(domain, site)
+
+    for zone_name in zones:
+        zone = zones[zone_name]
+        zone['name'] = zone_name
+        zoneListConfig.append(bindSiteTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags))
+        zoneConfig = bindZoneTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags)
+        if swapFile('/etc/bind/sites/db.%s' % zone_name, zoneConfig):
             reloadBind = True
 
     certifierConfStr = yaml_dump(certifierConfig)
