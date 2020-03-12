@@ -1,5 +1,2 @@
 add_header "Strict-Transport-Security" "max-age=63072000; includeSubDomains; preload" always;
 include /etc/nginx/includes/headers.conf;
-if ($scheme = "http") {
-    return 301 https://$http_host$request_uri;
-}

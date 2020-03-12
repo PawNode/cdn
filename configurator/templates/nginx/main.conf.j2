@@ -38,3 +38,16 @@ upstream location_{{ loc }} {
 {%- endfor %}
 }
 {%- endfor %}
+
+server {
+    listen 80 default;
+    listen [::]:80 default;
+
+    root /var/www/empty;
+
+    include /etc/nginx/includes/wellknown.conf;
+
+    location / {
+        return 404 "Site not found";
+    }
+}

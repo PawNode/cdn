@@ -1,7 +1,7 @@
 {%- if site.type == 'directproxy' %}
 map $http_host $direct_proxy_{{ site.name }} {
     default "";
-{%- for target in site.targets|sort(attribute='host') %}
+{%- for target in site.targets | sort(attribute='host') %}
 {%- if 'shield' in target and target.shield != dynConfig._find('location') %}
     "{{ target.host }}" "location_{{ target.shield }}";
 {%- else %}
@@ -11,28 +11,30 @@ map $http_host $direct_proxy_{{ site.name }} {
 }
 {%- endif %}
 
+{%- if site.redirectDomains %}
+map $http_host $redirect_domains_{{ site.name }} {
+    default "";
+{%- for dom in site.redirectDomains | sort(attribute='from') %}
+    "{{ dom.from }}" "{{ dom.to }}";
+{%- endfor %}
+}
+
 server {
     listen 443 http2 ssl;
     listen [::]:443 http2 ssl;
+{%- if not site.hsts %}
     listen 80;
     listen [::]:80;
+{%- endif %}
 
-    server_name {{ site.domains | join(' ') }};
+    server_name {{ site.redirectDomains | map(attribute='from') | sort | join(' ') }};
 
     root /var/www/empty;
 
     ssl_certificate {{ dynConfig._self.certDir }}/{{ site.name }}.pem;
     ssl_certificate_key {{ dynConfig._self.keyDir }}/{{ site.name }}.pem;
 
-{%- if site.dir %}
-    location / {
-{%- if site.hsts %}
-        include /etc/nginx/includes/hsts.conf;
-{%- endif %}
-        root {{ site.dir }};
-    }
-{%- endif %}
-
+{%- if not site.hsts %}
     include /etc/nginx/includes/wellknown.conf;
 
 {%- if site.type == 'directproxy' %}
@@ -42,17 +44,94 @@ server {
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
     }
+{%- else %}
+    location @well-known-fallback {
+        return 404;
+    }
+{%- endif %}
+
+{%- endif %}
 
     location / {
-{%- if site.hsts %}
-        include /etc/nginx/includes/hsts.conf;
+        return 301 $scheme://$redirect_domains_{{ site.name }}$request_uri;
+    }
+}
 {%- endif %}
+
+{%- if site.hsts %}
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name {{ site.domains | sort | join(' ') }};
+
+    root /var/www/empty;
+
+    include /etc/nginx/includes/wellknown.conf;
+
+    location / {
+        return 301 https://$http_host$request_uri;
+    }
+
+{%- if site.type == 'directproxy' %}
+    location @well-known-fallback {
         if ($direct_proxy_{{ site.name }} = "") {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
     }
 {%- else %}
+    location @well-known-fallback {
+        return 404;
+    }
+{%- endif %}
+}
+{%- endif %}
+
+server {
+    listen 443 http2 ssl;
+    listen [::]:443 http2 ssl;
+{%- if not site.hsts %}
+    listen 80;
+    listen [::]:80;
+{%- endif %}
+
+    server_name {{ site.domains | join(' ') }};
+
+    root /var/www/empty;
+
+    ssl_certificate {{ dynConfig._self.certDir }}/{{ site.name }}.pem;
+    ssl_certificate_key {{ dynConfig._self.keyDir }}/{{ site.name }}.pem;
+
+{%- if site.hsts %}
+    include /etc/nginx/includes/hsts.conf;
+{%- else %}
+    include /etc/nginx/includes/wellknown.conf;
+{%- endif %}
+
+{%- if site.dir %}
+    location / {
+        root {{ site.dir }};
+    }
+{%- endif %}
+
+{%- if site.type == 'directproxy' %}
+{%- if not site.hsts %}
+    location @well-known-fallback {
+        if ($direct_proxy_{{ site.name }} = "") {
+            return 502 "Bad gateway";
+        }
+        proxy_pass $scheme://$direct_proxy_{{ site.name }};
+    }
+{%- endif %}
+
+    location / {
+        if ($direct_proxy_{{ site.name }} = "") {
+            return 502 "Bad gateway";
+        }
+        proxy_pass $scheme://$direct_proxy_{{ site.name }};
+    }
+{%- elif not site.hsts %}
     location @well-known-fallback {
         return 404;
     }

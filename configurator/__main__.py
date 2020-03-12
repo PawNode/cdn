@@ -297,12 +297,33 @@ def run():
             pass
 
         if site['type'] != 'none':
-            domainsChanged = oldSite['domains'] != site['domains']
+            domains = site['domains']
+            domainsChanged = oldSite['domains'] != domains
             if domainsChanged:
-                print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(site['domains'])))
+                print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(domains)))
+
+            if 'redirectWWW' in site and site['redirectWWW']:
+                redirectDomains = []
+                if 'redirectDomains' in site:
+                    redirectDomains = site['redirectDomains']
+                else:
+                    site['redirectDomains'] = redirectDomains
+
+                newDomains = []
+                for domain in domains:
+                    if domain[0:4] != 'www.':
+                        newDomains.append(domain)
+                        continue
+                    redirectDomains.append({
+                        'from': domain,
+                        'to': domain[4:],
+                    })
+                domains = newDomains
+                site['domains'] = domains                    
+
             certSite = {
                 'name': site_name,
-                'domains': site['domains']
+                'domains': domains
             }
             certifierConfig['sites'].append(certSite)
             nginxConfig.append(nginxSiteTemplate.render(site=site, config=config, dynConfig=dynConfig, tags=tags))
