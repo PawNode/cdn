@@ -26,9 +26,9 @@ real_ip_header X-Forwarded-For;
 
 {%- set selfNetwork = dynConfig._find('network') %}
 
-{%- for loc in dynConfig._locations|dictsort %}
+{%- for loc, locData in dynConfig._locations|dictsort %}
 upstream location_{{ loc }} {
-{%- for server in dynConfig._locations[loc]|sort %}
+{%- for server in locData|sort %}
 {%- set serverCfg = dynConfig[server] %}
 {%- if selfNetwork == serverCfg.network and selfNetwork in serverCfg.networkIp %}
     server {{ serverCfg.networkIp[selfNetwork] }};
