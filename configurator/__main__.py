@@ -296,10 +296,10 @@ def run():
             print('[%s] Error loading site:' % site_name, e)
             pass
 
+        domains = site['domains']
         allDomains = domains
 
         if site['type'] != 'none':
-            domains = site['domains']
             domainsChanged = oldSite['domains'] != domains
             if domainsChanged:
                 print('[%s] Domains changed from %s to %s' % (site_name, ','.join(oldSite['domains']), ','.join(domains)))
