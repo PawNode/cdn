@@ -1,2 +1,1 @@
-- add directproxy function (like CF orange cloud with caching off)
-- proxy .well-known to downstream on 404
+- add parentzone option so that subdomains can have differing site configs and be in the same BIND zone

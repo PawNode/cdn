@@ -1,5 +1,5 @@
-location /.well-known/ {
-    proxy_pass https://{{ config.wellknown.domain }}{{ config.wellknown.path }}/;
+location /.well-known/acme-challenge/ {
+    proxy_pass https://{{ config.wellknown.domain }}{{ config.wellknown.path }}/acme-challenge/;
     proxy_set_header Host {{ config.wellknown.domain }};
     proxy_ssl_name {{ config.wellknown.domain }};
     proxy_intercept_errors on;
