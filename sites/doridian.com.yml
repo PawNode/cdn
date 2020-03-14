@@ -1,0 +1,10 @@
+domains:
+    - doridian.com
+    - www.doridian.com
+type: redirect
+target: https://doridian.net
+hsts: true
+useGoogleMX: true
+records:
+    - 'google._domainkey IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuW3m2a+HWjdjov6rxbtmkPrz7hN6UxpUI+D1riiQYK0vMPf0VQkuInFGbh5E2g03YMJAwFW5QzSSS8b5V1/P+Gs1" "5rr5RCAlbYRhciz0qqUAV+NKXjaANxvfIS2Aoca449ejWR/7/1N7fjs4h5IykB0j7UrbLUeyIEQ2dRqi0EkcTPBL6H5gdsEm73WXDlisEUmE3Z7QLOUNOkngUjTpWl+KQbSH9Eak+LRPFa2bWBDpOK" "+A/xdwJeO2CWxt4Iutx7stdXgZfXhgDR7vb0kAqCLotZ42UXltgKi0OfQl5UDNXA0Y/7a/qAwMYWyUBAr3MLCCpdAfZE1CBhdPxi+cHwIDAQAB"'
+    - '@ IN TXT "google-site-verification=LBxkD2qzwYzrE8OYeU-E3oQGNQ8OnZgQSuFrILHC5Cs"'

@@ -1,5 +1,5 @@
 from os import path
-from yaml import load as yaml_load
+from yaml import safe_load as yaml_load
 from boto3 import client as boto3_client
 
 class CertificateUnusableError(Exception):

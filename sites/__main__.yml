@@ -1,0 +1,92 @@
+all:
+    subnets4: ["185.244.28.0/24"]
+    subnets6: ["2a0f:9400:731f::/48", "2a0e:7d44:f00f::/48"]
+    ips4: ["185.244.28.1/24", "185.244.28.2/24", "185.244.28.3/24", "185.244.28.53/24", "185.244.28.54/24"]
+    ips6: ["2a0f:9400:731f::1/48", "2a0e:7d44:f00f::1/48", "2a0f:9400:731f::2/48", "2a0e:7d44:f00f::2/48", "2a0f:9400:731f::53/48", "2a0e:7d44:f00f::53/48"]
+    useRouteRules: false
+    sites:
+        - as207618
+        - doridian.com
+        - doridian.de
+        - doridian.org
+        - doridian
+        - f0x.es
+        - foxden
+        - pawnode
+        - ptr-p1
+        - ptr-p2
+        - ptr-p3
+
+    # DNS stuff
+    siteips4: ["185.244.28.2", "185.244.28.3"]
+    siteips6: ["2a0f:9400:731f::2", "2a0e:7d44:f00f::2"]
+    sitecname: "cdn.pawnode.com"
+    nsrecords: ["ns1.pawnode.com", "ns2.pawnode.com"]
+    vanityNSRecords:
+        - "ns1 3600 IN A 185.244.28.54"
+        - "ns2 3600 IN A 185.244.28.53"
+        - "ns1 3600 IN AAAA 2a0f:9400:731f::53"
+        - "ns2 3600 IN AAAA 2a0e:7d44:f00f::53"
+        - "@ 3600 IN NS ns1"
+        - "@ 3600 IN NS ns2"
+vultr:
+    neighbors:
+        - name: vultr
+          multihop: 2
+          password: "SNIP"
+          ip4: 169.254.169.254
+          ip6: "2001:19f0:ffff::1"
+          as: 64515
+evix:
+    useRouteRules: true
+    neighbors:
+        - name: evix1
+          ip4: 206.81.104.1
+          ip6: "2602:fed2:fff:ffff::1"
+          as: 137933
+        - name: evix2
+          ip4: 206.81.104.253
+          ip6: "2602:fed2:fff:ffff::253"
+          as: 209762
+unmetered:
+    useRouteRules: true
+    neighbors:
+        - name: unmetered1
+          ip4: 192.34.27.254
+          ip6: "2602:ffb1:200:0:192:34:27:254"
+          as: 65513
+        - name: unmetered2
+          ip4: 192.34.27.253
+          ip6: "2602:ffb1:200:0:192:34:27:253"
+          as: 65513
+freerangecloud:
+    tags: ["evix","unmetered"]
+sea01.pawnode.com:
+    primaryIp: 66.42.79.223
+    tags: ["vultr"]
+    subnets6: ["2a0e:7d44:f001::/48", "2a0f:9400:7311::/48"]
+    ips6: ["2a0e:7d44:f001::1/48", "2a0f:9400:7311::1/48"]
+    location: SEA
+fra01.pawnode.com:
+    primaryIp: 95.179.240.248
+    tags: ["vultr"]
+    subnets6: ["2a0e:7d44:f002::/48"]
+    ips6: ["2a0e:7d44:f002::1/48"]
+    location: FRA
+nyc01.pawnode.com:
+    primaryIp: 108.61.78.245
+    tags: ["vultr"]
+    subnets6: ["2a0e:7d44:f003::/48"]
+    ips6: ["2a0e:7d44:f003::1/48"]
+    location: NYC
+van01.pawnode.com:
+    primaryIp: 104.218.61.216
+    tags: ["freerangecloud"]
+    subnets6: ["2a0e:7d44:f004::/48"]
+    ips6: ["2a0e:7d44:f004::1/48"]
+    location: VAN
+    neighbors:
+        - name: AS49752
+          ip4: 206.81.104.193
+          ip6: "2602:fed2:fff:ffff::193"
+          as: 49752

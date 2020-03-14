@@ -1,0 +1,26 @@
+domains:
+    - doridian.net
+    - www.doridian.net
+redirectWWW: true
+type: zip
+src: https://pawnode-sites.s3.amazonaws.com/doridian.net.zip?v=3
+hsts: true
+useGoogleMX: true
+records:
+    - 'google._domainkey IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZ5wwEzAQpMsxbc6dlwJy0HILhDiusG3o5i/K7SAXyH+qrpwMJ1hSfX8fyOt01E3uLAUKxYO5EfQtGS6NmG6QfnA" "DkXB0mJ9Ox4eaOecmmnid0wtLudG0+Sp0m/AyFhcPwu03NJ94dO/lruq5MJe9LbDAWTsocoZ2UKZnroukcohGVQU5EgLBz9T1F5ow0CC3FMO2mdmXOQ25/KmVR9QJVEypYDzY/QArAFYZy8aMiTY4S" "q1j4G1eVB2UGtlVxAnMPPO0c7dAHD/sSIpsO2iNgnwmwwqlY7GMAJwAiHFsGo1H5ASisf1D18Qk1oNJznY4ljr4K/2KnRr2Bu1mkJYeQIDAQAB"'
+    - '@ IN TXT "google-site-verification=bFl12Eo8la31HYCOw1BIbUtplSnf7-gfvsYVHJ3KRSY"'
+
+    - anarchy IN A 107.161.19.11
+    - cc2 IN A 107.161.19.11
+
+    - acmedns IN CNAME doridian-acmedns.westus2.cloudapp.azure.com.
+    - arcticfox IN CNAME atlshared1.ramnode.com.
+    - htpl IN CNAME atlshared1.ramnode.com.
+    - mail IN CNAME atlshared1.ramnode.com.
+    - mysql IN CNAME atlshared1.ramnode.com.
+    - www.arcticfox IN CNAME atlshared1.ramnode.com.
+
+    - '_spf IN TXT "v=spf1 ip4:107.161.23.124 include:relay.mailchannels.net"'
+
+    - 'xsstest IN TXT "<img src=https://doridian.net/icon.jpg />"'
+    - 'foxes IN TXT "🦊🦊🦊🦊🦊🦊🦊🦊🦊🦊"'

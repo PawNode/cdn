@@ -1,9 +1,11 @@
 from myacme import get_ssl_for_site
-from yaml import load as yaml_load
+from yaml import safe_load as yaml_load
 from myglobals import __dir__, s3_client, config, DNSSEC_DIR
-from os import path, system
+from os import chdir, path, system
 from loader import loadFile, storeFile
 from subprocess import run, PIPE
+
+chdir(__dir__)
 
 BUCKET_NAME = config['certs']['bucketName']
 

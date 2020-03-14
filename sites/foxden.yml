@@ -1,0 +1,33 @@
+domains:
+    - foxden.network
+    - www.foxden.network
+    - grafana.foxden.network
+    - nas.foxden.network
+    - seafile.foxden.network
+    - teslamate.foxden.network
+type: directproxy
+targets:
+    - host: grafana.foxden.network
+      proxy: grafana.dyn.foxden.network
+    - host: nas.foxden.network
+      proxy: nas.dyn.foxden.network
+    - host: seafile.foxden.network
+      proxy: seafile.dyn.foxden.network
+    - host: teslamate.foxden.network
+      proxy: teslamate.dyn.foxden.network
+hsts: true
+useGoogleMX: true
+records:
+    - "dyn 3600 IN NS ns1.he.net."
+    - "dyn 3600 IN NS ns2.he.net."
+    - "dyn 3600 IN NS ns3.he.net."
+    - "dyn 3600 IN NS ns4.he.net."
+    - "dyn 3600 IN NS ns5.he.net."
+    - "ntp IN CNAME ntp.dyn.foxden.network."
+    - "occ-daemon IN CNAME router.dyn.foxden.network."
+    - "bengalfox IN CNAME bengalfox.dyn.foxden.network."
+    - "pihole IN CNAME pihole.dyn.foxden.network."
+    - "router IN CNAME router.dyn.foxden.network."
+    - "vpn IN CNAME router.dyn.foxden.network."
+    - "_acme-challenge.gitrun IN CNAME f2c926b1-a9b4-4f9c-9ef4-afb0fdbca155.acmedns-ns.doridian.net."
+    - "_acme-challenge.pihole IN CNAME a660c0fa-6609-4332-9413-a2ce7ce358a8.acmedns-ns.doridian.net."

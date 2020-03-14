@@ -1,35 +1,35 @@
-from datetime import timezone
+from datetime import timezone, datetime
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from os import path, unlink, rename, system, mkdir, symlink
+from os import chdir, path, unlink, rename, system, mkdir, symlink
 from requests import get as http_get
 from shutil import rmtree
-from yaml import load as yaml_load, dump as yaml_dump
+from yaml import safe_load as yaml_load, dump as yaml_dump
 from zipfile import ZipFile
 from socket import getfqdn
-from boto3 import client as boto3_client
+from subprocess import PIPE, run
 
 __dir__ = path.dirname(__file__)
+chdir(__dir__)
 
 config = None
 with open(path.join(__dir__, '../config.yml'), 'r') as f:
     config = yaml_load(f)
 
-osconfig = config['objectStorage']
-s3_client = boto3_client('s3',
-    aws_access_key_id=osconfig['accessKeyID'],
-    aws_secret_access_key=osconfig['secretAccessKey']
-)
+SITECONFIGDIR = path.abspath(path.join(__dir__, '../sites'))
+def getGitTime(fn):
+    res = run(['git', 'log', '-1', '--format="%ad"', '--date=iso8601', '--', fn], stdout=PIPE, encoding='ascii').stdout
+    res = res.strip(' \'"\t\r\n')
+    return datetime.strptime(res, '%Y-%m-%d %H:%M:%S %z')
 
-CFG_BUCKET_NAME = config['dynConfig']['bucketName']
-def downloadSite(name, prefix='sites/'):
-    obj = s3_client.get_object(
-        Bucket=CFG_BUCKET_NAME,
-        Key=('%s%s.yml' % (prefix, name))
-    )
-    return yaml_load(obj['Body']), obj
+def loadSite(name):
+    fn = path.join(SITECONFIGDIR, '%s.yml' % name)
+    fh = open(fn, 'r')
+    data = fh.read()
+    fh.close()
+    return yaml_load(data), getGitTime(fn)
 
-dynConfig, _ = downloadSite('main', '')
+dynConfig, _ = loadSite('__main__')
 
 tags = []
 def recurseTags(tag):
@@ -114,6 +114,8 @@ nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
 bindZoneTemplate = j2env.get_template('bind/zone.j2')
 bindSiteTemplate = j2env.get_template('bind/site.conf.j2')
+
+zoneTplLastModified = getGitTime(path.join(__dir__, 'templates', 'bind', 'zone.j2'))
 
 def writeGlobalTpl(name, target):
     tpl = j2env.get_template(name)
@@ -230,7 +232,7 @@ def addZoneFor(domain, site):
     for zone_name in todel:
         del zones[zone_name]
 
-def run():
+def __main__():
     nginxConfig = [nginxMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)]
     certifierConfig = {
         'sites': [],
@@ -255,9 +257,9 @@ def run():
 
         print('[%s] Processing...' % site_name)
 
-        site, obj = downloadSite(site_name)
-
-        lastModified = obj['LastModified']
+        site, lastModified = loadSite(site_name)
+        if zoneTplLastModified > lastModified:
+            lastModified = zoneTplLastModified
         
         site['zoneSerial'] = lastModified.replace(tzinfo=timezone.utc).timestamp()
         site['name'] = site_name
@@ -385,4 +387,5 @@ def run():
         fh.write(yaml_dump(site))
         fh.close()
 
-run()
+if __name__ == '__main__':
+    __main__()
