@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Run deploy
-      uses: appleboy/ssh-action@v0.0.2
-      with:
-        host: "sea01.pawnode.com,nyc01.pawnode.com,van01.pawnode.com,fra01.pawnode.com"
-        username: deployer
-        sync: true
-        key: ${{ secrets.SSH_KEY }}
-        port: 22
-        script_stop: true
-        script: "deploy"
+      env:
+        SSH_KEY: ${{ secrets.SSH_KEY }}
+      run: |
+        echo "$SSH_KEY" > ssh-keyfile
+        ssh -i ssh-keyfile deployer@sea01.pawnode.com
+        ssh -i ssh-keyfile deployer@nyc01.pawnode.com
+        ssh -i ssh-keyfile deployer@van01.pawnode.com
+        ssh -i ssh-keyfile deployer@fra01.pawnode.com
+        rm ssh-keyfile
