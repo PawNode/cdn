@@ -1,1 +1,0 @@
-- add parentzone option so that subdomains can have differing site configs and be in the same BIND zone
