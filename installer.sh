@@ -13,7 +13,7 @@ addIfMissing() {
 }
 
 apt update
-apt -y install bind9 nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils
+apt -y install bind9 nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils sudo
 aa-complain /usr/sbin/named
 
 enableStart() {
@@ -45,5 +45,13 @@ then
     openssl req -newkey rsa:4096 -nodes -keyout /etc/ssl/default.key -x509 -days 1 -out /etc/ssl/default.crt
 fi
 
-python3 ./configurator
-python3 ./certifier
+useradd deployer
+cp files/deployer-sudo /etc/sudoers.d/
+mkdir -p /home/deployer/.ssh
+cp files/deployer-authorized-keys /home/deployer/.ssh/authorized_keys
+chown -R deployer:deployer /home/deployer
+chmod 600 /home/deployer/.ssh/authorized_keys
+chmod 700 /home/deployer/.ssh
+
+python3 configurator
+python3 certifier
