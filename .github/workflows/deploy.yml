@@ -1,0 +1,20 @@
+name: CD
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run deploy
+      uses: appleboy/ssh-action@v0.0.2
+      with:
+        host: "sea01.pawnode.com,nyc01.pawnode.com,van01.pawnode.com,fra01.pawnode.com"
+        username: deployer
+        sync: true
+        key: ${{ secrets.key }}
+        port: 22
+        script_stop: true
+        script: "deploy"
