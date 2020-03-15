@@ -4,18 +4,6 @@ all:
     ips4: ["185.244.28.1/24", "185.244.28.2/24", "185.244.28.3/24", "185.244.28.53/24", "185.244.28.54/24"]
     ips6: ["2a0f:9400:731f::1/48", "2a0e:7d44:f00f::1/48", "2a0f:9400:731f::2/48", "2a0e:7d44:f00f::2/48", "2a0f:9400:731f::53/48", "2a0e:7d44:f00f::53/48"]
     useRouteRules: false
-    sites:
-        - as207618
-        - doridian.com
-        - doridian.de
-        - doridian.org
-        - doridian
-        - f0x.es
-        - foxden
-        - pawnode
-        - ptr-p1
-        - ptr-p2
-        - ptr-p3
 
     # DNS stuff
     siteips4: ["185.244.28.2", "185.244.28.3"]

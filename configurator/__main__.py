@@ -1,7 +1,7 @@
 from datetime import timezone, datetime
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from os import chdir, path, unlink, rename, system, mkdir, symlink
+from os import chdir, listdir, path, unlink, rename, system, mkdir, symlink
 from requests import get as http_get
 from shutil import rmtree
 from yaml import safe_load as yaml_load, dump as yaml_dump
@@ -23,13 +23,13 @@ def getGitTime(fn):
     return datetime.strptime(res, '%Y-%m-%d %H:%M:%S %z')
 
 def loadSite(name):
-    fn = path.join(SITECONFIGDIR, '%s.yml' % name)
+    fn = path.join(SITECONFIGDIR, name)
     fh = open(fn, 'r')
     data = fh.read()
     fh.close()
     return yaml_load(data), getGitTime(fn)
 
-dynConfig, _ = loadSite('__main__')
+dynConfig, _ = loadSite('__main__.yml')
 
 tags = []
 def recurseTags(tag):
@@ -243,12 +243,10 @@ def __main__():
     reloadBind = False
 
     sites = []
-    for tag in tags:
-        if tag not in dynConfig:
+    for fn in listdir(SITECONFIGDIR):
+        if fn[0] == '.' or fn[-4:] != '.yml' or fn == '__main__.yml':
             continue
-        cfg = dynConfig[tag]
-        if 'sites' in cfg:
-            sites += cfg['sites']
+        sites.append(loadSite(fn))
 
     print('Found sites: %s' % ', '.join(sites))
 
