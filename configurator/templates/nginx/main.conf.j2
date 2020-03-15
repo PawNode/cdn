@@ -42,6 +42,11 @@ upstream location_{{ loc }} {
 server {
     listen 80 default;
     listen [::]:80 default;
+    listen 443 http2 ssl default;
+    listen [::]:443 http2 ssl default;
+
+    ssl_certificate {{ config.defaultCert }};
+    ssl_certificate_key {{ config.defaultKey }};
 
     root /var/www/empty;
 
