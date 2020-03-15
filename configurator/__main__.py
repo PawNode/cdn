@@ -250,8 +250,9 @@ def __main__():
 
     print('Found sites: %s' % ', '.join(sites))
 
-    for site_name in sorted(sites):
-        oldName = path.join(OLDDIR, '%s.yml' % site_name)
+    for site_name_raw in sorted(sites):
+        oldName = path.join(OLDDIR, site_name_raw)
+        site_name = site_name_raw[:-4]
 
         print('[%s] Processing...' % site_name)
 
