@@ -2,12 +2,13 @@
 
 - certifier
   - serves /.well-known folder on all domains for LE verification
-  - r/w object storage (azure?)
+  - r/w object storage encrypted using AES (S3)
     - validations
-  - r/w keyvault (azure? encrypted on object storage?)
-    - certificates/keys
+    - certifiates
+    - keys
+    - dnssec
 - configurator
-  - configures varnish (VCL)
+  - configures varnish (VCL) [TODO]
   - configures nginx
   - configures certifier
     - symlinks global self-signed cert before asking certifier to make sure nginx can load
@@ -15,5 +16,5 @@
 - nginx
   - fronts all domains with root (locally stored content) and/or varnish
   - fronts certifier on /.well-known on any domain
-- varnish
+- varnish [TODO]
   - used for origin-served domains
