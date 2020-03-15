@@ -12,7 +12,9 @@ jobs:
       env:
         SSH_KEY: ${{ secrets.SSH_KEY }}
       run: |
+        set -euo pipefail
         echo "$SSH_KEY" > ssh-keyfile
+        chmod 600 ssh-keyfile
         for loc in sea01 nyc01 van01 fra01
         do
           ssh -oStrictHostKeyChecking=no -i ssh-keyfile "deployer@$loc.pawnode.com"
