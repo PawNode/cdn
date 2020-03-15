@@ -256,7 +256,7 @@ def __main__():
 
         print('[%s] Processing...' % site_name)
 
-        site, lastModified = loadSite(site_name)
+        site, lastModified = loadSite(site_name_raw)
         if zoneTplLastModified > lastModified:
             lastModified = zoneTplLastModified
         
