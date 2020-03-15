@@ -246,7 +246,7 @@ def __main__():
     for fn in listdir(SITECONFIGDIR):
         if fn[0] == '.' or fn[-4:] != '.yml' or fn == '__main__.yml':
             continue
-        sites.append(loadSite(fn))
+        sites.append(fn)
 
     print('Found sites: %s' % ', '.join(sites))
 
