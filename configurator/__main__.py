@@ -9,7 +9,7 @@ from zipfile import ZipFile
 from socket import getfqdn
 from subprocess import PIPE, run
 
-__dir__ = path.dirname(__file__)
+__dir__ = path.abspath(path.dirname(__file__))
 chdir(__dir__)
 
 config = None
