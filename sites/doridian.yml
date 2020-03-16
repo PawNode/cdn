@@ -14,6 +14,8 @@ records:
     - cc2 IN A 107.161.19.11
 
     - acmedns IN CNAME doridian-acmedns.westus2.cloudapp.azure.com.
+    - acmedns-ns IN NS doridian-acmedns.westus2.cloudapp.azure.com.
+
     - arcticfox IN CNAME atlshared1.ramnode.com.
     - htpl IN CNAME atlshared1.ramnode.com.
     - mail IN CNAME atlshared1.ramnode.com.
