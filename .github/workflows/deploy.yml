@@ -23,7 +23,11 @@ jobs:
             do
               ssh -oUserKnownHostsFile=./ci/known-hosts -i ssh-keyfile "deployer@$loc.pawnode.com" && break || true
               n=$[$n+1]
-              sleep 2
+              sleep 5
             done
+            if [ $n -ge 5 ]
+            then
+              exit 1
+            fi
         done
         rm ssh-keyfile
