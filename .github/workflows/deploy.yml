@@ -17,6 +17,12 @@ jobs:
         chmod 600 ssh-keyfile
         for loc in sea01 nyc01 van01 fra01
         do
-          ssh -oStrictHostKeyChecking=no -i ssh-keyfile "deployer@$loc.pawnode.com"
+            n=0
+            until [ $n -ge 5 ]
+            do
+              ssh -oStrictHostKeyChecking=no -i ssh-keyfile "deployer@$loc.pawnode.com" && break || true
+              n=$[$n+1]
+              sleep 2
+            done
         done
         rm ssh-keyfile
