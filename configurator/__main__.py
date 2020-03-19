@@ -1,7 +1,7 @@
 from datetime import timezone, datetime
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from os import chdir, listdir, path, unlink, rename, system, mkdir, symlink
+from os import chdir, listdir, path, unlink, rename, system, mkdir
 from requests import get as http_get
 from shutil import rmtree
 from yaml import safe_load as yaml_load, dump as yaml_dump
@@ -98,13 +98,12 @@ DIR = path.abspath(path.join(__dir__, 'sites'))
 OUTDIR = path.abspath(path.join(__dir__, 'out'))
 OLDDIR = path.abspath(path.join(OUTDIR, 'sites'))
 CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
-CERTDIR = path.abspath(path.join(CERTIFIER_DIR, 'certs'))
-KEYDIR = path.abspath(path.join(CERTIFIER_DIR, 'keys'))
 DNSSECDIR = '/etc/bind/dnssec'
+CERTIFIER_DEFFS_DIR = '/mnt/certifier'
 
 dynConfig['_self']['dnssecDir'] = DNSSECDIR
-dynConfig['_self']['certDir'] = CERTDIR
-dynConfig['_self']['keyDir'] = KEYDIR
+dynConfig['_self']['certDir'] = path.abspath(path.join(CERTIFIER_DEFFS_DIR, 'certs'))
+dynConfig['_self']['keyDir'] = path.abspath(path.join(CERTIFIER_DEFFS_DIR, 'keys'))
 
 j2env = Environment(
     loader=FileSystemLoader(path.join(__dir__, 'templates')),
@@ -180,15 +179,6 @@ def swapFile(fn, content):
     rename(newfile, fn)
 
     return True
-
-def symlinkCert(name):
-    name = '%s.pem' % name
-    certName = path.join(CERTDIR, name)
-    keyName = path.join(KEYDIR, name)
-    if not path.lexists(certName):
-        symlink(DEFAULT_CERT, certName)
-    if not path.lexists(keyName):
-        symlink(DEFAULT_KEY, keyName)
 
 SITE_LOADERS = {
     'redirect': loadSiteNoop,
@@ -282,8 +272,6 @@ def __main__():
             }
         
         oldSite['name'] = site_name
-
-        symlinkCert(site_name)
 
         typeChanged = site['type'] != oldSite['type']
         if typeChanged:
