@@ -310,7 +310,16 @@ def __main__():
                         'to': domain[4:],
                     })
                 domains = newDomains
-                site['domains'] = domains                    
+
+            if len(redirectDomains) > 0:
+                domSet = set(domains)
+                for rdom in redirectDomains:
+                    dom = rdom['from']
+                    if dom in domSet:
+                        domSet.remove(dom)
+                domains = list(domSet)
+
+            site['domains'] = domains                    
 
             allDomains = domains + [val['from'] for val in redirectDomains]
 
