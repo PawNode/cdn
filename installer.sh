@@ -26,8 +26,8 @@ printf "$ID * * * * python3 /opt/cdn/certifier\n@reboot bash /opt/cdn/configurat
 rm -rf certifier/dnssec
 ln -s /etc/bind/dnssec certifier/dnssec
 mkdir -p /var/www/empty /var/www/sites /etc/bind/sites /etc/bind/dnssec /etc/nginx/includes /mnt/certifier/keys /mnt/certifier/certs
-chown bind:bind /etc/bind/sites /etc/bind/dnssec
-chmod 700 /etc/bind/dnssec /opt/cdn /opt/cdn/certifier /opt/cdn/certifier/* /mnt/certifier /mnt/certifier/*
+chown bind:bind /etc/bind/sites /etc/bind/dnssec /opt/cdn/certifier/dnssec
+chmod 700 /etc/bind/dnssec /opt/cdn /mnt/certifier /mnt/certifier/* || true
 chmod 600 /opt/cdn/config.yml
 
 cp files/named.conf.options /etc/bind/named.conf.options
