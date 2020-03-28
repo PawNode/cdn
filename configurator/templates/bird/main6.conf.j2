@@ -27,37 +27,37 @@ protocol kernel {
         kernel table 666;
 }
 
-{% for tag in tags if tag in dynConfig %}
-    {% set cfg = dynConfig[tag] %}
-    {% if 'neighbors' in cfg %}
-        {% for neighbor in cfg.neighbors if 'ip6' in neighbor %}
+{%- for tag in tags if tag in dynConfig %}
+    {%- set cfg = dynConfig[tag] %}
+    {%- if 'neighbors' in cfg %}
+        {%- for neighbor in cfg.neighbors if 'ip6' in neighbor %}
             protocol bgp {{ neighbor.name }} {
                     local as 207618;
                     neighbor {{ neighbor.ip6 }} as {{ neighbor.as }};
-                    {% if 'multihop' in neighbor %}
+                    {%- if 'multihop' in neighbor %}
                     multihop {{ neighbor.multihop }};
-                    {% endif %}
-                    {% if 'password' in neighbor %}
+                    {%- endif %}
+                    {%- if 'password' in neighbor %}
                     password "{{ neighbor.password }}";
-                    {% endif %}
+                    {%- endif %}
                     next hop self;
                     import all;
                     export filter bgp_out;
             }
-        {% endfor %}
-    {% endif %}
-{% endfor %}
+        {%- endfor %}
+    {%- endif %}
+{%- endfor %}
 
 protocol static {
         export all;
 
-{% for tag in tags if tag in dynConfig %}
-    {% set cfg = dynConfig[tag] %}
-    {% if 'subnets6' in cfg %}
-        {% for sn in cfg.subnets6 %}
+{%- for tag in tags if tag in dynConfig %}
+    {%- set cfg = dynConfig[tag] %}
+    {%- if 'subnets6' in cfg %}
+        {%- for sn in cfg.subnets6 %}
             route {{ sn }} unreachable;
-        {% endfor %}
-    {% endif %}
-{% endfor %}
+        {%- endfor %}
+    {%- endif %}
+{%- endfor %}
 
 }

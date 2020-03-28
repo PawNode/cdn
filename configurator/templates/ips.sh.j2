@@ -7,7 +7,7 @@ ip -4 addr add '{{ addr }}' dev lo
             {%- if useRouteRule %}
 while ip -4 rule del from '{{ addr }}' table 666; do :; done
 ip -4 rule add from '{{ addr }}' table 666
-            {% endif %}
+            {%- endif %}
         {%- endfor %}
     {%- endif %}
     {%- if 'ips6' in cfg %}
@@ -16,7 +16,7 @@ ip -6 addr add '{{ addr }}' dev lo
             {%- if useRouteRule %}
 while ip -6 rule del from '{{ addr }}' table 666; do :; done
 ip -6 rule add from '{{ addr }}' table 666
-            {% endif %}
+            {%- endif %}
         {%- endfor %}
     {%- endif %}
 {%- endfor %}
