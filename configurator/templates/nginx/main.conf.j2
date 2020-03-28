@@ -28,14 +28,14 @@ real_ip_header X-Forwarded-For;
 
 {%- for loc, locData in dynConfig._locations|dictsort %}
 upstream location_{{ loc }} {
-{%- for server in locData|sort %}
-{%- set serverCfg = dynConfig[server] %}
-{%- if selfNetwork == serverCfg.network and selfNetwork in serverCfg.networkIp %}
+    {%- for server in locData|sort %}
+        {%- set serverCfg = dynConfig[server] %}
+        {%- if selfNetwork == serverCfg.network and selfNetwork in serverCfg.networkIp %}
     server {{ serverCfg.networkIp[selfNetwork] }};
-{%- else %}
+        {%- else %}
     server {{ serverCfg.primaryIp }};
-{%- endif %}
-{%- endfor %}
+        {%- endif %}
+    {%- endfor %}
 }
 {%- endfor %}
 

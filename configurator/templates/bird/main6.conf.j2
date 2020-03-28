@@ -31,19 +31,19 @@ protocol kernel {
     {%- set cfg = dynConfig[tag] %}
     {%- if 'neighbors' in cfg %}
         {%- for neighbor in cfg.neighbors if 'ip6' in neighbor %}
-            protocol bgp {{ neighbor.name }} {
-                    local as 207618;
-                    neighbor {{ neighbor.ip6 }} as {{ neighbor.as }};
-                    {%- if 'multihop' in neighbor %}
-                    multihop {{ neighbor.multihop }};
-                    {%- endif %}
-                    {%- if 'password' in neighbor %}
-                    password "{{ neighbor.password }}";
-                    {%- endif %}
-                    next hop self;
-                    import all;
-                    export filter bgp_out;
-            }
+protocol bgp {{ neighbor.name }} {
+        local as 207618;
+        neighbor {{ neighbor.ip6 }} as {{ neighbor.as }};
+                {%- if 'multihop' in neighbor %}
+        multihop {{ neighbor.multihop }};
+                {%- endif %}
+                {%- if 'password' in neighbor %}
+        password "{{ neighbor.password }}";
+                {%- endif %}
+        next hop self;
+        import all;
+        export filter bgp_out;
+}
         {%- endfor %}
     {%- endif %}
 {%- endfor %}
@@ -55,7 +55,7 @@ protocol static {
     {%- set cfg = dynConfig[tag] %}
     {%- if 'subnets6' in cfg %}
         {%- for sn in cfg.subnets6 %}
-            route {{ sn }} unreachable;
+        route {{ sn }} unreachable;
         {%- endfor %}
     {%- endif %}
 {%- endfor %}
