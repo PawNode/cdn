@@ -1,5 +1,7 @@
 dns_dnssec = true
 
+print("PawNode CDN DNS Loading...")
+
 -- BEGIN STAGE 1 AUTOCONFIG
 local site_records_a = {
 {%- for ip in dynConfig._find('siteips4')|sort %}
@@ -139,7 +141,7 @@ function dns_get_before_and_after_names_absolute(did, qname)
     local empty = newDN("")
 
     for i, rr in ipairs(root_domain_meta[base_str].records) do               
-        rr = rr:makeRelative(base)
+        rr = newDN(rr):makeRelative(base)
         if qname:canonCompare(rr) == false then
             if before == empty then
                 before = rr
