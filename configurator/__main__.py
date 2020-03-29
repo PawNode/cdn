@@ -354,7 +354,7 @@ def __main__():
         system('service bird6 reload')
 
     if swapFile('/etc/powerdns/backend.lua', pdnsConfigStr):
-        system('service pdns reload')
+        system('pdns_control rediscover && pdns_control reload')
 
     if writeNginxInclude('hsts') | \
         writeNginxInclude('proxy') | \

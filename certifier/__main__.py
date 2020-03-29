@@ -54,7 +54,7 @@ for zone in zones:
 
 if reloadBind:
     system('chown -R pdns:pdns %s' % DNSSEC_DIR)
-    system('service pdns reload')
+    system('pdns_control rediscover && pdns_control reload')
 
 if reloadNginx:
     system('service nginx reload')
