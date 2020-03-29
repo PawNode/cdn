@@ -12,12 +12,27 @@ hsts: true
 useGoogleMX: true
 vanityNS: true
 records:
-    - fra01 IN A 95.179.240.248
-    - nyc01 IN A 108.61.78.245
-    - sea01 IN A 66.42.79.223
-    - van01 IN A 104.218.61.216
+    - name: fra01
+      type: A
+      value: 95.179.240.248
+    - name: nyc01
+      type: A
+      value: 108.61.78.245
+    - name: sea01
+      type: A
+      value: 66.42.79.223
+    - name: van01
+      type: A
+      value: 104.218.61.216
 
-    - 'google._domainkey IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvpRqFBbgTxb3Y33iIeHVbOLU0sezNseyFGq/IltK9G+AAoFKUOBlYc+6OThCRY67Hy6DB9Z+No7kXuGMl0KRxQ/w" "EdoVAWic7dooaMlMphMohGVBoWcphrWjxqwSlYo1q+j6pS/P5LKZ7yPSC5JmWlCs6HsHIdSxzb1zyQJbhLS4C4rb/MSBjxxQ7xicFHzeQGOM2NOCZpj743ZgR2a4JTDdJ4F75VtJ5FcF5yGsl07w5B" "x5BMCVShxayuXEZo3aJ0m//B0BvVTIWvkJkHe+nHMHdWIMmdPeYalB1R1fae58PsaHh67nICTnCETjcU5p7gvHCZvyshMXxtrhEVkb6QIDAQAB"'
-    - '@ IN TXT "google-site-verification=A5Q0UJreR1yDGQKHYlU2FFVCWuLPJmAplSYO33kQD1A"'
+    - name: google._domainkey
+      type: TXT
+      value: 'v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvpRqFBbgTxb3Y33iIeHVbOLU0sezNseyFGq/IltK9G+AAoFKUOBlYc+6OThCRY67Hy6DB9Z+No7kXuGMl0KRxQ/wEdoVAWic7dooaMlMphMohGVBoWcphrWjxqwSlYo1q+j6pS/P5LKZ7yPSC5JmWlCs6HsHIdSxzb1zyQJbhLS4C4rb/MSBjxxQ7xicFHzeQGOM2NOCZpj743ZgR2a4JTDdJ4F75VtJ5FcF5yGsl07w5Bx5BMCVShxayuXEZo3aJ0m//B0BvVTIWvkJkHe+nHMHdWIMmdPeYalB1R1fae58PsaHh67nICTnCETjcU5p7gvHCZvyshMXxtrhEVkb6QIDAQAB'
 
-    - nsthing IN AAAA 2a0f:9400:7311::1
+    - name: '@'
+      type: TXT
+      value: 'google-site-verification=A5Q0UJreR1yDGQKHYlU2FFVCWuLPJmAplSYO33kQD1A'
+
+    - name: nsthing
+      type: AAAA
+      value: '2a0f:9400:7311::1'

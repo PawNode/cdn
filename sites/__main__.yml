@@ -11,12 +11,12 @@ all:
     sitecname: "cdn.pawnode.com"
     nsrecords: ["ns1.pawnode.com", "ns2.pawnode.com"]
     vanityNSRecords:
-        - "ns1 3600 IN A 185.244.28.53"
-        - "ns2 3600 IN A 185.244.28.54"
-        - "ns1 3600 IN AAAA 2a0f:9400:731f::53"
-        - "ns2 3600 IN AAAA 2a0e:7d44:f00f::53"
-        - "@ 3600 IN NS ns1"
-        - "@ 3600 IN NS ns2"
+        ns1:
+            ip4: '185.244.28.53'
+            ip6: '2a0f:9400:731f::53'
+        ns2:
+            ip4: '185.244.28.54'
+            ip6: '2a0e:7d44:f00f::53'
 vultr:
     neighbors:
         - name: vultr

@@ -2,11 +2,27 @@ domains:
     - 1.3.7.0.0.4.9.f.0.a.2.ip6.arpa
 type: none
 records:
-    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1       IN      PTR     sea.p3.pawnode.com.
-    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2       IN      PTR     fra.p3.pawnode.com.
-    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3       IN      PTR     nyc.p3.pawnode.com.
-    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.4       IN      PTR     van.p3.pawnode.com.
-    - 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f       IN      PTR     any.p3.pawnode.com.
-    - 3.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f       IN      PTR     ns1.pawnode.com.
-    - 2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f       IN      PTR     cdn.pawnode.com.
-    - 7.3.3.1.1                                       IN      NS      nsthing.pawnode.com.
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1'
+      type: PTR
+      value: 'sea.p2.pawnode.com.'
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2'
+      type: PTR
+      value: 'fra.p2.pawnode.com.'
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3'
+      type: PTR
+      value: 'nyc.p2.pawnode.com.'
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.4'
+      type: PTR
+      value: 'van.p2.pawnode.com.'
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f'
+      type: PTR
+      value: 'any.p2.pawnode.com.'
+    - name: '5.3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f'
+      type: PTR 
+      value: 'ns2.pawnode.com.'
+    - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f'
+      type: PTR
+      value: 'cdn.pawnode.com.'
+    - name: '7.3.3.1.1'
+      type: NS
+      value: 'nsthing.pawnode.com.'

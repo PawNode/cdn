@@ -8,9 +8,21 @@ target: https://doridian.net
 hsts: true
 useGoogleMX: true
 records:
-    - 'google._domainkey IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmwMCCtUxDkCn0k0Si7QJm43dLt0MLvh2fRM5BOjNOhcJw/bRT+XrLn19OsBY88H6wDayXEVFvm/r1sperXK1g2E4" "S0ve7z8vpLISUSXkyUj9W7sMWrvDGOSMK7DloLrT/+owlatsPhKOteeY6Ac8ZLxK37nC4EoG+sTcUXVnN16QKN7xhC3xHxsXRlJj8g/vKk9IKIS1lnt8no1uWHywD4V3wscP3rfTp3pvdaynKnJ9FU" "W3ZuxgghVC+NyOfq2qDTEOUiKoNlyJyZK2h3yhsX3ljC2RdR/8HEg8ddrLWPzhmS40BRvzazbVvOOxVrLDtdKp/j6J5SF31YdonhUa7wIDAQAB"'
-    - '@ IN TXT "google-site-verification=_3t-HBQd5_kKWf7s3gQHgOX1n0bzSE6XIaEVuZkSi7E"'
-    - 'ely.loves IN CNAME elycin.azureedge.net.'
-    - 'c0de IN A 23.95.0.11'
-    - 'i.love IN CNAME doridian.azureedge.net.'
-    - 'thing IN NS nsthing.pawnode.com.'
+    - name: google._domainkey
+      type: TXT
+      value: 'v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmwMCCtUxDkCn0k0Si7QJm43dLt0MLvh2fRM5BOjNOhcJw/bRT+XrLn19OsBY88H6wDayXEVFvm/r1sperXK1g2E4S0ve7z8vpLISUSXkyUj9W7sMWrvDGOSMK7DloLrT/+owlatsPhKOteeY6Ac8ZLxK37nC4EoG+sTcUXVnN16QKN7xhC3xHxsXRlJj8g/vKk9IKIS1lnt8no1uWHywD4V3wscP3rfTp3pvdaynKnJ9FUW3ZuxgghVC+NyOfq2qDTEOUiKoNlyJyZK2h3yhsX3ljC2RdR/8HEg8ddrLWPzhmS40BRvzazbVvOOxVrLDtdKp/j6J5SF31YdonhUa7wIDAQAB'
+    - name: '@'
+      type: TXT
+      value: 'google-site-verification=_3t-HBQd5_kKWf7s3gQHgOX1n0bzSE6XIaEVuZkSi7E'
+    - name: ely.loves
+      type: CNAME
+      value: 'elycin.azureedge.net.'
+    - name: c0de
+      type: A
+      value: 23.95.0.11
+    - name: i.love
+      type: CNAME
+      value: 'doridian.azureedge.net.'
+    - name: things
+      type: NS
+      value: 'nsthing.pawnode.com.'

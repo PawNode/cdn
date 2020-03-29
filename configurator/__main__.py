@@ -98,7 +98,7 @@ DIR = path.abspath(path.join(__dir__, 'sites'))
 OUTDIR = path.abspath(path.join(__dir__, 'out'))
 OLDDIR = path.abspath(path.join(OUTDIR, 'sites'))
 CERTIFIER_DIR = path.abspath(path.join(__dir__, '../certifier'))
-DNSSECDIR = '/etc/bind/dnssec'
+DNSSECDIR = '/etc/powerdns/dnssec'
 CERTIFIER_DEFFS_DIR = '/mnt/certifier'
 
 dynConfig['_self']['dnssecDir'] = DNSSECDIR
@@ -111,10 +111,9 @@ j2env = Environment(
 )
 nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
-bindZoneTemplate = j2env.get_template('bind/zone.j2')
-bindSiteTemplate = j2env.get_template('bind/site.conf.j2')
+pdnsTemplate = j2env.get_template('pdns/backend.lua')
 
-zoneTplLastModified = getGitTime(path.join(__dir__, 'templates', 'bind', 'zone.j2'))
+zoneTplLastModified = getGitTime(path.join(__dir__, 'templates', 'pdns', 'backend.lua'))
 
 def writeGlobalTpl(name, target):
     tpl = j2env.get_template(name)
@@ -228,9 +227,7 @@ def __main__():
         'sites': [],
         'zones': [],
     }
-    zoneListConfig = []
     loadedSites = {}
-    reloadBind = False
 
     sites = []
     for fn in listdir(SITECONFIGDIR):
@@ -337,20 +334,15 @@ def __main__():
 
     for zone_name in sorted(zones):
         zone = zones[zone_name]
-        zone['name'] = zone_name
-        certZone = {
+        certifierConfig['zones'].append({
             'name': zone_name,
             'domains': zone['domains'],
-        }
-        certifierConfig['zones'].append(certZone)
-        zoneListConfig.append(bindSiteTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags))
-        zoneConfig = bindZoneTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags)
-        if swapFile('/etc/bind/sites/db.%s' % zone_name, zoneConfig):
-            reloadBind = True
+        })
 
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
-    zoneListConfigStr = '\n'.join(zoneListConfig)
+
+    pdnsConfigStr = pdnsTemplate.render(zones=zones, config=config, dynConfig=dynConfig, tags=tags)
 
     if writeGlobalTpl('ips.sh.j2', path.join(OUTDIR, 'ips.sh')):
         system('bash \'%s\'' % path.join(OUTDIR, 'ips.sh'))
@@ -361,8 +353,8 @@ def __main__():
     if writeGlobalTpl('bird/main6.conf.j2', '/etc/bird/bird6.conf'):
         system('service bird6 reload')
 
-    if swapFile('/etc/bind/sites.conf', zoneListConfigStr) or reloadBind:
-        system('service bind9 reload')
+    if swapFile('/etc/powerdns/backend.lua', pdnsConfigStr):
+        system('service pdns reload')
 
     if writeNginxInclude('hsts') | \
         writeNginxInclude('proxy') | \

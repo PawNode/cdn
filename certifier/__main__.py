@@ -53,8 +53,8 @@ for zone in zones:
     reloadBind = True
 
 if reloadBind:
-    system('chown -R bind:bind %s' % DNSSEC_DIR)
-    system('service bind9 reload')
+    system('chown -R pdns:pdns %s' % DNSSEC_DIR)
+    system('service pdns reload')
 
 if reloadNginx:
     system('service nginx reload')

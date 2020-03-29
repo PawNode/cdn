@@ -6,5 +6,9 @@ target: https://doridian.net
 hsts: true
 useGoogleMX: true
 records:
-    - 'google._domainkey IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArJBHWjUSluQGew6jV3OH70EAVs60SWAN3EI6OZkkFTk89RHP8eyB9p8RSyNfMS1+GugZxzpg7+qGcPeooazqPfVQ" "TRXd8xRBIPgoJkcB0jyVD3Um9Uo7kbchoyyOaNo40AEgKeFAAtKhnssISLdGGYOlOYW75CFGUM5Rm4rickQA7AB6RJzshrjFex3PpCH21LhZWsdvUUnY5YpOT1MBJocBQXGOr/1KSuxy5dOU80f1CK" "2NAz8qmPPjwQaw3s4ZidIr+IR29jofP5KYDK92Xdn8+fcoPfM8wgHVo3Du7T1a7y+bz6HwInH6bVOLZy0emA3eTrFv2W7E83N3HaNLwwIDAQAB"'
-    - '@ IN TXT "google-site-verification=u6o6fOKVerAyqVsVbXH8M5tXyF1zeaif8g-NTvNTNSM"'
+    - name: google._domainkey
+      type: TXT
+      value: 'v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArJBHWjUSluQGew6jV3OH70EAVs60SWAN3EI6OZkkFTk89RHP8eyB9p8RSyNfMS1+GugZxzpg7+qGcPeooazqPfVQTRXd8xRBIPgoJkcB0jyVD3Um9Uo7kbchoyyOaNo40AEgKeFAAtKhnssISLdGGYOlOYW75CFGUM5Rm4rickQA7AB6RJzshrjFex3PpCH21LhZWsdvUUnY5YpOT1MBJocBQXGOr/1KSuxy5dOU80f1CK2NAz8qmPPjwQaw3s4ZidIr+IR29jofP5KYDK92Xdn8+fcoPfM8wgHVo3Du7T1a7y+bz6HwInH6bVOLZy0emA3eTrFv2W7E83N3HaNLwwIDAQAB'
+    - name: '@'
+      type: TXT
+      value: 'google-site-verification=u6o6fOKVerAyqVsVbXH8M5tXyF1zeaif8g-NTvNTNSM'

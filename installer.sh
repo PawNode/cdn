@@ -12,8 +12,12 @@ addIfMissing() {
     fi
 }
 
+curl https://repo.powerdns.com/FD380FBB-pub.asc | apt-key add -
+cp files/apt/*.list /etc/apt/sources.list.d/
+cp files/apt/*.conf /etc/apt/preferences.d/
+
 apt update
-apt -y install bind9 nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils sudo git gcc libfuse-dev
+apt -y install pdns-server pdns-backend-lua2 nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils sudo git gcc libfuse-dev
 aa-complain /usr/sbin/named
 
 enableStart() {
@@ -24,20 +28,17 @@ enableStart() {
 printf "$ID * * * * python3 /opt/cdn/certifier\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 rm -rf certifier/dnssec
-ln -s /etc/bind/dnssec certifier/dnssec
-mkdir -p /var/www/empty /var/www/sites /etc/bind/sites /etc/bind/dnssec /etc/nginx/includes /mnt/certifier/keys /mnt/certifier/certs
-chown bind:bind /etc/bind/sites /etc/bind/dnssec /opt/cdn/certifier/dnssec
-chmod 700 /etc/bind/dnssec /opt/cdn /mnt/certifier /mnt/certifier/* || true
+ln -s /etc/powerdns/dnssec certifier/dnssec
+mkdir -p /var/www/empty /var/www/sites /etc/powerdns/dnssec /etc/nginx/includes /mnt/certifier/keys /mnt/certifier/certs
+chown pdns:pdns /etc/powerdns/dnssec /opt/cdn/certifier/dnssec
+chmod 700 /etc/powerdns/dnssec /opt/cdn /mnt/certifier /mnt/certifier/* || true
 chmod 600 /opt/cdn/config.yml
 
-cp files/named.conf.options /etc/bind/named.conf.options
-
-
-addIfMissing /etc/bind/named.conf.local 'include "/etc/bind/sites.conf";'
+cp files/pdns.conf /etc/powerdns/pdns.d/custom.conf
 
 enableStart bird
 enableStart bird6
-enableStart bind9
+enableStart pdns || true
 enableStart nginx
 
 if [ ! -f /etc/ssl/default.crt ]
