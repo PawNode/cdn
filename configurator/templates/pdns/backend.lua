@@ -49,6 +49,10 @@ local root_domain_meta = {}
 local records_meta = {}
 local records = {}
 
+local function log_call(name, ...)
+    print('CALL', name, 'ARGS', ...)
+end
+
 local function get_domain_id(qname)
     local meta = records_meta[qname:toString()]
     if meta then
@@ -59,7 +63,10 @@ end
 
 function dns_lookup(qtype, qname, d_id, ctx)
     local qtype_name = qtype:getName()
-    local rr = records[qname:toString()]
+    local qname_str = qname:toString()
+    local rr = records[qname_str]
+    log_call('dns_lookup', qname_str, qtype_name)
+
     if not rr then
         return {}
     end
@@ -90,8 +97,9 @@ function dns_list(qname, id)
         end
     end
     qname = root_domains[id]
+    log_call('dns_list', qname)
 
-    ret = {}
+    local ret = {}
 
     for _, name in pairs(root_domain_meta[qname].records) do
         local rr = records[name]
@@ -105,8 +113,21 @@ function dns_list(qname, id)
     return ret
 end
 
+function dns_get_all_domains()
+    log_call('dns_get_all_domains')
+
+    local ret = {}
+    for dom, meta in pairs(root_domain_meta) do
+        ret[dom] = meta.info
+    end
+    return ret
+end
+
 function dns_get_domaininfo(dom)
-    local meta = root_domain_meta[dom:toString()]
+    dom = dom:toString()
+    log_call('dns_get_all_domains', dom)
+
+    local meta = root_domain_meta[dom]
     if meta then
         return meta.info
     end
@@ -114,11 +135,19 @@ function dns_get_domaininfo(dom)
 end
 
 function dns_get_domain_metadata(dom, kind)
+    log_call('dns_get_domain_metadata', dom:toString(), kind)
+    return false
+end
+
+function dns_get_all_domain_metadata(dom)
+    log_call('dns_get_all_domain_metadata', dom:toString())
     return false
 end
 
 function dns_get_domain_keys(dom)
-    local meta = root_domain_meta[dom:toString()]
+    dom = dom:toString()
+    log_call('dns_get_domain_keys', dom)
+    local meta = root_domain_meta[dom]
     if meta then
         return meta.dnssec
     end
@@ -132,8 +161,10 @@ function dns_get_before_and_after_names_absolute(did, qname)
             return {}
         end
     end
-
+    
     local base_str = root_domains[did]
+    log_call('dns_get_before_and_after_names_absolute', base_str)
+
     local base = newDN(base_str)
     -- find out before and after name
     local before = newDN("")

@@ -58,4 +58,3 @@ if reloadBind:
 
 if reloadNginx:
     system('service nginx reload')
-
