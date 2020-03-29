@@ -111,13 +111,15 @@ j2env = Environment(
 )
 nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
-pdnsTemplate = j2env.get_template('pdns/backend.lua')
+bindZoneTemplate = j2env.get_template('bind/zone.j2')
 
-zoneTplLastModified = getGitTime(path.join(__dir__, 'templates', 'pdns', 'backend.lua'))
+zoneTplLastModified = getGitTime(path.join(__dir__, 'templates', 'bind', 'zone.j2'))
+
+zones = {}
 
 def writeGlobalTpl(name, target):
     tpl = j2env.get_template(name)
-    data = tpl.render(config=config,dynConfig=dynConfig,tags=tags)
+    data = tpl.render(zones=zones, config=config,dynConfig=dynConfig,tags=tags)
     return swapFile(target, data)
 
 def writeNginxInclude(name):
@@ -186,7 +188,6 @@ SITE_LOADERS = {
     'zip': loadSiteZIP
 }
 
-zones = {}
 def addZoneFor(domain, site):
     if domain in zones:
         return
@@ -228,6 +229,7 @@ def __main__():
         'zones': [],
     }
     loadedSites = {}
+    reloadDNS = False
 
     sites = []
     for fn in listdir(SITECONFIGDIR):
@@ -338,11 +340,12 @@ def __main__():
             'name': zone_name,
             'domains': zone['domains'],
         })
+        zoneConfig = bindZoneTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags)
+        if swapFile('/etc/powerdns/sites/db.%s' % zone_name, zoneConfig):
+            reloadDNS = True
 
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
-
-    pdnsConfigStr = pdnsTemplate.render(zones=zones, config=config, dynConfig=dynConfig, tags=tags)
 
     if writeGlobalTpl('ips.sh.j2', path.join(OUTDIR, 'ips.sh')):
         system('bash \'%s\'' % path.join(OUTDIR, 'ips.sh'))
@@ -353,7 +356,7 @@ def __main__():
     if writeGlobalTpl('bird/main6.conf.j2', '/etc/bird/bird6.conf'):
         system('service bird6 reload')
 
-    if swapFile('/etc/powerdns/backend.lua', pdnsConfigStr):
+    if writeGlobalTpl('bind/named.conf.j2', '/etc/powerdns/named.conf') or reloadDNS:
         system('pdns_control rediscover && pdns_control reload')
 
     if writeNginxInclude('hsts') | \

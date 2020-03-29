@@ -1,7 +1,0 @@
-zone "{{ zone.name }}." {
-    type master;
-    file "/etc/bind/sites/db.{{ zone.name }}";
-    key-directory "{{ dynConfig._self.dnssecDir }}";
-    inline-signing yes;
-    auto-dnssec maintain;
-};

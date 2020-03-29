@@ -12,8 +12,9 @@ $TTL    300
                         3600 )
 
 {%- if site.vanityNS %}
-    {%- for record in dynConfig._find('vanityNSRecords')|sort %}
-{{ record }}
+    {%- for nsname, nsdata in dynConfig._find('vanityNSRecords')|dictsort %}
+{{ nsname }}    IN      A       {{ nsdata.ip4 }}
+{{ nsname }}    IN      AAAA    {{ nsdata.ip6 }}
     {%- endfor %}
 {%- else %}
     {%- for ns in dynConfig._find('nsrecords')|sort %}
@@ -40,8 +41,8 @@ $TTL    300
 {%- endfor %}
 {%- endif %}
 
-{%- for record in site.records|sort %}
-{{ record }}
+{%- for record in site.records|sort(attribute='name') %}
+{{ record.name }} {{ record.ttl|default('300')|int }} IN {{ record.type }} {{ record.value }}
 {%- endfor %}
 
 {%- if site.useGoogleMX %}
