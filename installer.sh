@@ -34,6 +34,7 @@ chmod 700 /etc/powerdns/dnssec /opt/cdn /mnt/certifier /mnt/certifier/* || true
 chmod 600 /opt/cdn/config.yml
 
 cp files/pdns.conf /etc/powerdns/pdns.d/custom.conf
+cp files/backend.lua /etc/powerdns/backend.lua
 
 enableStart bird
 enableStart bird6
