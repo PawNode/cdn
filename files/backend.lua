@@ -11,7 +11,7 @@ local function read_dnssec_file(file)
     if not fh then
         return
     end
-    contents = fh:read('*a')
+    local contents = fh:read('*a')
     fh:close()
     return contents
 end
