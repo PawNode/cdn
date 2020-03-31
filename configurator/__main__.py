@@ -1,7 +1,7 @@
 from datetime import timezone, datetime
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from os import chdir, listdir, path, unlink, rename, system, mkdir
+from os import chdir, listdir, path, unlink, rename, system, mkdir, stat
 from requests import get as http_get
 from shutil import rmtree
 from yaml import safe_load as yaml_load, dump as yaml_dump
@@ -342,6 +342,14 @@ def __main__():
         })
         zoneConfig = bindZoneTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags)
         if swapFile('/etc/powerdns/sites/db.%s' % zone_name, zoneConfig):
+            reloadDNS = True
+
+        signedFile = '/etc/powerdns/sites/db-signed.%s' % zone_name
+        try:
+            stat(signedFile)
+        except FileNotFoundError:
+            fh = open(signedFile, 'w')
+            fh.close()
             reloadDNS = True
 
     certifierConfStr = yaml_dump(certifierConfig)

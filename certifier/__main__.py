@@ -1,7 +1,8 @@
 from myacme import get_ssl_for_site
 from yaml import safe_load as yaml_load
 from myglobals import __dir__, s3_client, config, DNSSEC_DIR
-from os import chdir, path, system
+from os import chdir, path, system, stat
+from stat import ST_SIZE, ST_MTIME
 from loader import loadFile, storeFile
 from subprocess import run, PIPE
 
@@ -27,7 +28,7 @@ for page in paginator.paginate(Bucket=BUCKET_NAME, Prefix='dnssec'):
         else:
             keyFiles[k] = 1
 
-reloadBind = False
+reloadDNS = False
 reloadNginx = False
 for site in sites:
     reloadNginx |= get_ssl_for_site(site)
@@ -50,9 +51,35 @@ for zone in zones:
         fd = fh.read()
         fh.close()
         storeFile('dnssec/%s' % fn, fd)
-    reloadBind = True
+    reloadDNS = True
 
-if reloadBind:
+for zone in zones:
+    zone_name = zone['name']
+    zoneFile = '/etc/powerdns/sites/db.%s' % zone_name
+    signedZoneFile = '/etc/powerdns/sites/db-signed.%s' % zone_name
+
+    zoneStat = stat(zoneFile)
+    zoneMtime = zoneStat[ST_MTIME]
+
+    signedZoneSize = 0
+    signedZoneMtime = 0
+    try:
+        signedZoneStat = stat(signedZoneFile)
+        signedZoneSize = signedZoneStat[ST_SIZE]
+        signedZoneMtime = signedZoneStat[ST_MTIME]
+    except FileNotFoundError:
+        pass
+
+    if signedZoneSize > 0 and signedZoneMtime >= zoneMtime:
+        continue
+
+    res = run(['dnssec-signzone', '-K', DNSSEC_DIR, '-D', '-S', zoneFile], stdout=PIPE, encoding='ascii').stdout.strip()
+    fh = open(signedZoneFile, 'w')
+    fh.write(res)
+    fh.close()
+    reloadDNS = True
+
+if reloadDNS:
     system('chown -R pdns:pdns %s' % DNSSEC_DIR)
     system('pdns_control reload')
 
