@@ -4,7 +4,7 @@
 {%- set mainDomainStripLen = -((mainDomain | length) + 1) %}
 
 $TTL    300
-$ORIGIN {{ mainDomain }}
+$ORIGIN {{ mainDomain }}.
 
 @       3600    IN      SOA     {{ mainDomain }}. root.{{ mainDomain }}. (
                         {{ zone.serial | int }}
