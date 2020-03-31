@@ -1,8 +1,10 @@
 ; Zone for site
-$TTL    300
 {%- set mainDomain = zone.name %}
 {%- set site = zone.site %}
 {%- set mainDomainStripLen = -((mainDomain | length) + 1) %}
+
+$TTL    300
+$ORIGIN {{ mainDomain }}
 
 @       3600    IN      SOA     {{ mainDomain }}. root.{{ mainDomain }}. (
                         {{ zone.serial | int }}
@@ -54,5 +56,5 @@ $TTL    300
 @	IN	TXT	"v=spf1 include:_spf.google.com mx ~all"
 {%- endif %}
 
-$INCLUDE /etc/powerdns/sites/db.{{ zone.name }}.signed
+$INCLUDE /etc/powerdns/sites/db.{{ mainDomain }}.signed
 
