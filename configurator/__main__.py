@@ -230,6 +230,7 @@ def __main__():
     }
     loadedSites = {}
     reloadDNS = False
+    reloadCertifier = False
 
     sites = []
     for fn in listdir(SITECONFIGDIR):
@@ -354,6 +355,7 @@ def __main__():
             fh = open(signedFile, 'w')
             fh.close()
             reloadDNS = True
+            reloadCertifier = True
 
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
@@ -378,7 +380,7 @@ def __main__():
         swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         system('service nginx reload')
 
-    if swapFile(path.join(CERTIFIER_DIR, 'config.yml'), certifierConfStr):
+    if swapFile(path.join(CERTIFIER_DIR, 'config.yml'), certifierConfStr) or reloadCertifier:
         system('python3 %s' % path.join(__dir__, '../certifier'))
 
     for name in loadedSites:
