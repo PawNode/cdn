@@ -33,7 +33,7 @@ chown pdns:pdns /etc/powerdns/dnssec /opt/cdn/certifier/dnssec
 chmod 700 /etc/powerdns/dnssec /opt/cdn /mnt/certifier /mnt/certifier/* || true
 chmod 600 /opt/cdn/config.yml
 
-pdnssec create-bind-db /var/lib/powerdns/bind-dnssec.db
+pdnsutil create-bind-db /var/lib/powerdns/bind-dnssec.db
 chown pdns:pdns /var/lib/powerdns/bind-dnssec.db
 
 cp files/pdns.conf /etc/powerdns/pdns.d/custom.conf
