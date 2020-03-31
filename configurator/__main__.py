@@ -340,11 +340,14 @@ def __main__():
             'name': zone_name,
             'domains': zone['domains'],
         })
+
+        zoneFile = '/etc/powerdns/sites/db.%s' % zone_name
+
         zoneConfig = bindZoneTemplate.render(zone=zone, config=config, dynConfig=dynConfig, tags=tags)
-        if swapFile('/etc/powerdns/sites/db.%s' % zone_name, zoneConfig):
+        if swapFile(zoneFile, zoneConfig):
             reloadDNS = True
 
-        signedFile = '/etc/powerdns/sites/db-signed.%s' % zone_name
+        signedFile = '%s.signed' % zoneFile
         try:
             stat(signedFile)
         except FileNotFoundError:

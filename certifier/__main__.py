@@ -56,7 +56,7 @@ for zone in zones:
 for zone in zones:
     zone_name = zone['name']
     zoneFile = '/etc/powerdns/sites/db.%s' % zone_name
-    signedZoneFile = '/etc/powerdns/sites/db-signed.%s' % zone_name
+    signedZoneFile = '%s.signed' % zoneFile
 
     zoneStat = stat(zoneFile)
     zoneMtime = zoneStat[ST_MTIME]

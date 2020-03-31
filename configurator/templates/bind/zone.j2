@@ -54,4 +54,5 @@ $TTL    300
 @	IN	TXT	"v=spf1 include:_spf.google.com mx ~all"
 {%- endif %}
 
-$INCLUDE /etc/powerdns/sites/db-signed.{{ zone.name }}
+$INCLUDE /etc/powerdns/sites/db.{{ zone.name }}.signed
+
