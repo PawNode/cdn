@@ -73,7 +73,7 @@ for zone in zones:
     if signedZoneSize > 0 and signedZoneMtime >= zoneMtime:
         continue
 
-    run(['dnssec-signzone', '-K', DNSSEC_DIR, '-o', zone_name, '-D', '-S', zoneFile])
+    run(['dnssec-signzone', '-K', DNSSEC_DIR, '-o', zone_name, '-S', zoneFile])
     reloadDNS = True
 
 if reloadDNS:

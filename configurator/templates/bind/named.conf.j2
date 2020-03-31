@@ -3,6 +3,6 @@ include "/var/lib/powerdns/supermaster.conf";
 {%- for zone_name, zone in zones|dictsort %}
 zone "{{ zone_name }}." {
     type native;
-    file "/etc/powerdns/sites/db.{{ zone_name }}";
+    file "/etc/powerdns/sites/db.{{ zone_name }}.signed";
 };
 {%- endfor %}
