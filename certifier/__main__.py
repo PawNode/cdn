@@ -74,6 +74,7 @@ for zone in zones:
         continue
 
     run(['dnssec-signzone', '-K', DNSSEC_DIR, '-o', zone_name, '-S', zoneFile])
+    run(['pdnsutil', 'set-presigned', zone_name])
     reloadDNS = True
 
 if reloadDNS:
