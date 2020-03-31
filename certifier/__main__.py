@@ -73,7 +73,7 @@ for zone in zones:
     if signedZoneSize > 0 and signedZoneMtime >= zoneMtime:
         continue
 
-    res = run(['dnssec-signzone', '-K', DNSSEC_DIR, '-D', '-S', zoneFile], stdout=PIPE, encoding='ascii').stdout.strip()
+    res = run(['dnssec-signzone', '-K', DNSSEC_DIR, '-o', zone_name, '-D', '-S', zoneFile], stdout=PIPE, encoding='ascii').stdout.strip()
     fh = open(signedZoneFile, 'w')
     fh.write(res)
     fh.close()
