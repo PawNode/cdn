@@ -1,33 +1,56 @@
 [Interface]
 PrivateKey = 
 Address = 10.1.0.2/24
-ListenPort = 51820
+Table = off
+PostUp = /root/netinit.sh
 
 [Peer]
 PublicKey = cmmGetg6pQJmlGZ4jIIxD7I0CGaDonDfjMQau5WBITA=
 AllowedIPs = 0.0.0.0/0
-Endpoint = sea01.pawnode.com
+Endpoint = sea01.pawnode.com:51820
 
 
 
 [Interface]
 PrivateKey = 
 Address = 10.2.0.2/24
-ListenPort = 51820
+Table = off
+PostUp = /root/netinit.sh
 
 [Peer]
 PublicKey = MIoQHQoUsPsWKKp0W5iaifPXajuiPrMWbbH9svzsPww=
 AllowedIPs = 0.0.0.0/0
-Endpoint = nyc01.pawnode.com
+Endpoint = nyc01.pawnode.com:51820
 
 
 
 [Interface]
 PrivateKey = 
 Address = 10.3.0.2/24
-ListenPort = 51820
+Table = off
+PostUp = /root/netinit.sh
 
 [Peer]
 PublicKey = +gVRG4u3vzI+oqXHdoP2K41p2yqpVeFLfv31gdBFamc=
 AllowedIPs = 0.0.0.0/0
-Endpoint = fra01.pawnode.com
+Endpoint = fra01.pawnode.com:51820
+
+
+
+
+
+
+
+
+#!/bin/sh
+ip addr add 185.244.28.100 dev lo
+
+ip route add 192.168.0.0/16 via 192.168.2.6
+ip route add 66.42.79.223 via 192.168.2.6
+ip route add 108.61.78.245 via 192.168.2.6
+ip route add 95.179.240.248 via 192.168.2.6
+
+ip route del default
+ip route add default via 10.1.0.1
+
+sysctl -w net.ipv4.conf.all.rp_filter=2

@@ -83,4 +83,5 @@ then
     wg genkey | tee /etc/wireguard/keys/private | wg pubkey > /etc/wireguard/keys/public
     chmod 600 /etc/wireguard/keys/private
 fi
+sysctl -w net.ipv4.ip_forward=1
 # END WIREGUARD
