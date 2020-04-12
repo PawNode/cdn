@@ -5,8 +5,6 @@
 PrivateKey = {{ privateKey }}
 Address = {{ ourPrivateIp }}
 ListenPort = 51820
-PostUp = iptables -t nat -A POSTROUTING -s {{ peerPrivateIp }} -j SNAT --to-source {{ config.publicIp }} ; iptables -t nat -A PREROUTING -d {{ config.publicIp }} -j DNAT --to {{ peerPrivateIp }}
-PostDown = iptables -t nat -D POSTROUTING -s {{ peerPrivateIp }} -j SNAT --to-source {{ config.publicIp }} ; iptables -t nat -D PREROUTING -d {{ config.publicIp }} -j DNAT --to {{ peerPrivateIp }}
 
 [Peer]
 PublicKey = {{ config.peerPublicKey }}

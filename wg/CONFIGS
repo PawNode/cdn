@@ -43,7 +43,6 @@ Endpoint = fra01.pawnode.com:51820
 
 
 #!/bin/sh
-ip addr add 185.244.28.100 dev lo
 
 ip route add 192.168.0.0/16 via 192.168.2.6
 ip route add 66.42.79.223 via 192.168.2.6
@@ -51,6 +50,10 @@ ip route add 108.61.78.245 via 192.168.2.6
 ip route add 95.179.240.248 via 192.168.2.6
 
 ip route del default
-ip route add default via 10.1.0.1
+ip route add default via 10.1.0.1 src 185.244.28.100
+
+ip addr add 185.244.28.100/32 dev wg-sea01
 
 sysctl -w net.ipv4.conf.all.rp_filter=2
+
+exit 0
