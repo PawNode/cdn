@@ -73,3 +73,14 @@ mount -a
 
 python3 configurator
 python3 certifier
+
+# WIREGUARD
+add-apt-repository ppa:wireguard/wireguard
+apt install wireguard
+if [ ! -f /etc/wireguard/keys ]
+then
+    mkdir -p /etc/wireguard/keys
+    wg genkey | tee /etc/wireguard/keys/private | wg pubkey > /etc/wireguard/keys/public
+    chmod 600 /etc/wireguard/keys/private
+fi
+# END WIREGUARD
