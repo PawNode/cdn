@@ -20,7 +20,9 @@ sa() {
 #	s 66.42.79.223 "$@"
 }
 
-sa 'sudo add-apt-repository ppa:wireguard/wireguard && sudo apt -y install wireguard'
+sa 'cat /etc/wireguard/keys/public'
+
+#sa 'sudo add-apt-repository ppa:wireguard/wireguard && sudo apt -y install wireguard'
 
 #sa 'git -C /opt/cdn pull -r; sudo rm -f /etc/powerdns/sites/*.signed'
 #sa 'sudo rm -f /var/lib/powerdns/bind-dnssec.db*; sudo pdnsutil create-bind-db /var/lib/powerdns/bind-dnssec.db; sudo chown pdns:pdns /var/lib/powerdns/bind-dnssec.db; sudo systemctl restart pdns'

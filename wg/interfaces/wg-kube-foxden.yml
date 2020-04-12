@@ -1,0 +1,4 @@
+ourPrivateIp: 10.__ID__.0.1/24
+peerPrivateIp: 10.__ID__.0.2
+peerPublicKey: 'Er2gRLnIVyNfQDgx652elKOSS+al1yia84x5TCQW+Ww='
+publicIp: 185.244.28.100

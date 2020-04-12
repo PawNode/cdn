@@ -1,0 +1,33 @@
+[Interface]
+PrivateKey = 
+Address = 10.1.0.2/24
+ListenPort = 51820
+
+[Peer]
+PublicKey = cmmGetg6pQJmlGZ4jIIxD7I0CGaDonDfjMQau5WBITA=
+AllowedIPs = 0.0.0.0/0
+Endpoint = sea01.pawnode.com
+
+
+
+[Interface]
+PrivateKey = 
+Address = 10.2.0.2/24
+ListenPort = 51820
+
+[Peer]
+PublicKey = MIoQHQoUsPsWKKp0W5iaifPXajuiPrMWbbH9svzsPww=
+AllowedIPs = 0.0.0.0/0
+Endpoint = nyc01.pawnode.com
+
+
+
+[Interface]
+PrivateKey = 
+Address = 10.3.0.2/24
+ListenPort = 51820
+
+[Peer]
+PublicKey = +gVRG4u3vzI+oqXHdoP2K41p2yqpVeFLfv31gdBFamc=
+AllowedIPs = 0.0.0.0/0
+Endpoint = fra01.pawnode.com
