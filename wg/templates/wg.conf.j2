@@ -4,7 +4,7 @@
 [Interface]
 PrivateKey = {{ privateKey }}
 Address = {{ ourPrivateIp }}
-ListenPort = 51820
+ListenPort = {{ config.port }}
 
 [Peer]
 PublicKey = {{ config.peerPublicKey }}

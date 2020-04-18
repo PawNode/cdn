@@ -2,3 +2,4 @@ ourPrivateIp: 10.__ID__.1.1/24
 peerPrivateIp: 10.__ID__.1.2
 peerPublicKey: 'n8f+6AuZJJUEbkI20ri1c3MXc88be3d3YwDPS4qS5lI='
 publicIp: 185.244.28.240/28
+port: 51821
