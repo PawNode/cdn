@@ -36,6 +36,7 @@ sea01.pawnode.com:
           multihop: 128
           ip4: 10.1.1.2
           as: 64666
+          outgoing: true
 fra01.pawnode.com:
     primaryIp: 95.179.240.248
     tags: ["vultr"]
@@ -47,6 +48,7 @@ fra01.pawnode.com:
           multihop: 128
           ip4: 10.2.1.2
           as: 64666
+          outgoing: true
 nyc01.pawnode.com:
     primaryIp: 108.61.78.245
     tags: ["vultr"]
@@ -58,3 +60,4 @@ nyc01.pawnode.com:
           multihop: 128
           ip4: 10.3.1.2
           as: 64666
+          outgoing: true
