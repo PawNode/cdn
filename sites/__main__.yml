@@ -31,15 +31,30 @@ sea01.pawnode.com:
     subnets6: ["2a0e:7d44:f001::/48", "2a0f:9400:7311::/48"]
     ips6: ["2a0e:7d44:f001::1/48", "2a0f:9400:7311::1/48"]
     location: SEA
+    neighbors:
+        - name: foxden-bgp
+          multihop: 128
+          ip4: 10.1.1.2
+          as: 64666
 fra01.pawnode.com:
     primaryIp: 95.179.240.248
     tags: ["vultr"]
     subnets6: ["2a0e:7d44:f002::/48"]
     ips6: ["2a0e:7d44:f002::1/48"]
     location: FRA
+    neighbors:
+        - name: foxden-bgp
+          multihop: 128
+          ip4: 10.2.1.2
+          as: 64666
 nyc01.pawnode.com:
     primaryIp: 108.61.78.245
     tags: ["vultr"]
     subnets6: ["2a0e:7d44:f003::/48"]
     ips6: ["2a0e:7d44:f003::1/48"]
     location: NYC
+    neighbors:
+        - name: foxden-bgp
+          multihop: 128
+          ip4: 10.3.1.2
+          as: 64666
