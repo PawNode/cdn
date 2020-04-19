@@ -30,7 +30,7 @@ protocol kernel {
         metric 64;      # Use explicit kernel route metric to avoid collisions
                         # with non-BIRD routes in the kernel routing table
         import none;
-        export all;
+        export none;
         kernel table 666;
 }
 
