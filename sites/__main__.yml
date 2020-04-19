@@ -37,24 +37,24 @@ sea01.pawnode.com:
           ip4: 10.1.1.2
           as: 64666
           outgoing: true
-fra01.pawnode.com:
-    primaryIp: 95.179.240.248
-    tags: ["vultr"]
-    subnets6: ["2a0e:7d44:f002::/48"]
-    ips6: ["2a0e:7d44:f002::1/48"]
-    location: FRA
-    neighbors:
-        - name: foxdenbgp
-          multihop: 128
-          ip4: 10.2.1.2
-          as: 64666
-          outgoing: true
 nyc01.pawnode.com:
     primaryIp: 108.61.78.245
     tags: ["vultr"]
     subnets6: ["2a0e:7d44:f003::/48"]
     ips6: ["2a0e:7d44:f003::1/48"]
     location: NYC
+    neighbors:
+        - name: foxdenbgp
+          multihop: 128
+          ip4: 10.2.1.2
+          as: 64666
+          outgoing: true
+fra01.pawnode.com:
+    primaryIp: 95.179.240.248
+    tags: ["vultr"]
+    subnets6: ["2a0e:7d44:f002::/48"]
+    ips6: ["2a0e:7d44:f002::1/48"]
+    location: FRA
     neighbors:
         - name: foxdenbgp
           multihop: 128
