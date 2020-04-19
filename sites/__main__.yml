@@ -32,7 +32,7 @@ sea01.pawnode.com:
     ips6: ["2a0e:7d44:f001::1/48", "2a0f:9400:7311::1/48"]
     location: SEA
     neighbors:
-        - name: foxden-bgp
+        - name: foxdenbgp
           multihop: 128
           ip4: 10.1.1.2
           as: 64666
@@ -43,7 +43,7 @@ fra01.pawnode.com:
     ips6: ["2a0e:7d44:f002::1/48"]
     location: FRA
     neighbors:
-        - name: foxden-bgp
+        - name: foxdenbgp
           multihop: 128
           ip4: 10.2.1.2
           as: 64666
@@ -54,7 +54,7 @@ nyc01.pawnode.com:
     ips6: ["2a0e:7d44:f003::1/48"]
     location: NYC
     neighbors:
-        - name: foxden-bgp
+        - name: foxdenbgp
           multihop: 128
           ip4: 10.3.1.2
           as: 64666
