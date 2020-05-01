@@ -24,7 +24,7 @@ enableStart() {
     systemctl restart "$1"
 }
 
-printf "$ID * * * * python3 /opt/cdn/certifier\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
+printf "$ID * * * * python3 /opt/cdn/certifier --cron\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 rm -rf certifier/dnssec
 ln -sf /etc/powerdns/dnssec certifier/dnssec
