@@ -2,13 +2,14 @@ from myacme import get_ssl_for_site
 from yaml import safe_load as yaml_load
 from myglobals import __dir__, s3_client, config, DNSSEC_DIR
 from os import chdir, path, system, stat
+from sys import argv
 from stat import ST_SIZE, ST_MTIME
 from loader import loadFile, storeFile
 from subprocess import run, PIPE
 
 chdir(__dir__)
 
-IS_CRON = len(sys.argv) > 1 and sys.argv[1] == '--cron'
+IS_CRON = len(argv) > 1 and argv[1] == '--cron'
 
 BUCKET_NAME = config['certs']['bucketName']
 
