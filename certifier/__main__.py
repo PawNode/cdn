@@ -8,6 +8,8 @@ from subprocess import run, PIPE
 
 chdir(__dir__)
 
+IS_CRON = len(sys.argv) > 1 and sys.argv[1] == '--cron'
+
 BUCKET_NAME = config['certs']['bucketName']
 
 sites = []
@@ -58,20 +60,21 @@ for zone in zones:
     zoneFile = '/etc/powerdns/sites/db.%s' % zone_name
     signedZoneFile = '%s.signed' % zoneFile
 
-    zoneStat = stat(zoneFile)
-    zoneMtime = zoneStat[ST_MTIME]
+    if not IS_CRON:
+        zoneStat = stat(zoneFile)
+        zoneMtime = zoneStat[ST_MTIME]
 
-    signedZoneSize = 0
-    signedZoneMtime = 0
-    try:
-        signedZoneStat = stat(signedZoneFile)
-        signedZoneSize = signedZoneStat[ST_SIZE]
-        signedZoneMtime = signedZoneStat[ST_MTIME]
-    except FileNotFoundError:
-        pass
+        signedZoneSize = 0
+        signedZoneMtime = 0
+        try:
+            signedZoneStat = stat(signedZoneFile)
+            signedZoneSize = signedZoneStat[ST_SIZE]
+            signedZoneMtime = signedZoneStat[ST_MTIME]
+        except FileNotFoundError:
+            pass
 
-    if signedZoneSize > 0 and signedZoneMtime >= zoneMtime:
-        continue
+        if signedZoneSize > 0 and signedZoneMtime >= zoneMtime:
+            continue
 
     run(['dnssec-signzone', '-K', DNSSEC_DIR, '-o', zone_name, '-S', zoneFile])
     run(['pdnsutil', 'set-presigned', zone_name])
