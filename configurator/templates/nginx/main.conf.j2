@@ -49,6 +49,8 @@ server {
     include /etc/nginx/includes/wellknown.conf;
 
     location / {
+        error_log /var/log/nginx/invalid.error.log;
+        access_log /var/log/nginx/invalid.access.log;
         return 404 "Site not found";
     }
 }

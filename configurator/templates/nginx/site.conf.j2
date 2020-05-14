@@ -27,6 +27,9 @@ server {
     listen [::]:80;
     {%- endif %}
 
+    error_log /var/log/nginx/site.{{ site.name }}.error.log;
+    access_log /var/log/nginx/site.{{ site.name }}.access.log;
+
     server_name {{ site.redirectDomains | map(attribute='from') | sort | join(' ') }};
 
     root /var/www/empty;
@@ -65,6 +68,9 @@ server {
     listen 80;
     listen [::]:80;
 
+    error_log /var/log/nginx/site.{{ site.name }}.error.log;
+    access_log /var/log/nginx/site.{{ site.name }}.access.log;
+
     server_name {{ site.redirectDomains | map(attribute='from') | sort | join(' ') }} {{ site.domains | sort | join(' ') }};
 
     root /var/www/empty;
@@ -97,6 +103,9 @@ server {
     listen 80;
     listen [::]:80;
 {%- endif %}
+
+    error_log /var/log/nginx/site.{{ site.name }}.error.log;
+    access_log /var/log/nginx/site.{{ site.name }}.access.log;
 
     server_name {{ site.domains | join(' ') }};
 
