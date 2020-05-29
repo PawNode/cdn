@@ -11,5 +11,5 @@ location /.well-known/acme-challenge/ {
     error_page 403 = @well-known-fallback;
 
     error_log /var/log/nginx/wellknown.error.log;
-    access_log /var/log/nginx/wellknown.access.log;
+    access_log /var/log/nginx/wellknown.access.log pawnode;
 }
