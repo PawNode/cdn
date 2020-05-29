@@ -376,7 +376,9 @@ def __main__():
         writeNginxInclude('proxy') | \
         writeNginxInclude('varnish') | \
         writeNginxInclude('wellknown') | \
+        writeNginxInclude('securitytxt') | \
         writeNginxInclude('headers') | \
+        writeGlobalTpl('nginx/security.txt.j2', path.join(SITEDIR, 'security.txt')) | \
         swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
         system('service nginx reload')
 

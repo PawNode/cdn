@@ -50,6 +50,7 @@ server {
     root /var/www/empty;
 
     include /etc/nginx/includes/wellknown.conf;
+    include /etc/nginx/includes/securitytxt.conf;
 
     location / {
         error_log /var/log/nginx/invalid.error.log;

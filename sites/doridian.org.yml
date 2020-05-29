@@ -4,6 +4,7 @@ domains:
 type: redirect
 target: https://doridian.net
 hsts: true
+useSecurityTxt: true
 useGoogleMX: true
 records:
     - name: google._domainkey

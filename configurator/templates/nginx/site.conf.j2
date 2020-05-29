@@ -42,6 +42,10 @@ server {
     {%- else %}
     include /etc/nginx/includes/wellknown.conf;
 
+        {%- if site.useSecurityTxt %}
+    include /etc/nginx/includes/securitytxt.conf;
+        {%- endif %}
+
         {%- if site.type == 'directproxy' %}
     location @well-known-fallback {
         if ($direct_proxy_{{ site.name }} = "") {
@@ -76,6 +80,10 @@ server {
     root /var/www/empty;
 
     include /etc/nginx/includes/wellknown.conf;
+
+{%- if site.useSecurityTxt %}
+    include /etc/nginx/includes/securitytxt.conf;
+{%- endif %}
 
     location / {
         return 301 https://$http_host$request_uri;
@@ -146,6 +154,10 @@ server {
     location @well-known-fallback {
         return 404;
     }
+{%- endif %}
+
+{%- if site.useSecurityTxt %}
+    include /etc/nginx/includes/securitytxt.conf;
 {%- endif %}
 
 {%- if site.type == 'proxy' %}
