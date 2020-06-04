@@ -42,9 +42,6 @@ records:
     - name: ntp
       type: CNAME
       value: 'ntp.dyn.foxden.network.'
-    - name: occ-daemon
-      type: CNAME
-      value: 'router.dyn.foxden.network.'
     - name: bengalfox
       type: CNAME
       value: 'bengalfox.dyn.foxden.network.'
