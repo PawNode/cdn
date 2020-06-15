@@ -15,13 +15,9 @@ records:
       type: TXT
       value: 'google-site-verification=bFl12Eo8la31HYCOw1BIbUtplSnf7-gfvsYVHJ3KRSY'
 
-    - name: anarchy
+    - name: spaceage-api
       type: A
-      value: 107.161.19.11
-
-    - name: cc2
-      type: A
-      value: 107.161.19.11
+      value: 185.244.28.243
 
     - name: acmedns
       type: CNAME
