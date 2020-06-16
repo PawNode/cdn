@@ -10,7 +10,7 @@ useGoogleMX: true
 records:
     - name: google._domainkey
       type: TXT
-      value: 'v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZ5wwEzAQpMsxbc6dlwJy0HILhDiusG3o5i/K7SAXyH+qrpwMJ1hSfX8fyOt01E3uLAUKxYO5EfQtGS6NmG6QfnADkXB0mJ9Ox4eaOecmmnid0wtLudG0+Sp0m/AyFhcPwu03NJ94dO/lruq5MJe9LbDAWTsocoZ2UKZnroukcohGVQU5EgLBz9T1F5ow0CC3FMO2mdmXOQ25/KmVR9QJVEypYDzY/QArAFYZy8aMiTY4Sq1j4G1eVB2UGtlVxAnMPPO0c7dAHD/sSIpsO2iNgnwmwwqlY7GMAJwAiHFsGo1H5ASisf1D18Qk1oNJznY4ljr4K/2KnRr2Bu1mkJYeQIDAQAB'
+      value: '"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZ5wwEzAQpMsxbc6dlwJy0HILhDiusG3o5i/K7SAXyH+qrpwMJ1hSfX8fyOt01E3uLAUKxYO5EfQtGS6NmG6QfnADkXB0mJ9Ox4eaOecmmnid0wtLudG0+Sp0m/AyFhcPwu03NJ94dO/lruq5MJe9LbDAWTsocoZ2UKZnroukcohGVQU5EgLBz9T1F5ow0CC3FMO2mdmXOQ25/KmVR9QJVEypYDzY/QArAFYZy8aMiTY4Sq1j4G1eVB2UGtlVxAnMPPO0c7dAHD/sSIpsO2iNgnwmwwqlY7GMAJwAiHFsGo1H5ASisf1D18Qk1oNJznY4ljr4K/2KnRr2Bu1mkJYeQIDAQAB"'
     - name: '@'
       type: TXT
       value: 'google-site-verification=bFl12Eo8la31HYCOw1BIbUtplSnf7-gfvsYVHJ3KRSY'
