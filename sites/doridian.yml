@@ -18,6 +18,16 @@ records:
       type: TXT
       value: 'protonmail-verification=7193665fb55a66a38300a17ca9d10cf4ff921b14'
 
+    - name: protonmail._domainkey
+      type: CNAME
+      value: 'protonmail._domainkey.dd62bnxaeo2mc2e6yssdovhe52gt4ft7ggf5jb72rxpvl4qguezba.domains.proton.ch.'
+    - name: protonmail2._domainkey
+      type: CNAME
+      value: 'protonmail2._domainkey.dd62bnxaeo2mc2e6yssdovhe52gt4ft7ggf5jb72rxpvl4qguezba.domains.proton.ch.'
+    - name: protonmail3._domainkey
+      type: CNAME
+      value: 'protonmail3._domainkey.dd62bnxaeo2mc2e6yssdovhe52gt4ft7ggf5jb72rxpvl4qguezba.domains.proton.ch.'
+
     - name: spaceage-api
       type: A
       value: 185.244.28.243
