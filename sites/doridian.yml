@@ -14,6 +14,9 @@ records:
     - name: '@'
       type: TXT
       value: 'google-site-verification=bFl12Eo8la31HYCOw1BIbUtplSnf7-gfvsYVHJ3KRSY'
+    - name: '@'
+      type: TXT
+      value: 'protonmail-verification=7193665fb55a66a38300a17ca9d10cf4ff921b14'
 
     - name: spaceage-api
       type: A
