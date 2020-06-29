@@ -57,4 +57,5 @@ $ORIGIN {{ mainDomain }}.
 {%- elseif site.presetMX == 'protonmail' %}
 @	IN	MX	10 mail.protonmail.ch.
 @   IN	MX	20 mailsec.protonmail.ch.
+@   IN  TXT "v=spf1 include:_spf.protonmail.ch mx ~all"
 {%- endif %}
