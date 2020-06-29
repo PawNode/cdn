@@ -7,7 +7,7 @@ type: redirect
 target: https://doridian.net
 hsts: true
 useSecurityTxt: true
-useGoogleMX: true
+presetMX: google
 records:
     - name: google._domainkey
       type: TXT

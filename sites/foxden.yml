@@ -17,7 +17,7 @@ targets:
       proxy: teslamate.dyn.foxden.network
 hsts: true
 useSecurityTxt: true
-useGoogleMX: true
+presetMX: google
 records:
     - name: dyn
       ttl: 3600

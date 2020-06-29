@@ -5,7 +5,7 @@ type: redirect
 target: https://pawnode.com
 hsts: true
 useSecurityTxt: true
-useGoogleMX: true
+presetMX: google
 records:
     - name: google._domainkey
       type: TXT

@@ -47,12 +47,14 @@ $ORIGIN {{ mainDomain }}.
 {{ record.name }} {{ record.ttl|default('300')|int }} IN {{ record.type }} {{ record.value }}
 {%- endfor %}
 
-{%- if site.useGoogleMX %}
+{%- if site.presetMX == 'google' %}
 @	IN	MX	5 alt2.aspmx.l.google.com.
 @   IN	MX	5 alt1.aspmx.l.google.com.
 @	IN	MX	1 aspmx.l.google.com.
 @	IN	MX	10 aspmx3.googlemail.com.
 @	IN	MX	10 aspmx2.googlemail.com.
 @	IN	TXT	"v=spf1 include:_spf.google.com mx ~all"
+{%- elseif site.presetMX == 'protonmail' %}
+@	IN	MX	10 mail.protonmail.ch.
+@   IN	MX	20 mailsec.protonmail.ch.
 {%- endif %}
-

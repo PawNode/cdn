@@ -10,7 +10,7 @@ type: zip
 src: https://pawnode-sites.s3.amazonaws.com/pawnode.com.zip?v=3
 hsts: true
 useSecurityTxt: true
-useGoogleMX: true
+presetMX: google
 vanityNS: true
 records:
     - name: fra01
