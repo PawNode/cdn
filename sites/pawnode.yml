@@ -10,7 +10,7 @@ type: zip
 src: https://pawnode-sites.s3.amazonaws.com/pawnode.com.zip?v=3
 hsts: true
 useSecurityTxt: true
-presetMX: google
+presetMX: protonmailforward
 vanityNS: true
 records:
     - name: fra01
@@ -25,14 +25,6 @@ records:
     - name: van01
       type: A
       value: 104.218.61.216
-
-    - name: google._domainkey
-      type: TXT
-      value: '"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvpRqFBbgTxb3Y33iIeHVbOLU0sezNseyFGq/IltK9G+AAoFKUOBlYc+6OThCRY67Hy6DB9Z+No7kXuGMl0KRxQ/wEdoVAWic7dooaMlMphMohGVBoWcphrWjxqwSlYo1q+j6pS/P5LKZ7yPSC5JmWlCs6HsHIdSxzb1zyQJbhLS4C4rb/MSBjxxQ7xicFHzeQ" "GOM2NOCZpj743ZgR2a4JTDdJ4F75VtJ5FcF5yGsl07w5Bx5BMCVShxayuXEZo3aJ0m//B0BvVTIWvkJkHe+nHMHdWIMmdPeYalB1R1fae58PsaHh67nICTnCETjcU5p7gvHCZvyshMXxtrhEVkb6QIDAQAB"'
-
-    - name: '@'
-      type: TXT
-      value: 'google-site-verification=A5Q0UJreR1yDGQKHYlU2FFVCWuLPJmAplSYO33kQD1A'
 
     - name: nsthing
       type: AAAA

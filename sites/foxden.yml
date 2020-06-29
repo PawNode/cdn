@@ -17,7 +17,7 @@ targets:
       proxy: teslamate.dyn.foxden.network
 hsts: true
 useSecurityTxt: true
-presetMX: google
+presetMX: protonmailforward
 records:
     - name: dyn
       ttl: 3600
@@ -66,6 +66,3 @@ records:
     - name: _acme-challenge.pihole
       type: CNAME
       value: 'a660c0fa-6609-4332-9413-a2ce7ce358a8.acmedns-ns.doridian.net.'
-    - name: '@'
-      type: TXT
-      value: 'google-site-verification=oGZCWff8MPlVRMgmmfPw476wMBH_16QmPFE98UJZXkM'
