@@ -54,7 +54,7 @@ $ORIGIN {{ mainDomain }}.
 @	IN	MX	10 aspmx3.googlemail.com.
 @	IN	MX	10 aspmx2.googlemail.com.
 @	IN	TXT	"v=spf1 include:_spf.google.com mx ~all"
-{%- elseif site.presetMX == 'protonmail' %}
+{%- elif site.presetMX == 'protonmail' %}
 @	IN	MX	10 mail.protonmail.ch.
 @   IN	MX	20 mailsec.protonmail.ch.
 @   IN  TXT "v=spf1 include:_spf.protonmail.ch mx ~all"
