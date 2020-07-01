@@ -7,7 +7,7 @@ redirectDomains:
     - from: cdn.pawnode.com
       to: pawnode.com
 type: zip
-src: https://pawnode-sites.s3.amazonaws.com/pawnode.com.zip?v=3
+src: https://pawnode-sites.s3.amazonaws.com/pawnode.com.zip?v=4
 hsts: true
 useSecurityTxt: true
 presetMX: protonmailforward
