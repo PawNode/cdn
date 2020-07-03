@@ -1,19 +1,19 @@
 all:
     subnets4: ["185.244.28.0/24"]
-    subnets6: ["2a0f:9400:731f::/48", "2a0e:7d44:f00f::/48"]
+    subnets6: ["2a0e:7d44:f0ff::/48", "2a0e:7d44:f00f::/48"]
     ips4: ["185.244.28.1/24", "185.244.28.2/24", "185.244.28.3/24", "185.244.28.53/24", "185.244.28.54/24"]
-    ips6: ["2a0f:9400:731f::1/48", "2a0e:7d44:f00f::1/48", "2a0f:9400:731f::2/48", "2a0e:7d44:f00f::2/48", "2a0f:9400:731f::53/48", "2a0e:7d44:f00f::53/48"]
+    ips6: ["2a0e:7d44:f00f::1/48", "2a0e:7d44:f00f::2/48", "2a0e:7d44:f00f::53/48", "2a0e:7d44:f0ff::1/48", "2a0e:7d44:f0ff::2/48", "2a0e:7d44:f0ff::53/48"]
     useRouteRules: false
 
     # DNS stuff
     siteips4: ["185.244.28.2", "185.244.28.3"]
-    siteips6: ["2a0f:9400:731f::2", "2a0e:7d44:f00f::2"]
+    siteips6: ["2a0e:7d44:f0ff::2", "2a0e:7d44:f00f::2"]
     sitecname: "cdn.pawnode.com"
     nsrecords: ["ns1.pawnode.com", "ns2.pawnode.com"]
     vanityNSRecords:
         ns1:
             ip4: '185.244.28.53'
-            ip6: '2a0f:9400:731f::53'
+            ip6: '2a0e:7d44:f0ff::53'
         ns2:
             ip4: '185.244.28.54'
             ip6: '2a0e:7d44:f00f::53'
@@ -28,8 +28,8 @@ vultr:
 sea01.pawnode.com:
     primaryIp: 66.42.79.223
     tags: ["vultr"]
-    subnets6: ["2a0e:7d44:f001::/48", "2a0f:9400:7311::/48"]
-    ips6: ["2a0e:7d44:f001::1/48", "2a0f:9400:7311::1/48"]
+    subnets6: ["2a0e:7d44:f001::/48"]
+    ips6: ["2a0e:7d44:f001::1/48"]
     location: SEA
     neighbors:
         - name: foxdenbgp
