@@ -17,6 +17,7 @@ $ORIGIN {{ mainDomain }}.
     {%- for nsname, nsdata in dynConfig._find('vanityNSRecords')|dictsort %}
 {{ nsname }}    IN      A       {{ nsdata.ip4 }}
 {{ nsname }}    IN      AAAA    {{ nsdata.ip6 }}
+@       3600    IN      NS      {{ nsname }}
     {%- endfor %}
 {%- else %}
     {%- for ns in dynConfig._find('nsrecords')|sort %}
