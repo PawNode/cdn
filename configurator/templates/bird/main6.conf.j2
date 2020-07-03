@@ -19,6 +19,15 @@ filter bgp_out {
         reject;
 }
 
+filter bgp_defroute_only {
+        if net = ::0/0 then {
+                accept;
+        } else if source ~ [ RTS_STATIC_DEVICE, RTS_STATIC ] then {
+                accept;
+        }
+        reject;
+}
+
 filter bgp_in {
         if net = ::0/0 then {
                 reject;
@@ -48,8 +57,11 @@ protocol bgp {{ neighbor.name }} {
         password "{{ neighbor.password }}";
                 {%- endif %}
         next hop self;
-{%- if neighbor.outgoing %}
+{%- if neighbor.mode == 'out' %}
         export all;
+        import filter bgp_in;
+{%- elif neighbor.mode == 'defgw' %}
+        export filter bgp_defroute_only;
         import filter bgp_in;
 {%- else %}
         import all;
@@ -62,6 +74,8 @@ protocol bgp {{ neighbor.name }} {
 
 protocol static {
         export all;
+
+        route ::0/0 unreachable;
 
 {%- for tag in tags if tag in dynConfig %}
     {%- set cfg = dynConfig[tag] %}
