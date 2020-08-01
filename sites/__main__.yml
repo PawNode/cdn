@@ -32,6 +32,7 @@ buyvm:
 #          ip4: 169.254.169.179
 #          ip6: 2605:6400:ffff::2
 #          as: 53667
+#          password: ""
 sea01.pawnode.com:
     primaryIp: 66.42.79.223
     tags: ["vultr"]
@@ -87,13 +88,7 @@ ny1.pawnode.com:
     subnets6: ["2a0e:7d44:f005::/48"]
     ips6: ["2a0e:7d44:f005::1/48"]
     location: NY
-    neighbors:
-        - name: buyvm
-          multihop: 2
-          ip4: 169.254.169.179
-          ip6: 2605:6400:ffff::2
-          as: 53667
-          password: ""
+    neighbors: []
 lux1.pawnode.com:
     primaryIp: 104.244.76.182
     tags: ["buyvm"]
