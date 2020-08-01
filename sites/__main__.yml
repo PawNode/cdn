@@ -64,10 +64,10 @@ nyc01.pawnode.com:
     location: NYC
     neighbors:
         - name: foxdenbgp
-            multihop: 128
-            ip4: 10.2.1.2
-            as: 64666
-            mode: defgw
+          multihop: 128
+          ip4: 10.2.1.2
+          as: 64666
+          mode: defgw
 lv1.pawnode.com:
     primaryIp: 209.141.56.18
     tags: ["buyvm"]
@@ -89,11 +89,11 @@ ny1.pawnode.com:
     location: NY
     neighbors:
         - name: buyvm
-            multihop: 2
-            ip4: 169.254.169.179
-            ip6: 2605:6400:ffff::2
-            as: 53667
-            password: ""
+          multihop: 2
+          ip4: 169.254.169.179
+          ip6: 2605:6400:ffff::2
+          as: 53667
+          password: ""
 lux1.pawnode.com:
     primaryIp: 104.244.76.182
     tags: ["buyvm"]
@@ -102,8 +102,8 @@ lux1.pawnode.com:
     location: LUX
     neighbors:
         - name: buyvm
-            multihop: 2
-            ip4: 169.254.169.179
-            ip6: 2605:6400:ffff::2
-            as: 53667
-            password: "SNIP"
+          multihop: 2
+          ip4: 169.254.169.179
+          ip6: 2605:6400:ffff::2
+          as: 53667
+          password: "SNIP"
