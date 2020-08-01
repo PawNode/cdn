@@ -62,8 +62,8 @@ mount -a
 # END FALLBACKS
 
 # WIREGUARD
-add-apt-repository ppa:wireguard/wireguard
-apt install wireguard
+add-apt-repository -y ppa:wireguard/wireguard
+apt -y install wireguard
 if [ ! -f /etc/wireguard/keys ]
 then
     mkdir -p /etc/wireguard/keys
