@@ -40,7 +40,7 @@ if [ ! -f /var/lib/powerdns/bind-dnssec.db ]
 then
     pdnsutil create-bind-db /var/lib/powerdns/bind-dnssec.db
 fi
-chown pdns:pdns /var/lib/powerdns/bind-dnssec.db
+chown pdns:pdns /var/lib/powerdns/bind-dnssec.db /var/lib/powerdns
 
 cp files/pdns.conf /etc/powerdns/pdns.d/custom.conf
 
