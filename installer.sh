@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-ID="$1"
+ID="$(cat /opt/cdn-id)"
 
 cd "$(dirname "$0")"
 
