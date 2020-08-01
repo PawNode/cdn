@@ -50,7 +50,7 @@ then
 fi
 
 # FALLBACKFS
-if [ ! -f /opt/deffs ]
+if [ ! -d /opt/deffs ]
 then
     git clone https://github.com/Doridian/deffs /opt/deffs
 fi
