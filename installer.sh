@@ -69,7 +69,7 @@ mount -a
 # WIREGUARD
 add-apt-repository -y ppa:wireguard/wireguard
 apt -y install wireguard
-if [ ! -f /etc/wireguard/keys ]
+if [ ! -d /etc/wireguard/keys ]
 then
     mkdir -p /etc/wireguard/keys
     wg genkey | tee /etc/wireguard/keys/private | wg pubkey > /etc/wireguard/keys/public
@@ -80,3 +80,4 @@ sysctl -w net.ipv4.ip_forward=1
 
 python3 configurator
 python3 certifier
+python3 wg
