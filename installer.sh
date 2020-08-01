@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# MAKE SURE LOCAL HOSTNAME IS BOTH SET VIA hostnamectl AND PRESENT AS 127.0.1.1 IN /etc/hosts
+# MAKE SURE TO dpkg-reconfigure locales to en-US.UTF-8!
+
 ID="$(cat /opt/cdn-id)"
 
 cd "$(dirname "$0")"
