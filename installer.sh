@@ -73,6 +73,5 @@ fi
 sysctl -w net.ipv4.ip_forward=1
 # END WIREGUARD
 
-
 python3 configurator
 python3 certifier
