@@ -61,9 +61,6 @@ addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/keys /mnt/certifier/keys fuse 
 mount -a
 # END FALLBACKS
 
-python3 configurator
-python3 certifier
-
 # WIREGUARD
 add-apt-repository ppa:wireguard/wireguard
 apt install wireguard
@@ -75,3 +72,7 @@ then
 fi
 sysctl -w net.ipv4.ip_forward=1
 # END WIREGUARD
+
+
+python3 configurator
+python3 certifier
