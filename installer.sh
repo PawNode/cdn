@@ -12,12 +12,6 @@ addIfMissing() {
     fi
 }
 
-apt-get -y install gnupg
-
-curl https://repo.powerdns.com/FD380FBB-pub.asc | apt-key add -
-cp files/apt/*.list /etc/apt/sources.list.d/
-cp files/apt/pdns /etc/apt/preferences.d/pdns
-
 apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils sudo git gcc libfuse-dev bind9utils
 
 enableStart() {
@@ -34,11 +28,13 @@ chown pdns:pdns /etc/powerdns/dnssec /opt/cdn/certifier/dnssec
 chmod 700 /etc/powerdns/dnssec /opt/cdn /mnt/certifier /mnt/certifier/* || true
 chmod 600 /opt/cdn/config.yml
 
-pdnsutil create-bind-db /var/lib/powerdns/bind-dnssec.db
+if [ ! -f /var/lib/powerdns/bind-dnssec.db ]
+then
+    pdnsutil create-bind-db /var/lib/powerdns/bind-dnssec.db
+fi
 chown pdns:pdns /var/lib/powerdns/bind-dnssec.db
 
 cp files/pdns.conf /etc/powerdns/pdns.d/custom.conf
-cp files/backend.lua /etc/powerdns/backend.lua
 
 enableStart bird
 enableStart bird6
