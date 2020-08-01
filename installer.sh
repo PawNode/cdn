@@ -18,7 +18,7 @@ curl https://repo.powerdns.com/FD380FBB-pub.asc | apt-key add -
 cp files/apt/*.list /etc/apt/sources.list.d/
 cp files/apt/pdns /etc/apt/preferences.d/pdns
 
-apt-get -y install pdns-server pdns-backend-lua2 pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils sudo git gcc libfuse-dev bind9utils
+apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils sudo git gcc libfuse-dev bind9utils
 
 enableStart() {
     systemctl enable "$1"
