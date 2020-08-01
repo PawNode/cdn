@@ -49,16 +49,6 @@ then
     openssl req -newkey rsa:4096 -nodes -keyout /etc/ssl/default.key -x509 -days 1 -out /etc/ssl/default.crt
 fi
 
-# GITHUB DEPLOY
-useradd deployer
-cp files/deployer-sudo /etc/sudoers.d/
-mkdir -p /home/deployer/.ssh
-cp files/deployer-authorized-keys /home/deployer/.ssh/authorized_keys
-chown -R deployer:deployer /home/deployer
-chmod 600 /home/deployer/.ssh/authorized_keys
-chmod 700 /home/deployer/.ssh
-# END GITHUB DEPLOY
-
 # FALLBACKFS
 if [ ! -f /opt/deffs ]
 then

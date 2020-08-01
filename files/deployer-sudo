@@ -1,2 +1,0 @@
-deployer    ALL= NOPASSWD: /opt/cdn/deploy.sh
-
