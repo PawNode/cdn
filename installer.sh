@@ -12,7 +12,10 @@ addIfMissing() {
     fi
 }
 
+
 apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-crypto bird apparmor-utils sudo git gcc libfuse-dev bind9utils
+
+sed -i "s~__SERVER_ID__~$ID~" ./config.yml
 
 enableStart() {
     systemctl enable "$1"
@@ -43,7 +46,7 @@ enableStart nginx
 
 if [ ! -f /etc/ssl/default.crt ]
 then
-    openssl req -newkey rsa:4096 -nodes -keyout /etc/ssl/default.key -x509 -days 1 -out /etc/ssl/default.crt
+    openssl req -newkey rsa:4096 -nodes -keyout /etc/ssl/default.key -x509 -days 1 -out /etc/ssl/default.crt -subj '/CN=invalid.pawnode.com'
 fi
 
 # FALLBACKFS
