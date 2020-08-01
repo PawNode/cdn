@@ -56,8 +56,8 @@ then
 fi
 gcc -O2 -D_FILE_OFFSET_BITS=64 /opt/deffs/main.c -lfuse -o /usr/bin/deffs
 
-addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/certs /mnt/certifier/certs fuse defaults,deffile=/etc/ssl/default.crt 0 0'
-addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/keys /mnt/certifier/keys fuse defaults,deffile=/etc/ssl/default.key 0 0'
+addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/certs /mnt/certifier/certs fuse defaults,nonempty,deffile=/etc/ssl/default.crt 0 0'
+addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/keys /mnt/certifier/keys fuse defaults,nonempty,deffile=/etc/ssl/default.key 0 0'
 mount -a
 # END FALLBACKS
 
