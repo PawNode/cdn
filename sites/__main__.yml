@@ -33,7 +33,7 @@ buyvm:
 #          ip6: 2605:6400:ffff::2
 #          as: 53667
 #          password: ""
-sea01.pawnode.com:
+sea1.pawnode.com:
     primaryIp: 66.42.79.223
     tags: ["vultr"]
     subnets6: ["2a0e:7d44:f001::/48"]
@@ -45,7 +45,7 @@ sea01.pawnode.com:
           ip4: 10.1.1.2
           as: 64666
           mode: defgw
-nyc01.pawnode.com:
+nyc1.pawnode.com:
     primaryIp: 108.61.78.245
     tags: ["vultr"]
     subnets6: ["2a0e:7d44:f003::/48"]
@@ -57,7 +57,7 @@ nyc01.pawnode.com:
           ip4: 10.2.1.2
           as: 64666
           mode: defgw
-fra01.pawnode.com:
+fra1.pawnode.com:
     primaryIp: 95.179.240.248
     tags: ["vultr"]
     subnets6: ["2a0e:7d44:f002::/48"]
@@ -69,7 +69,7 @@ fra01.pawnode.com:
           ip4: 10.3.1.2
           as: 64666
           mode: defgw
-lv1.pawnode.com:
+las1.pawnode.com:
     primaryIp: 209.141.56.18
     tags: ["buyvm"]
     subnets6: ["2a0e:7d44:f004::/48"]
@@ -87,7 +87,7 @@ lv1.pawnode.com:
           ip4: 10.4.1.2
           as: 64666
           mode: defgw
-ny1.pawnode.com:
+nyc2.pawnode.com:
     primaryIp: 198.98.58.17
     tags: ["buyvm"]
     subnets6: ["2a0e:7d44:f005::/48"]
