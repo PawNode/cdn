@@ -34,24 +34,28 @@ records:
       value: 'doridian-acmedns.westus2.cloudapp.azure.com.'
 
     - name: arcticfox
-      type: CNAME
-      value: 'atlshared1.ramnode.com.'
+      type: A
+      value: 104.244.78.41
+    - name: arcticfox
+      type: AAAA
+      value: 2605:6400:30:f85d:45ba:f441:951:39c7
+
     - name: htpl
       type: CNAME
-      value: atlshared1.ramnode.com.
+      value: arcticfox.doridian.net.
     - name: mail
       type: CNAME
-      value: atlshared1.ramnode.com.
+      value: arcticfox.doridian.net.
     - name: mysql
       type: CNAME
-      value: atlshared1.ramnode.com.
+      value: arcticfox.doridian.net.
     - name: www.arcticfox
       type: CNAME
-      value: 'atlshared1.ramnode.com.'
+      value: arcticfox.doridian.net.
 
     - name: _spf
       type: TXT
-      value: 'v=spf1 ip4:107.161.23.124 include:relay.mailchannels.net'
+      value: 'v=spf1 +a +mx ip4:107.161.23.124 ip4:104.244.78.41 ip6:2605:6400:30:f85d:45ba:f441:951:39c7 include:relay.mailchannels.net'
 
     - name: xsstest
       type: TXT
