@@ -7,10 +7,10 @@ records:
       value: 'any.p1.pawnode.com.'
     - name: 2
       type: PTR
-      value: 'cdn.p1.pawnode.com.'
+      value: 'cdn.pawnode.com.'
     - name: 3
       type: PTR
-      value: 'cdn.p1.pawnode.com.'
+      value: 'cdn.pawnode.com.'
     - name: 53
       type: PTR
       value: 'ns1.pawnode.com.'
