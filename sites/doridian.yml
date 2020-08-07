@@ -7,7 +7,18 @@ src: https://pawnode-sites.s3.amazonaws.com/doridian.net.zip?v=4
 hsts: true
 useSecurityTxt: true
 presetMX: protonmail
+vanityNS: true
 records:
+    - name: las1.cdn
+      type: A
+      value: 209.141.56.18
+    - name: nyc1.cdn
+      type: A
+      value: 198.98.58.17
+    - name: lux1.cdn
+      type: A
+      value: 104.244.76.182
+
     - name: '@'
       type: TXT
       value: 'protonmail-verification=7193665fb55a66a38300a17ca9d10cf4ff921b14'

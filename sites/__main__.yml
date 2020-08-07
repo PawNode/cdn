@@ -8,13 +8,13 @@ all:
     # DNS stuff
     siteips4: ["198.251.90.253", "198.251.90.7"]
     siteips6: ["2a0e:7d44:f0ff::2", "2a0e:7d44:f0fe::2"]
-    sitecname: "cdn.pawnode.com"
-    nsrecords: ["ns1.pawnode.com", "ns2.pawnode.com"]
+    sitecname: "cdn.doridian.net"
+    nsrecords: ["ns1-cdn.doridian.net", "ns2-cdn.doridian.net"]
     vanityNSRecords:
-        ns1:
+        ns1-cdn:
             ip4: '198.251.90.253'
             ip6: '2a0e:7d44:f0ff::53'
-        ns2:
+        ns2-cdn:
             ip4: '198.251.90.7'
             ip6: '2a0e:7d44:f0fe::53'
 vultr:
@@ -33,7 +33,7 @@ buyvm:
 #          ip6: 2605:6400:ffff::2
 #          as: 53667
 #          password: ""
-las1.pawnode.com:
+las1.doridian.net:
     primaryIp: 209.141.56.18
     tags: ["buyvm"]
     subnets6: ["2a0e:7d44:f004::/48"]
@@ -46,24 +46,14 @@ las1.pawnode.com:
           ip6: 2605:6400:ffff::2
           as: 53667
           password: "SNIP"
-        - name: foxdenbgp
-          multihop: 128
-          ip4: 10.4.1.2
-          as: 64666
-          mode: defgw
-nyc1.pawnode.com:
+nyc1.doridian.net:
     primaryIp: 198.98.58.17
     tags: ["buyvm"]
     subnets6: ["2a0e:7d44:f005::/48"]
     ips6: ["2a0e:7d44:f005::1/48"]
     location: NY
-    neighbors:
-        - name: foxdenbgp
-          multihop: 128
-          ip4: 10.5.1.2
-          as: 64666
-          mode: defgw
-lux1.pawnode.com:
+    neighbors: []
+lux1.doridian.net:
     primaryIp: 104.244.76.182
     tags: ["buyvm"]
     subnets6: ["2a0e:7d44:f006::/48"]
@@ -76,8 +66,3 @@ lux1.pawnode.com:
           ip6: 2605:6400:ffff::2
           as: 53667
           password: "SNIP"
-        - name: foxdenbgp
-          multihop: 128
-          ip4: 10.6.1.2
-          as: 64666
-          mode: defgw

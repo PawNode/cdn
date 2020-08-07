@@ -21,7 +21,7 @@ jobs:
             n=0
             until [ $n -ge 5 ]
             do
-              ssh -oUserKnownHostsFile=./ci/known-hosts -i ssh-keyfile "deployer@$loc.pawnode.com" && break || true
+              ssh -oUserKnownHostsFile=./ci/known-hosts -i ssh-keyfile "deployer@$loc.cdn.doridian.net" && break || true
               n=$[$n+1]
               sleep 5
             done
