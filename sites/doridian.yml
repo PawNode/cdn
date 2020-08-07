@@ -3,7 +3,7 @@ domains:
     - www.doridian.net
 redirectWWW: true
 type: zip
-src: https://doridian-sites.s3.amazonaws.com/doridian.net.zip?v=5
+src: https://github.com/Doridian/website/releases/download/2020-08-07/doridian.net.zip
 hsts: true
 useSecurityTxt: true
 presetMX: protonmail
