@@ -7,7 +7,7 @@ PostUp = /root/netinit.sh
 [Peer]
 PublicKey = cmmGetg6pQJmlGZ4jIIxD7I0CGaDonDfjMQau5WBITA=
 AllowedIPs = 0.0.0.0/0
-Endpoint = sea01.pawnode.com:51820
+Endpoint = sea01.cdn.doridian.net:51820
 
 
 
@@ -20,7 +20,7 @@ PostUp = /root/netinit.sh
 [Peer]
 PublicKey = MIoQHQoUsPsWKKp0W5iaifPXajuiPrMWbbH9svzsPww=
 AllowedIPs = 0.0.0.0/0
-Endpoint = nyc01.pawnode.com:51820
+Endpoint = nyc01.cdn.doridian.net:51820
 
 
 
@@ -33,7 +33,7 @@ PostUp = /root/netinit.sh
 [Peer]
 PublicKey = +gVRG4u3vzI+oqXHdoP2K41p2yqpVeFLfv31gdBFamc=
 AllowedIPs = 0.0.0.0/0
-Endpoint = fra01.pawnode.com:51820
+Endpoint = fra01.cdn.doridian.net:51820
 
 
 

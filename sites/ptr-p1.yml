@@ -4,31 +4,31 @@ type: none
 records:
     - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.4.0'
       type: PTR
-      value: 'las-buyvm.p1.pawnode.com.'
+      value: 'las-buyvm.p1.cdn.doridian.net.'
     - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.5.0'
       type: PTR
-      value: 'nyc-buyvm.p1.pawnode.com.'
+      value: 'nyc-buyvm.p1.cdn.doridian.net.'
     - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.0'
       type: PTR
-      value: 'lux-buyvm.p1.pawnode.com.'
+      value: 'lux-buyvm.p1.cdn.doridian.net.'
 
     - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f'
       type: PTR
-      value: 'any1.p1.pawnode.com.'
+      value: 'any1.p1.cdn.doridian.net.'
     - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
       type: PTR
-      value: 'any2.p1.pawnode.com.'
+      value: 'any2.p1.cdn.doridian.net.'
 
     - name: '5.3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f'
       type: PTR 
-      value: 'ns1.pawnode.com.'
+      value: 'ns1.cdn.doridian.net.'
     - name: '5.3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
       type: PTR 
-      value: 'ns2.pawnode.com.'
+      value: 'ns2.cdn.doridian.net.'
 
     - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f'
       type: PTR
-      value: 'cdn.pawnode.com.'
+      value: 'cdn.cdn.doridian.net.'
     - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
       type: PTR
-      value: 'cdn.pawnode.com.'
+      value: 'cdn.cdn.doridian.net.'

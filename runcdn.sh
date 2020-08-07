@@ -6,7 +6,7 @@ s() {
 	IP="$1"
 	shift 1
 	echo "Running on $IP ($@)"
-	ssh "$IP.pawnode.com" "sudo $@"
+	ssh "$IP.cdn.doridian.net" "sudo $@"
 #	ssh "$IP" "sudo $@"
 }
 

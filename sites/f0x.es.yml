@@ -17,4 +17,4 @@ records:
       value: 'doridian.azureedge.net.'
     - name: things
       type: NS
-      value: 'nsthing.pawnode.com.'
+      value: 'nsthing.doridian.net.'
