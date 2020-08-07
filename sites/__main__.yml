@@ -36,8 +36,8 @@ buyvm:
 las1.cdn.doridian.net:
     primaryIp: 209.141.56.18
     tags: ["buyvm"]
-    subnets6: ["2a0e:7d44:f004::/48"]
-    ips6: ["2a0e:7d44:f004::1/48"]
+    subnets6: ["2a0e:7d44:f001::/48"]
+    ips6: ["2a0e:7d44:f001::1/48"]
     location: LV
     neighbors:
         - name: buyvm
@@ -49,15 +49,15 @@ las1.cdn.doridian.net:
 nyc1.cdn.doridian.net:
     primaryIp: 198.98.58.17
     tags: ["buyvm"]
-    subnets6: ["2a0e:7d44:f005::/48"]
-    ips6: ["2a0e:7d44:f005::1/48"]
+    subnets6: ["2a0e:7d44:f002::/48"]
+    ips6: ["2a0e:7d44:f002::1/48"]
     location: NY
     neighbors: []
 lux1.cdn.doridian.net:
     primaryIp: 104.244.76.182
     tags: ["buyvm"]
-    subnets6: ["2a0e:7d44:f006::/48"]
-    ips6: ["2a0e:7d44:f006::1/48"]
+    subnets6: ["2a0e:7d44:f003::/48"]
+    ips6: ["2a0e:7d44:f003::1/48"]
     location: LUX
     neighbors:
         - name: buyvm
