@@ -121,7 +121,7 @@ def get_ssl_for_site(site):
     domains = site['domains']
     site_name = site['name']
 
-    print("[%s] Processing..." % site_name)
+    print("[%s] Processing domains %s" % (site_name, ', '.join(domains)))
 
     pkey_pem, fullchain_pem, from_local = loadCertAndKey(site_name, domains)
     if fullchain_pem:
