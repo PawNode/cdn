@@ -35,3 +35,7 @@ records:
     - name: nsthing
       type: AAAA
       value: '2a0e:7d44:f001::1'
+
+    - name: '@'
+      type: TXT
+      value: 'protonmail-verification=432c640a9376d583ae203e15559d2471c417f436'
