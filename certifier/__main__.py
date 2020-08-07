@@ -23,6 +23,9 @@ with open(path.join(__dir__, 'config.yml'), 'r') as f:
 
 paginator = s3_client.get_paginator('list_objects_v2')
 for page in paginator.paginate(Bucket=BUCKET_NAME, Prefix='dnssec'):
+    if not 'Contents' in page:
+        continue
+
     for obj in page['Contents']:
         loadFile(obj['Key'])
         k = obj['Key'][7:].split('+')[0]
