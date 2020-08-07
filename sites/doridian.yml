@@ -23,7 +23,7 @@ records:
 
     - name: spaceage-api
       type: A
-      value: 185.244.28.243
+      value: 127.0.0.1
 
     - name: acmedns
       type: CNAME
