@@ -5,6 +5,8 @@ set -euo pipefail
 # MAKE SURE TO dpkg-reconfigure locales to en-US.UTF-8!
 
 ID="$(cat /opt/cdn-id)"
+sed -i "s~__SERVER_ID__~$ID~" ./config.yml
+printf "$ID * * * * python3 /opt/cdn/certifier --cron\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 cd "$(dirname "$0")"
 
@@ -20,14 +22,10 @@ apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme pyth
 
 rm -f /etc/nginx/sites-enabled/default
 
-sed -i "s~__SERVER_ID__~$ID~" ./config.yml
-
 enableStart() {
     systemctl enable "$1"
     systemctl restart "$1"
 }
-
-printf "$ID * * * * python3 /opt/cdn/certifier --cron\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 rm -rf certifier/dnssec
 ln -sf /etc/powerdns/dnssec certifier/dnssec
