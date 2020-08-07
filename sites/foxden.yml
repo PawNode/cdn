@@ -1,20 +1,8 @@
 domains:
     - foxden.network
     - www.foxden.network
-    - grafana.foxden.network
-    - nas.foxden.network
-    - seafile.foxden.network
-    - teslamate.foxden.network
-type: directproxy
-targets:
-    - host: grafana.foxden.network
-      proxy: grafana.dyn.foxden.network
-    - host: nas.foxden.network
-      proxy: nas.dyn.foxden.network
-    - host: seafile.foxden.network
-      proxy: seafile.dyn.foxden.network
-    - host: teslamate.foxden.network
-      proxy: teslamate.dyn.foxden.network
+type: redirect
+target: https://doridian.net
 hsts: true
 useSecurityTxt: true
 presetMX: protonmailforward
