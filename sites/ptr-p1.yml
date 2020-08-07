@@ -1,19 +1,34 @@
 domains:
-    - 28.244.185.in-addr.arpa
+    - 0.f.4.4.d.7.e.0.a.2.ip6.arpa
 type: none
 records:
-    - name: 1
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.4.0'
       type: PTR
-      value: 'any.p1.pawnode.com.'
-    - name: 2
+      value: 'las-buyvm.p1.pawnode.com.'
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.5.0'
       type: PTR
-      value: 'cdn.pawnode.com.'
-    - name: 3
+      value: 'nyc-buyvm.p1.pawnode.com.'
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.0'
       type: PTR
-      value: 'cdn.pawnode.com.'
-    - name: 53
+      value: 'lux-buyvm.p1.pawnode.com.'
+
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f'
       type: PTR
+      value: 'any1.p1.pawnode.com.'
+    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
+      type: PTR
+      value: 'any2.p1.pawnode.com.'
+
+    - name: '5.3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f'
+      type: PTR 
       value: 'ns1.pawnode.com.'
-    - name: 54
-      type: PTR
+    - name: '5.3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
+      type: PTR 
       value: 'ns2.pawnode.com.'
+
+    - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f'
+      type: PTR
+      value: 'cdn.pawnode.com.'
+    - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
+      type: PTR
+      value: 'cdn.pawnode.com.'
