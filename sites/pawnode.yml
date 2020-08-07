@@ -13,28 +13,15 @@ useSecurityTxt: true
 presetMX: protonmail
 vanityNS: true
 records:
-    - name: fra1
-      type: A
-      value: 95.179.240.248
-    - name: nyc1
-      type: A
-      value: 108.61.78.245
-    - name: sea1
-      type: A
-      value: 66.42.79.223
     - name: las1
       type: A
       value: 209.141.56.18
-    - name: nyc2
+    - name: nyc1
       type: A
       value: 198.98.58.17
     - name: lux1
       type: A
       value: 104.244.76.182
-
-    - name: nsthing
-      type: AAAA
-      value: '2a0e:7d44:f001::1'
 
     - name: '@'
       type: TXT

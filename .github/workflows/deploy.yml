@@ -16,7 +16,7 @@ jobs:
         set -euo pipefail
         echo "$SSH_KEY" > ssh-keyfile
         chmod 600 ssh-keyfile
-        for loc in sea1 nyc1 las1 nyc2 lux1 fra1
+        for loc in nyc1 las1 lux1
         do
             n=0
             until [ $n -ge 5 ]

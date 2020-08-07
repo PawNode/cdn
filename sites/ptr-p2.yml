@@ -2,16 +2,6 @@ domains:
     - 0.f.4.4.d.7.e.0.a.2.ip6.arpa
 type: none
 records:
-    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0'
-      type: PTR
-      value: 'sea-vultr.p2.pawnode.com.'
-    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0'
-      type: PTR
-      value: 'fra-vultr.p2.pawnode.com.'
-    - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3.0'
-      type: PTR
-      value: 'nyc-vultr.p2.pawnode.com.'
-
     - name: '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.4.0'
       type: PTR
       value: 'las-buyvm.p2.pawnode.com.'
