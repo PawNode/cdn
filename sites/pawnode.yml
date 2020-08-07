@@ -10,7 +10,7 @@ type: zip
 src: https://pawnode-sites.s3.amazonaws.com/pawnode.com.zip?v=5
 hsts: true
 useSecurityTxt: true
-presetMX: protonmailforward
+presetMX: protonmail
 vanityNS: true
 records:
     - name: fra1
@@ -39,3 +39,12 @@ records:
     - name: '@'
       type: TXT
       value: 'protonmail-verification=432c640a9376d583ae203e15559d2471c417f436'
+    - name: protonmail._domainkey
+      type: CNAME
+      value: 'protonmail._domainkey.d3dib47jgt6ubt7edsrxjek4poculmet65exeqmehbaqhkaxz5zna.domains.proton.ch.'
+    - name: protonmail2._domainkey
+      type: CNAME
+      value: 'protonmail2._domainkey.d3dib47jgt6ubt7edsrxjek4poculmet65exeqmehbaqhkaxz5zna.domains.proton.ch.'
+    - name: protonmail3._domainkey
+      type: CNAME
+      value: 'protonmail3._domainkey.d3dib47jgt6ubt7edsrxjek4poculmet65exeqmehbaqhkaxz5zna.domains.proton.ch.'
