@@ -3,7 +3,7 @@ domains:
     - www.doridian.net
 redirectWWW: true
 type: zip
-src: https://pawnode-sites.s3.amazonaws.com/doridian.net.zip?v=4
+src: https://doridian-sites.s3.amazonaws.com/doridian.net.zip?v=4
 hsts: true
 useSecurityTxt: true
 presetMX: protonmail
