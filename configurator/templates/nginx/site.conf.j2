@@ -28,7 +28,7 @@ server {
     {%- endif %}
 
     error_log /var/log/nginx/site.{{ site.name }}.error.log;
-    access_log /var/log/nginx/site.{{ site.name }}.access.log doridiancdn;
+    access_log /var/log/nginx/site.{{ site.name }}.access.log cdn;
 
     server_name {{ site.redirectDomains | map(attribute='from') | sort | join(' ') }};
 
@@ -73,7 +73,7 @@ server {
     listen [::]:80;
 
     error_log /var/log/nginx/site.{{ site.name }}.error.log;
-    access_log /var/log/nginx/site.{{ site.name }}.access.log doridiancdn;
+    access_log /var/log/nginx/site.{{ site.name }}.access.log cdn;
 
     server_name {{ site.redirectDomains | map(attribute='from') | sort | join(' ') }} {{ site.domains | sort | join(' ') }};
 
@@ -113,7 +113,7 @@ server {
 {%- endif %}
 
     error_log /var/log/nginx/site.{{ site.name }}.error.log;
-    access_log /var/log/nginx/site.{{ site.name }}.access.log doridiancdn;
+    access_log /var/log/nginx/site.{{ site.name }}.access.log cdn;
 
     server_name {{ site.domains | join(' ') }};
 
