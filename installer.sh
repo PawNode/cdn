@@ -80,4 +80,4 @@ sysctl -w net.ipv4.ip_forward=1
 
 python3 configurator
 python3 certifier
-python3 wg
+#python3 wg
