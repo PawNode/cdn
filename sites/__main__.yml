@@ -1,21 +1,21 @@
 all:
     subnets4: ["185.244.28.0/24"]
     subnets6: ["2a0e:7d44:f0ff::/48", "2a0e:7d44:f0fe::/48"]
-    ips4: ["185.244.28.1/24", "185.244.28.2/24", "185.244.28.3/24", "185.244.28.53/24", "185.244.28.54/24"]
+    ips4: ["198.251.90.253/32", "198.251.90.7/32"]
     ips6: ["2a0e:7d44:f0fe::1/48", "2a0e:7d44:f0fe::2/48", "2a0e:7d44:f0fe::53/48", "2a0e:7d44:f0ff::1/48", "2a0e:7d44:f0ff::2/48", "2a0e:7d44:f0ff::53/48"]
     useRouteRules: false
 
     # DNS stuff
-    siteips4: ["185.244.28.2", "185.244.28.3"]
+    siteips4: ["198.251.90.253", "198.251.90.7"]
     siteips6: ["2a0e:7d44:f0ff::2", "2a0e:7d44:f0fe::2"]
     sitecname: "cdn.pawnode.com"
     nsrecords: ["ns1.pawnode.com", "ns2.pawnode.com"]
     vanityNSRecords:
         ns1:
-            ip4: '185.244.28.53'
+            ip4: '198.251.90.253'
             ip6: '2a0e:7d44:f0ff::53'
         ns2:
-            ip4: '185.244.28.54'
+            ip4: '198.251.90.7'
             ip6: '2a0e:7d44:f0fe::53'
 vultr:
     neighbors:
