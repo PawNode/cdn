@@ -39,7 +39,6 @@ records:
     - name: acmedns
       type: CNAME
       value: 'doridian-acmedns.westus2.cloudapp.azure.com.'
-
     - name: acmedns-ns
       type: NS
       value: 'doridian-acmedns.westus2.cloudapp.azure.com.'
@@ -66,7 +65,7 @@ records:
 
     - name: _spf
       type: TXT
-      value: 'v=spf1 +a +mx ip4:107.161.23.124 ip4:104.244.78.41 ip6:2605:6400:30:f85d:45ba:f441:951:39c7 include:relay.mailchannels.net'
+      value: 'v=spf1 a mx ip4:104.244.78.41 ip6:2605:6400:30:f85d:45ba:f441:951:39c7'
 
     - name: xsstest
       type: TXT
