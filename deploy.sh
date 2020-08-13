@@ -1,13 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-DEPLOY_TMP=/tmp/deploy.sh
-if [ "$0" != "$DEPLOY_TMP" ]
+if [ "$1" == 'sub' ]
 then
+    rm -f "$0"
+else
+    DEPLOY_TMP="$(mktemp --suffix=.sh)"
+    rm -f "$DEPLOY_TMP"
+
     cd "$(dirname "$0")"
 
     cp "$0" "$DEPLOY_TMP"
-    exec "$DEPLOY_TMP"
+    exec "$DEPLOY_TMP" sub
 
     echo 'Could not re-execute self... :('
     exit 1
