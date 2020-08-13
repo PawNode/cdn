@@ -1,10 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "$1" == 'sub' ]
+if [ "$1" != 'sub' ]
 then
-    rm -f "$0"
-else
     DEPLOY_TMP="$(mktemp --suffix=.sh)"
     rm -f "$DEPLOY_TMP"
 
@@ -16,6 +14,8 @@ else
     echo 'Could not re-execute self... :('
     exit 1
 fi
+
+rm -f "$0"
 
 for keyfile in `ls files/trusted_keys/*.asc`
 do
