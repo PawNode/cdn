@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "$1" != 'sub' ]
+if [ "${1-top}" != 'sub' ]
 then
     DEPLOY_TMP="$(mktemp --suffix=.sh)"
     rm -f "$DEPLOY_TMP"
@@ -16,12 +16,6 @@ then
 fi
 
 rm -f "$0"
-
-for keyfile in `ls files/trusted_keys/*.asc`
-do
-    gpg --import "$keyfile"
-done
-gpg --import-ownertrust 'files/trusted_keys/ownertrust.txt'
 
 git pull --verify-signatures
 
