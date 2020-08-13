@@ -15,7 +15,7 @@ fi
 
 for keyfile in `ls files/trusted_keys/*.asc`
 do
-    gpg --import "files/trusted_keys/$keyfile"
+    gpg --import "$keyfile"
 done
 gpg --import-ownertrust 'files/trusted_keys/ownertrust.txt'
 
