@@ -13,9 +13,14 @@ then
     exit 1
 fi
 
-git pull -r
+for keyfile in `ls files/trusted_keys`
+do
+    gpg --import "files/trusted_keys/$keyfile"
+done
 
-# TODO: VERIFY
+git fetch
+git verify-commit origin/master
+git reset --hard origin/master
 
 exec ./deploy_run.sh
 echo 'Could not exec deploy_run.sh'
