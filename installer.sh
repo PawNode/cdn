@@ -76,6 +76,6 @@ fi
 sysctl -w net.ipv4.ip_forward=1
 # END WIREGUARD
 
-python3 configurator
-python3 certifier
-#python3 wg
+exec ./deploy_run.sh
+echo 'Could not exec deploy_run.sh'
+exit 1
