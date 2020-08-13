@@ -13,14 +13,13 @@ then
     exit 1
 fi
 
-for keyfile in `ls files/trusted_keys`
+for keyfile in `ls files/trusted_keys/*.asc`
 do
     gpg --import "files/trusted_keys/$keyfile"
 done
+gpg --import-ownertrust 'files/trusted_keys/ownertrust.txt'
 
-git fetch
-git verify-commit origin/master
-git reset --hard origin/master
+git pull --verify-signatures
 
 exec ./deploy_run.sh
 echo 'Could not exec deploy_run.sh'
