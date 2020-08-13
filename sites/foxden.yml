@@ -3,7 +3,7 @@ domains:
     - www.foxden.network
 type: redirect
 target: https://doridian.net
-hsts: true
+hsts: false
 useSecurityTxt: true
 presetMX: protonmailforward
 records:
