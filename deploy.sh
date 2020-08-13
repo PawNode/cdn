@@ -1,11 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-cd "$(dirname "$0")"
-
 DEPLOY_TMP=/tmp/deploy.sh
 if [ "$0" != "$DEPLOY_TMP" ]
 then
+    cd "$(dirname "$0")"
+
     cp "$0" "$DEPLOY_TMP"
     exec "$DEPLOY_TMP"
 

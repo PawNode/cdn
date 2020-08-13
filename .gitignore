@@ -1,7 +1,8 @@
 /certifier/certs/*.*
 /certifier/keys/*.*
 /certifier/le/*.*
-/certifier/dnssec/*.*
+/certifier/dnssec
+/certifier/dsset-*
 /config.yml
 /certifier/config.yml
 /configurator/out/**/*.*
