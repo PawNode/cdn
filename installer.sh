@@ -64,18 +64,6 @@ addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/keys /mnt/certifier/keys fuse 
 mount -a
 # END FALLBACKS
 
-# WIREGUARD
-add-apt-repository -y ppa:wireguard/wireguard
-apt -y install wireguard
-if [ ! -d /etc/wireguard/keys ]
-then
-    mkdir -p /etc/wireguard/keys
-    wg genkey | tee /etc/wireguard/keys/private | wg pubkey > /etc/wireguard/keys/public
-    chmod 600 /etc/wireguard/keys/private
-fi
-sysctl -w net.ipv4.ip_forward=1
-# END WIREGUARD
-
 exec ./deploy_run.sh
 echo 'Could not exec deploy_run.sh'
 exit 1

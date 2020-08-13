@@ -11,4 +11,3 @@ gpg --import-ownertrust 'files/trusted_keys/ownertrust.txt'
 
 python3 configurator
 python3 certifier
-#python3 wg
