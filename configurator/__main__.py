@@ -182,8 +182,8 @@ def swapFile(fn, content):
     return True
 
 SITE_LOADERS = {
-    'redirect': loadSiteNoop,
     'none': loadSiteNoop,
+    'redirect': loadSiteNoop,
     'directproxy': loadSiteNoop,
     'zip': loadSiteZIP
 }

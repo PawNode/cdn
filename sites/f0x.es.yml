@@ -1,10 +1,10 @@
 domains:
     - f0x.es
     - www.f0x.es
-    - dori.f0x.es
-    - doridian.f0x.es
 type: redirect
 target: https://doridian.net
+redirects:
+    /security: https://cdn.doridian.net/.well-known/security.txt
 hsts: true
 useSecurityTxt: true
 presetMX: protonmailforward

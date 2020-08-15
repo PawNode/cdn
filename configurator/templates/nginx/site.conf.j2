@@ -11,6 +11,19 @@ map $http_host $direct_proxy_{{ site.name }} {
 }
 {%- endif %}
 
+{%- if site.redirects %}
+map $request_uri $redirects_{{ site.name }} {
+    {%- if site.type == 'redirect' %}
+    default "{{ site.target }}";
+    {%- else %}
+    default "";
+    {%- endif %}
+    {%- for url, target in site.redirects %}
+    "{{ url }}" "{{ target}}';
+    {%- endfor %}
+}
+{%- endif %}
+
 {%- if site.redirectDomains %}
 map $http_host $redirect_domains_{{ site.name }} {
     default "";
@@ -164,12 +177,20 @@ server {
     include /etc/nginx/includes/varnish.conf;
 {%- endif %}
 
-{%- if site.type == 'redirect' %}
+{%- if site.redirects || site.type == 'redirect' %}
     location / {
     {%- if site.hsts %}
         include /etc/nginx/includes/hsts.conf;
     {%- endif %}
+    {%- if site.redirects %}
+        if ($redirects_{{ site.name }} != "") {
+            return 301 $redirects_{{ site.name }};
+        }
+        return 404 "Link not found. Want to add it? Contribute at https://github.com/Doridian/cdn";
+    {%- else %}
         return 301 {{ site.target }};
+    {%- endif %}
     }
 {%- endif %}
+
 }
