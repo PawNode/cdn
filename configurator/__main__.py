@@ -117,9 +117,12 @@ zoneTplLastModified = getGitTime(path.join(__dir__, 'templates', 'bind', 'zone.j
 
 zones = {}
 
+def decryptStringAscii(encryptedStr):
+    return decryptString(encryptedStr).decode('ascii')
+
 def writeGlobalTpl(name, target):
     tpl = j2env.get_template(name)
-    data = tpl.render(zones=zones, config=config, dynConfig=dynConfig, tags=tags, decrypt=decryptString)
+    data = tpl.render(zones=zones, config=config, dynConfig=dynConfig, tags=tags, decrypt=decryptStringAscii)
     return swapFile(target, data)
 
 def writeNginxInclude(name):
