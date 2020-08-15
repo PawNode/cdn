@@ -1,7 +1,7 @@
 domains:
     - f0x.es
     - www.f0x.es
-type: none
+type: empty
 redirects:
     /security: https://cdn.doridian.net/.well-known/security.txt
 hsts: true
