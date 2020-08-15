@@ -8,8 +8,7 @@ from base64 import b64decode, b64encode
 from config import encryptString, decryptString
 
 certconfig = config['crypto']
-BUCKET_NAME = config['bucketName']
-
+BUCKET_NAME = certconfig['bucketName']
 CERT_MIN_VALID_DAYS = certconfig['minValidDays']
 
 def checkCertPEM(cert_pem, domains):
