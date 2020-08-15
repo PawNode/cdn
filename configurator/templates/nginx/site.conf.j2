@@ -177,7 +177,7 @@ server {
     include /etc/nginx/includes/varnish.conf;
 {%- endif %}
 
-{%- if site.redirects || site.type == 'redirect' %}
+{%- if site.redirects or site.type == 'redirect' %}
     location / {
     {%- if site.hsts %}
         include /etc/nginx/includes/hsts.conf;
