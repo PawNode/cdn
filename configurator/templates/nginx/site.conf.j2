@@ -18,7 +18,7 @@ map $request_uri $redirects_{{ site.name }} {
     {%- else %}
     default "";
     {%- endif %}
-    {%- for url, target in site.redirects %}
+    {%- for url, target in site.redirects.items() %}
     "{{ url }}" "{{ target}}';
     {%- endfor %}
 }
