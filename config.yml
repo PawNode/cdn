@@ -1,0 +1,13 @@
+objectStorage:
+    accessKeyID: 'zNC3tjqmqiJzueHn6Fzwp9llkFA='
+    secretAccessKey: '4NejhDwt0GC+y5fjBoqDYAR8eT4oyzK2yRnQX6agFNoMbsVoS0G6jw=='
+wellknown:
+    domain: doridian-cdn-wellknown.s3.amazonaws.com
+    path: ''
+    bucketName: doridian-cdn-wellknown
+crypto:
+    minValidDays: 30
+    bucketName: doridian-cdn-crypto
+siteDir: /var/www/sites
+defaultCert: /etc/ssl/default.crt
+defaultKey: /etc/ssl/default.key
