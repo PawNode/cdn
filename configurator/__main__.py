@@ -89,7 +89,6 @@ def dynConfigFindClosest(grp):
 dynConfig['_self'] = dynConfig[getfqdn()]
 dynConfig['_self']['_name'] = getfqdn()
 dynConfig['_find'] = dynConfigFindClosest
-dynConfig['_decrypt'] = decryptString
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']
@@ -120,7 +119,7 @@ zones = {}
 
 def writeGlobalTpl(name, target):
     tpl = j2env.get_template(name)
-    data = tpl.render(zones=zones, config=config,dynConfig=dynConfig,tags=tags)
+    data = tpl.render(zones=zones, config=config, dynConfig=dynConfig, tags=tags, decrypt=decryptString)
     return swapFile(target, data)
 
 def writeNginxInclude(name):
