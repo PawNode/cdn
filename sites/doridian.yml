@@ -1,7 +1,11 @@
 domains:
     - doridian.net
     - www.doridian.net
+    - cdn.doridian.net
 redirectWWW: true
+redirectDomains:
+    - from: cdn.doridian.net
+      to: doridian.net
 type: zip
 src: https://github.com/Doridian/website/releases/download/2020-08-07/doridian.net.zip
 hsts: true
