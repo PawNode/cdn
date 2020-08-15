@@ -20,6 +20,6 @@ ACCOUNT_DATA_FILE = path.join(CERT_DIR, '__account__.pem')
 
 osconfig = config['objectStorage']
 s3_client = boto3_client('s3',
-    aws_access_key_id=decryptString(osconfig['accessKeyID']),
-    aws_secret_access_key=decryptString(osconfig['secretAccessKey'])
+    aws_access_key_id=decryptString(osconfig['accessKeyID']).decode('ascii'),
+    aws_secret_access_key=decryptString(osconfig['secretAccessKey']).decode('ascii')
 )
