@@ -90,7 +90,7 @@ def downloadAndDecrypt(fn):
         Key=fn
     )
     iv = b64decode(blob['Metadata']['crypto_iv'])
-    pem = decryptString(blob['Body'].read(), iv)
+    pem = decryptString(blob['Body'].read(), False, iv)
     return pem
 
 def uploadAndEncrypt(fn, data):
@@ -98,7 +98,7 @@ def uploadAndEncrypt(fn, data):
         return
 
     iv = urandom(16)
-    encryptedData = encryptString(data, iv)
+    encryptedData = encryptString(data, False, iv)
     s3_client.put_object(Bucket=BUCKET_NAME, Key=fn, Body=encryptedData, Metadata={
         'crypto_version': '1',
         'crypto_iv': b64encode(iv).decode('ascii'),
