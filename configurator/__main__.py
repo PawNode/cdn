@@ -8,13 +8,10 @@ from yaml import safe_load as yaml_load, dump as yaml_dump
 from zipfile import ZipFile
 from socket import getfqdn
 from subprocess import PIPE, run
+from .config import config, decryptString
 
 __dir__ = path.abspath(path.dirname(__file__))
 chdir(__dir__)
-
-config = None
-with open(path.join(__dir__, '../config.yml'), 'r') as f:
-    config = yaml_load(f)
 
 SITECONFIGDIR = path.abspath(path.join(__dir__, '../sites'))
 def getGitTime(fn):
@@ -89,6 +86,7 @@ def dynConfigFindClosest(grp):
 dynConfig['_self'] = dynConfig[getfqdn()]
 dynConfig['_self']['_name'] = getfqdn()
 dynConfig['_find'] = dynConfigFindClosest
+dynConfig['_decrypt'] = decryptString
 
 SITEDIR = config['siteDir']
 DEFAULT_KEY = config['defaultKey']

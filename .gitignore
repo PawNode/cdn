@@ -3,7 +3,6 @@
 /certifier/le/*.*
 /certifier/dnssec
 /certifier/dsset-*
-/config.yml
 /certifier/config.yml
 /configurator/out/**/*.*
 __pycache__

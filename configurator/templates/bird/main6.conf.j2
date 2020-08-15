@@ -54,7 +54,7 @@ protocol bgp {{ neighbor.name }} {
         multihop {{ neighbor.multihop }};
                 {%- endif %}
                 {%- if 'password' in neighbor %}
-        password "{{ neighbor.password }}";
+        password "{{ config._decrypt(neighbor.password) }}";
                 {%- endif %}
         next hop self;
 {%- if neighbor.mode == 'out' %}

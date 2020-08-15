@@ -4,11 +4,11 @@ import OpenSSL
 from datetime import datetime, timedelta
 from Crypto.Cipher import AES
 from base64 import b64decode, b64encode
+from .config import encryptString, decryptString
 
-certconfig = config['certs']
-BUCKET_NAME = certconfig['bucketName']
+certconfig = config['crypto']
+BUCKET_NAME = config['bucketName']
 
-AES_KEY = b64decode(certconfig['encryptionKey'])
 CERT_MIN_VALID_DAYS = certconfig['minValidDays']
 
 def checkCertPEM(cert_pem, domains):
@@ -90,8 +90,7 @@ def downloadAndDecrypt(fn):
         Key=fn
     )
     iv = b64decode(blob['Metadata']['crypto_iv'])
-    aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
-    pem = aes.decrypt(blob['Body'].read())
+    pem = decryptString(blob['Body'].read(), iv)
     return pem
 
 def uploadAndEncrypt(fn, data):
@@ -99,9 +98,8 @@ def uploadAndEncrypt(fn, data):
         return
 
     iv = urandom(16)
-    aes = AES.new(AES_KEY, AES.MODE_CFB, iv)
-    data = aes.encrypt(data)
-    s3_client.put_object(Bucket=BUCKET_NAME, Key=fn, Body=data, Metadata={
+    encryptedData = encryptString(data, iv)
+    s3_client.put_object(Bucket=BUCKET_NAME, Key=fn, Body=encryptedData, Metadata={
         'crypto_version': '1',
         'crypto_iv': b64encode(iv).decode('ascii'),
     })

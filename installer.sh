@@ -5,7 +5,6 @@ set -euo pipefail
 # MAKE SURE TO dpkg-reconfigure locales to en-US.UTF-8!
 
 ID="$(cat /opt/cdn-id)"
-sed -i "s~__SERVER_ID__~$ID~" ./config.yml
 printf "$ID * * * * python3 /opt/cdn/certifier --cron\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 cd "$(dirname "$0")"

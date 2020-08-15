@@ -1,5 +1,5 @@
 from os import path
-from yaml import load as yaml_load
+from yaml import safe_load as yaml_load
 from base64 import b64decode, b64encode
 from Crypto.Cipher import AES
 
