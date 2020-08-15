@@ -1,8 +1,7 @@
 domains:
     - f0x.es
     - www.f0x.es
-type: redirect
-target: https://doridian.net
+type: none
 redirects:
     /security: https://cdn.doridian.net/.well-known/security.txt
 hsts: true
