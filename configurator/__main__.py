@@ -2,16 +2,19 @@ from datetime import timezone, datetime
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import chdir, listdir, path, unlink, rename, system, mkdir, stat
+from sys import path as sys_path
 from requests import get as http_get
 from shutil import rmtree
 from yaml import safe_load as yaml_load, dump as yaml_dump
 from zipfile import ZipFile
 from socket import getfqdn
 from subprocess import PIPE, run
-from .config import config, decryptString
 
 __dir__ = path.abspath(path.dirname(__file__))
 chdir(__dir__)
+sys_path.append(path.dirname(__dir__))
+
+from config import config, decryptString
 
 SITECONFIGDIR = path.abspath(path.join(__dir__, '../sites'))
 def getGitTime(fn):

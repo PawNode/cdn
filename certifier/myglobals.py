@@ -1,13 +1,17 @@
 from os import path
+from sys import path as sys_path
 from yaml import safe_load as yaml_load
 from boto3 import client as boto3_client
-from .config import config, decryptString
+
+__dir__ = path.abspath(path.dirname(__file__))
+sys_path.append(path.dirname(__dir__))
+
+from config import config, decryptString
 
 class CertificateUnusableError(Exception):
     def __init__(self):
         Exception.__init__(self)
 
-__dir__ = path.abspath(path.dirname(__file__))
 KEY_DIR = path.join(__dir__, 'keys')
 CERT_DIR = path.join(__dir__, 'certs')
 DNSSEC_DIR = path.join('/etc/powerdns/dnssec')
