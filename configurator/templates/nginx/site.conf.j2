@@ -183,10 +183,10 @@ server {
         include /etc/nginx/includes/hsts.conf;
     {%- endif %}
     {%- if site.redirects %}
-        if ($redirects_{{ site.name }} != "") {
-            return 301 $redirects_{{ site.name }};
+        if ($redirects_{{ site.name }} = "") {
+            return 404 "Link not found. Want to add it? Contribute at https://github.com/Doridian/cdn";
         }
-        return 404 "Link not found. Want to add it? Contribute at https://github.com/Doridian/cdn";
+        return 301 $redirects_{{ site.name }};
     {%- else %}
         return 301 {{ site.target }};
     {%- endif %}
