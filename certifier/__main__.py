@@ -11,7 +11,7 @@ chdir(__dir__)
 
 IS_CRON = len(argv) > 1 and argv[1] == '--cron'
 
-BUCKET_NAME = config['certs']['bucketName']
+BUCKET_NAME = config['crypto']['bucketName']
 
 sites = []
 zones = []
