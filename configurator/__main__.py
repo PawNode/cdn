@@ -91,8 +91,6 @@ dynConfig['_self']['_name'] = getfqdn()
 dynConfig['_find'] = dynConfigFindClosest
 
 SITEDIR = config['siteDir']
-DEFAULT_KEY = config['defaultKey']
-DEFAULT_CERT = config['defaultCert']
 
 DIR = path.abspath(path.join(__dir__, 'sites'))
 OUTDIR = path.abspath(path.join(__dir__, 'out'))

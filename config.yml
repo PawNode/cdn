@@ -9,5 +9,3 @@ crypto:
     minValidDays: 30
     bucketName: doridian-cdn-crypto
 siteDir: /var/www/sites
-defaultCert: /etc/ssl/default.crt
-defaultKey: /etc/ssl/default.key
