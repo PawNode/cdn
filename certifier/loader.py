@@ -1,4 +1,4 @@
-from os import path, unlink, urandom
+from os import path, unlink
 from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError, config, __dir__, s3_client
 import OpenSSL
 from datetime import datetime, timedelta
@@ -89,20 +89,15 @@ def downloadAndDecrypt(fn):
         Bucket=BUCKET_NAME,
         Key=fn
     )
-    iv = b64decode(blob['Metadata']['crypto_iv'])
-    pem = decryptString(blob['Body'].read(), False, iv)
+    pem = decryptString(blob['Body'].read())
     return pem
 
 def uploadAndEncrypt(fn, data):
     if not data:
         return
 
-    iv = urandom(16)
-    encryptedData = encryptString(data, False, iv)
-    s3_client.put_object(Bucket=BUCKET_NAME, Key=fn, Body=encryptedData, Metadata={
-        'crypto_version': '1',
-        'crypto_iv': b64encode(iv).decode('ascii'),
-    })
+    encryptedData = encryptString(data)
+    s3_client.put_object(Bucket=BUCKET_NAME, Key=fn, Body=encryptedData)
 
 def loadCertAndKeyRemote(name):
     key_pem = None
