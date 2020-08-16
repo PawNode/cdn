@@ -4,4 +4,4 @@ OpenSSL
 cryptography
 boto3
 jinja2
-crypto
+cryptodomex
