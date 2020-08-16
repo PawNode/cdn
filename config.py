@@ -33,7 +33,7 @@ def encryptString(plaintextStr):
     if isinstance(plaintextStr, str):
         plaintextStr = plaintextStr.encode('utf-8')
     encryptedStr, tag = aes.encrypt_and_digest(plaintextStr)
-    return "2.%s.%s.%s" % (b64encode(aes.nonce), b64encode(tag), b64encode(encryptedStr))
+    return "2.%s.%s.%s" % (b64encode(aes.nonce).decode('utf-8'), b64encode(tag).decode('utf-8'), b64encode(encryptedStr).decode('utf-8'))
 
 config = None
 with open(path.join(__dir__, './config.yml'), 'r') as f:
