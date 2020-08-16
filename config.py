@@ -15,6 +15,8 @@ AES_KEY = b64decode(__readf('/opt/cdn-key'))
 serverId = __readf('/opt/cdn-id')
 
 def decryptString(encryptedStr):
+    if not isinstance(encryptedStr, str):
+        encryptedStr = encryptedStr.decode('utf-8')
     split = encryptedStr.split('.')
     mode = split[0]
     if mode != '2':
@@ -29,9 +31,9 @@ def decryptString(encryptedStr):
     return plaintextStr
 
 def encryptString(plaintextStr):
-    aes = AES.new(AES_KEY, AES.MODE_GCM)
     if isinstance(plaintextStr, str):
         plaintextStr = plaintextStr.encode('utf-8')
+    aes = AES.new(AES_KEY, AES.MODE_GCM)
     encryptedStr, tag = aes.encrypt_and_digest(plaintextStr)
     return "2.%s.%s.%s" % (b64encode(aes.nonce).decode('utf-8'), b64encode(tag).decode('utf-8'), b64encode(encryptedStr).decode('utf-8'))
 
