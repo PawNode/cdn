@@ -50,8 +50,8 @@ server {
     listen 443 http2 ssl default;
     listen [::]:443 http2 ssl default;
 
-    ssl_certificate {{ config.defaultCert }};
-    ssl_certificate_key {{ config.defaultKey }};
+    ssl_certificate /etc/ssl/default.crt;
+    ssl_certificate_key /etc/ssl/default.key;
 
     root /var/www/empty;
 
