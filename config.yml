@@ -1,6 +1,6 @@
 objectStorage:
-    accessKeyID: 'zNC3tjqmqiJzueHn6Fzwp9llkFA='
-    secretAccessKey: '4NejhDwt0GC+y5fjBoqDYAR8eT4oyzK2yRnQX6agFNoMbsVoS0G6jw=='
+    accessKeyID: '2.dt/kp/278UprY71Ysm6gKg==.sznFLuitbCp1Y7o9c06tZQ==.i5U+/LMQIgjC4IYHQtAXumobNiQ='
+    secretAccessKey: '2.NEhFLMwjyeGAseTfrhc6uQ==.XjrZ0pWEoUwzpLdAFQa9jg==.lswix4SJpCrPMFpDmI2yxcJ2vdc2A8nJmjjFlrIJY2iRRxsmroIkDA=='
 wellknown:
     domain: doridian-cdn-wellknown.s3.amazonaws.com
     path: ''
