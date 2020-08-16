@@ -45,5 +45,5 @@ if __name__ == '__main__':
 
     if argv[1] == 'encrypt':
         print(encryptString(argv[2]))
-    elif argv[2] == 'newkey':
+    elif argv[1] == 'newkey':
         print(b64encode(get_random_bytes(16)))
