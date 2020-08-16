@@ -30,6 +30,8 @@ def decryptString(encryptedStr):
 
 def encryptString(plaintextStr):
     aes = AES.new(AES_KEY, AES.MODE_GCM)
+    if isinstance(plaintextStr, str):
+        plaintextStr = plaintextStr.encode('utf-8')
     encryptedStr, tag = aes.encrypt_and_digest(plaintextStr)
     return "2.%s.%s.%s" % (b64encode(aes.nonce), b64encode(tag), b64encode(encryptedStr))
 
