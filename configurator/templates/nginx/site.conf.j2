@@ -180,7 +180,7 @@ server {
 {%- if site.redirects or site.type == 'redirect' %}
     location / {
         default_type text/plain;
-        types { };
+        types { }
     {%- if site.hsts %}
         include /etc/nginx/includes/hsts.conf;
     {%- endif %}
