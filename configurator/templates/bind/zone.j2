@@ -61,7 +61,7 @@ $ORIGIN {{ mainDomain }}.
 @   IN  TXT "v=spf1 include:spf.messagingengine.com mx ~all"
 fm1._domainkey   IN  CNAME fm1.{{ mainDomain }}.dkim.fmhosted.com.
 fm2._domainkey   IN  CNAME fm2.{{ mainDomain }}.dkim.fmhosted.com.
-fm2._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com.
+fm3._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com.
 {%- elif site.presetMX == 'protonmail' %}
 @	IN	MX	10 mail.protonmail.ch.
 @   IN	MX	20 mailsec.protonmail.ch.
