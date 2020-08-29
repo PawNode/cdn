@@ -10,7 +10,7 @@ type: zip
 src: https://github.com/Doridian/website/releases/download/2020-08-07/doridian.net.zip
 hsts: true
 useSecurityTxt: true
-presetMX: protonmail
+presetMX: fastmail
 vanityNS: true
 records:
     - name: las1.cdn
@@ -22,19 +22,6 @@ records:
     - name: lux1.cdn
       type: A
       value: 104.244.76.182
-
-    - name: '@'
-      type: TXT
-      value: 'protonmail-verification=7193665fb55a66a38300a17ca9d10cf4ff921b14'
-    - name: protonmail._domainkey
-      type: CNAME
-      value: 'protonmail._domainkey.dd62bnxaeo2mc2e6yssdovhe52gt4ft7ggf5jb72rxpvl4qguezba.domains.proton.ch.'
-    - name: protonmail2._domainkey
-      type: CNAME
-      value: 'protonmail2._domainkey.dd62bnxaeo2mc2e6yssdovhe52gt4ft7ggf5jb72rxpvl4qguezba.domains.proton.ch.'
-    - name: protonmail3._domainkey
-      type: CNAME
-      value: 'protonmail3._domainkey.dd62bnxaeo2mc2e6yssdovhe52gt4ft7ggf5jb72rxpvl4qguezba.domains.proton.ch.'
 
     - name: spaceage-api
       type: A

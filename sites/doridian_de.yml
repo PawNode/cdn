@@ -5,7 +5,7 @@ type: redirect
 target: https://doridian.net
 hsts: true
 useSecurityTxt: true
-presetMX: protonmailforward
+presetMX: fastmail
 records:
     - name: mc
       type: CNAME
