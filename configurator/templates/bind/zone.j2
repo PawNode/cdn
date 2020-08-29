@@ -59,9 +59,9 @@ $ORIGIN {{ mainDomain }}.
 @	IN	MX	10 in1-smtp.messagingengine.com.
 @   IN	MX	20 in2-smtp.messagingengine.com.
 @   IN  TXT "v=spf1 include:spf.messagingengine.com mx ~all"
-fm1._domainkey   IN  CNAME fm1.{{ mainDomain }}.dkim.fmhosted.com
-fm2._domainkey   IN  CNAME fm2.{{ mainDomain }}.dkim.fmhosted.com
-fm2._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com
+fm1._domainkey   IN  CNAME fm1.{{ mainDomain }}.dkim.fmhosted.com.
+fm2._domainkey   IN  CNAME fm2.{{ mainDomain }}.dkim.fmhosted.com.
+fm2._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com.
 {%- elif site.presetMX == 'protonmail' %}
 @	IN	MX	10 mail.protonmail.ch.
 @   IN	MX	20 mailsec.protonmail.ch.
@@ -70,3 +70,6 @@ fm2._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com
 @   IN  MX  1 arcticfox.doridian.net.
 @   IN  TXT "v=spf1 include:_spf.protonmail.ch mx ~all"
 {%- endif %}
+
+# END OF FILE
+
