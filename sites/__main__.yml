@@ -38,7 +38,7 @@ las1.cdn.doridian.net:
     tags: ["buyvm"]
     subnets6: ["2a0e:7d44:f001::/48"]
     ips6: ["2a0e:7d44:f001::1/48"]
-    location: LV
+    location: LAS
     neighbors:
         - name: buyvm
           multihop: 2
@@ -51,8 +51,14 @@ nyc1.cdn.doridian.net:
     tags: ["buyvm"]
     subnets6: ["2a0e:7d44:f002::/48"]
     ips6: ["2a0e:7d44:f002::1/48"]
-    location: NY
-    neighbors: []
+    location: NYC
+    neighbors:
+        - name: buyvm
+          multihop: 2
+          ip4: 169.254.169.179
+          ip6: 2605:6400:ffff::2
+          as: 53667
+          password: "2.uNYK3PFwyjzB8s7+L9kdFQ==.olNpvJtZdsEKJXgokenenQ==./Hos8TIe3Yg="
 lux1.cdn.doridian.net:
     primaryIp: 104.244.76.182
     tags: ["buyvm"]
