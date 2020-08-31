@@ -65,7 +65,6 @@ mount -a
 
 # SET UP NTP
 apt-get -y install chrony
-cp files/chrony.conf /etc/chrony/chrony.conf
 enableStart chrony
 # END NTP
 
