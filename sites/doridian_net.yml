@@ -23,6 +23,13 @@ records:
       type: A
       value: 104.244.76.182
 
+    - name: ntp
+      type: A
+      value: 198.251.90.28
+    - name: ntp
+      type: AAAA
+      value: 2a0e:7d44:f0fc::123
+
     - name: spaceage-api
       type: A
       value: 127.0.0.1

@@ -32,3 +32,7 @@ records:
     - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
       type: PTR
       value: 'cdn.doridian.net.'
+
+    - name: '3.2.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.c'
+      type: PTR
+      value: 'ntp.doridian.net.'
