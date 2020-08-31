@@ -13,8 +13,8 @@ $ORIGIN {{ mainDomain }}.
                         604800
                         3600 )
 
-@       3600    IN      CAA 0 issue letsencrypt.org
-@       3600    IN      CAA 0 issuewild letsencrypt.org
+@       3600    IN      CAA     0 issue letsencrypt.org
+@       3600    IN      CAA     0 issuewild letsencrypt.org
 
 {%- if site.vanityNS %}
     {%- for nsname, nsdata in dynConfig._find('vanityNSRecords')|dictsort %}
