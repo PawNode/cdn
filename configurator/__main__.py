@@ -374,6 +374,9 @@ def __main__():
     if writeGlobalTpl('bind/named.conf.j2', '/etc/powerdns/named.conf') or reloadDNS:
         system('pdns_control rediscover && pdns_control reload')
 
+    if writeGlobalTpl('chrony/chrony.conf.j2', '/etc/chrony/chrony.conf'):
+        system('service chrony restart')
+
     if writeNginxInclude('hsts') | \
         writeNginxInclude('proxy') | \
         writeNginxInclude('varnish') | \

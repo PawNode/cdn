@@ -48,12 +48,33 @@ buyvm:
 #          ip6: 2605:6400:ffff::2
 #          as: 53667
 #          password: ""
+buyvm_nyc:
+    ntp:
+        - ticktock.rru.com prefer
+        - clock.psu.edu
+        - time.btr.net
+        - e.time.steadfast.net
+        - ntp.stevemeacham.net
+buyvm_las:
+    ntp:
+        - tick.net.unlv.edu prefer
+        - time1.nv.skyfiberinternet.com
+        - time-clock.borgnet.us
+        - cambria.bitsrc.net
+        - time2.nv.skyfiberinternet.com
+buyvm_lux:
+    ntp:
+        - stratum2-3.NTP.TechFak.Uni-Bielefeld.DE prefer
+        - time.intrabit.services
+        - ntp.xtom.nl
+        - ntp.lasotel.net
+        - ntp.duckcorp.org
 las1.cdn.doridian.net:
     primaryIp: 209.141.56.18
-    tags: ["buyvm"]
+    tags: ["buyvm", "buyvm_las"]
     subnets6: ["2a0e:7d44:f001::/48"]
     ips6: ["2a0e:7d44:f001::1/48"]
-    location: LAS
+    location: BUYVM_LAS
     neighbors:
         - name: buyvm
           multihop: 2
@@ -63,10 +84,10 @@ las1.cdn.doridian.net:
           password: "2.c7ey+/VM+pB7cIxIwjDlYA==.hIg6JabTwxAI03vWkf59RA==.L28moLQY6ds="
 nyc1.cdn.doridian.net:
     primaryIp: 198.98.58.17
-    tags: ["buyvm"]
+    tags: ["buyvm", "buyvm_nyc"]
     subnets6: ["2a0e:7d44:f002::/48"]
     ips6: ["2a0e:7d44:f002::1/48"]
-    location: NYC
+    location: BUYVM_NYC
     neighbors:
         - name: buyvm
           multihop: 2
@@ -76,10 +97,10 @@ nyc1.cdn.doridian.net:
           password: "2.uNYK3PFwyjzB8s7+L9kdFQ==.olNpvJtZdsEKJXgokenenQ==./Hos8TIe3Yg="
 lux1.cdn.doridian.net:
     primaryIp: 104.244.76.182
-    tags: ["buyvm"]
+    tags: ["buyvm", "buyvm_lux"]
     subnets6: ["2a0e:7d44:f003::/48"]
     ips6: ["2a0e:7d44:f003::1/48"]
-    location: LUX
+    location: BUYVM_LUX
     neighbors:
         - name: buyvm
           multihop: 2
