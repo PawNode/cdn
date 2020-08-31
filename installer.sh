@@ -16,7 +16,6 @@ addIfMissing() {
     fi
 }
 
-
 apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-pycryptodome bird apparmor-utils sudo git gcc libfuse-dev fuse bind9utils software-properties-common
 
 rm -f /etc/nginx/sites-enabled/default
@@ -63,6 +62,12 @@ addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/certs /mnt/certifier/certs fus
 addIfMissing /etc/fstab 'deffs#/opt/cdn/certifier/keys /mnt/certifier/keys fuse defaults,nonempty,deffile=/etc/ssl/default.key 0 0'
 mount -a
 # END FALLBACKS
+
+# SET UP NTP
+apt-get -y install chrony
+cp files/chrony.conf /etc/chrony/chrony.conf
+enableStart chrony
+# END NTP
 
 exec ./deploy_run.sh
 echo 'Could not exec deploy_run.sh'

@@ -51,9 +51,6 @@ records:
     - name: htpl
       type: CNAME
       value: arcticfox.doridian.net.
-    - name: mail
-      type: CNAME
-      value: arcticfox.doridian.net.
     - name: mysql
       type: CNAME
       value: arcticfox.doridian.net.
