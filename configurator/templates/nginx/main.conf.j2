@@ -1,9 +1,20 @@
-resolver 1.1.1.1 1.0.0.1;
+resolver 8.8.8.8 8.8.4.4 [2001:4860:4860::8888] [2001:4860:4860::8844];
 map_hash_bucket_size 2048;
 
 client_max_body_size 100M;
 
-ssl_protocols TLSv1.2;
+ssl_protocols TLSv1.2 TLSv1.3;
+
+ssl_session_cache shared:SSL:10m;
+ssl_session_timeout 1h;
+
+ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+ssl_prefer_server_ciphers on;
+ssl_session_tickets off;
+
+ssl_stapling on;
+ssl_stapling_verify on;
+
 server_tokens off;
 
 proxy_set_header Host $http_host;

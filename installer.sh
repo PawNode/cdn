@@ -20,6 +20,7 @@ addIfMissing() {
 apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-pycryptodome bird apparmor-utils sudo git gcc libfuse-dev fuse bind9utils software-properties-common
 
 rm -f /etc/nginx/sites-enabled/default
+sed -i 's~\tssl_~\t#ssl_~' /etc/nginx/nginx.conf
 
 enableStart() {
     systemctl enable "$1"
