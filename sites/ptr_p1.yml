@@ -28,7 +28,7 @@ records:
 
     - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f'
       type: PTR
-      value: 'cdn.cdn.doridian.net.'
+      value: 'cdn.doridian.net.'
     - name: '2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.e'
       type: PTR
-      value: 'cdn.cdn.doridian.net.'
+      value: 'cdn.doridian.net.'
