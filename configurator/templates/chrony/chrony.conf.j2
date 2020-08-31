@@ -18,6 +18,9 @@
 server {{ server }}
 {%- endfor %}
 
+# Allow querying from everyone!
+allow
+
 # This directive specify the location of the file containing ID/key pairs for
 # NTP authentication.
 keyfile /etc/chrony/chrony.keys
