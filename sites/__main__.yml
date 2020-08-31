@@ -53,7 +53,7 @@ buyvm_nyc:
         - ticktock.rru.com prefer
         - clock.psu.edu
         - time.btr.net
-        - e.time.steadfast.net
+        - timelord.w1nr.net
         - ntp.stevemeacham.net
 buyvm_las:
     ntp:
@@ -67,7 +67,7 @@ buyvm_lux:
         - stratum2-3.NTP.TechFak.Uni-Bielefeld.DE prefer
         - time.intrabit.services
         - ntp.xtom.nl
-        - ntp.lasotel.net
+        - ntp1.doowan.net
         - ntp.duckcorp.org
 las1.cdn.doridian.net:
     primaryIp: 209.141.56.18
