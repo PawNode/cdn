@@ -10,6 +10,7 @@ from argparse import ArgumentParser
 parser = ArgumentParser(description='Doridian CDN certifier')
 parser.add_argument('--cron', help='run in cron/renew mode', action='store_true')
 parser.add_argument('--no-ssl', help='Skip SSL/TLS certificate things', dest='ssl', action='store_false')
+parser.add_argument('--no-acme', help='Skip ACME things', dest='acme', action='store_false')
 parser.add_argument('--no-dnssec', help='Skip DNSSEC things', dest='dnssec', action='store_false')
 args = parser.parse_args()
 
@@ -91,7 +92,7 @@ if args.dnssec:
 
 if args.ssl:
     for site in sites:
-        reloadNginx |= get_ssl_for_site(site)
+        reloadNginx |= get_ssl_for_site(site, args.acme)
 
 if reloadDNS:
     system('chown -R pdns:pdns %s' % DNSSEC_DIR)

@@ -117,7 +117,7 @@ def get_client():
     __cached_client_acme = client_acme
     return client_acme
 
-def get_ssl_for_site(site):
+def get_ssl_for_site(site, use_acme):
     domains = site['domains']
     site_name = site['name']
 
@@ -126,6 +126,10 @@ def get_ssl_for_site(site):
     pkey_pem, fullchain_pem, from_local = loadCertAndKey(site_name, domains)
     if fullchain_pem:
         return not from_local
+
+    if not use_acme:
+        print("[%s] Ignoring missing SSL because ACME is off" % site_name)
+        return False
 
     client_acme = get_client()
 
