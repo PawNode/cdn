@@ -2,7 +2,6 @@ from myacme import get_ssl_for_site
 from yaml import safe_load as yaml_load
 from myglobals import __dir__, s3_client, config, DNSSEC_DIR
 from os import chdir, path, system, stat
-from sys import argv
 from stat import ST_SIZE, ST_MTIME
 from loader import loadFile, storeFile
 from subprocess import run, PIPE
@@ -12,7 +11,7 @@ parser = ArgumentParser(description='Doridian CDN certifier')
 parser.add_argument('--cron', help='run in cron/renew mode', action='store_true')
 parser.add_argument('--no-ssl', help='Skip SSL/TLS certificate things', dest='ssl', action='store_false')
 parser.add_argument('--no-dnssec', help='Skip DNSSEC things', dest='dnssec', action='store_false')
-args = parser.parse_args(argv)
+args = parser.parse_args()
 
 chdir(__dir__)
 
