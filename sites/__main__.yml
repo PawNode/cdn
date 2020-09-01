@@ -24,12 +24,12 @@ all:
     siteips4: ["198.251.90.253", "198.251.90.7"]
     siteips6: ["2a0e:7d44:f0ff::2", "2a0e:7d44:f0fe::2"]
     sitecname: "cdn.doridian.net"
-    nsrecords: ["ns1-cdn.doridian.net", "ns2-cdn.doridian.net"]
+    nsrecords: ["ns1.cdn.doridian.net", "ns2.cdn.doridian.net"]
     vanityNSRecords:
-        ns1-cdn:
+        ns1.cdn:
             ip4: '198.251.90.253'
             ip6: '2a0e:7d44:f0ff::53'
-        ns2-cdn:
+        ns2.cdn:
             ip4: '198.251.90.7'
             ip6: '2a0e:7d44:f0fe::53'
 vultr:

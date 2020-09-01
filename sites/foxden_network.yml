@@ -5,7 +5,7 @@ type: redirect
 target: https://doridian.net
 hsts: false
 useSecurityTxt: true
-presetMX: protonmailforward
+presetMX: fastmail
 records:
     - name: dyn
       ttl: 3600

@@ -6,7 +6,7 @@ redirects:
     /security: https://cdn.doridian.net/.well-known/security.txt
 hsts: true
 useSecurityTxt: true
-presetMX: protonmailforward
+presetMX: fastmail
 records:
     - name: c0de
       type: A
