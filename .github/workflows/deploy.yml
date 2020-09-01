@@ -11,13 +11,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run deploy
       env:
-        SSH_KEY: ${{ secrets.SSH_KEY }}
+        JUMPCLOUD_API_KEY: ${{ secrets.JUMPCLOUD_API_KEY }}
       run: |
-        set -euo pipefail
-        echo "$SSH_KEY" > ssh-keyfile
-        chmod 600 ssh-keyfile
-        for loc in nyc1 las1 lux1
-        do
-            ssh -oUserKnownHostsFile=./.github/known-hosts -i ssh-keyfile "deployer@$loc.cdn.doridian.net"
-        done
-        rm ssh-keyfile
+        curl --silent -XPOST -H "x-api-key: ${JUMPCLOUD_API_KEY}" 'https://console.jumpcloud.com/api/command/trigger/DoridianCDNDeploy'
