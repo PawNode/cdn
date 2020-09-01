@@ -1,0 +1,28 @@
+# Domain for parents
+domains:
+    candy-girl.net
+type: none
+presetMX: arcticfox
+records:
+    - name: ftp
+      type: ALIAS
+      value: arcticfox.doridian.net.
+
+    - name: mail
+      type: ALIAS
+      value: arcticfox.doridian.net.
+    - name: www.mail
+      type: ALIAS
+      value: arcticfox.doridian.net.
+
+    - name: www
+      type: ALIAS
+      value: arcticfox.doridian.net.
+
+    - name: '@'
+      type: ALIAS
+      value: arcticfox.doridian.net.
+
+    - name: x._domainkey
+      type: TXT
+      value: '"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuG9i1izZ8+d8YC5pkhaNa8uU5coa3QgenEZ+61HFBoOVNp1r/9FtLu3qrR3wn8Y5LPOVjs/Nu59HLUxwp5XK5ezN54De3pMAGOba+TgVqokitzAMkmy3vKOsxUM/KHRDiNN966vbkkR7mARC4XNNLWrVElCdB/Vv+331BX9usIrqYDRz8ptEWF6+Wx1ktR0/z" "2/QnkPazynbHGsezlLq1aODmjthNicswiCWjqI0v0J8rJBvcb1TnbazfAvPTQD4dmBD7ZzBnGhFi3k5R5BKSnyCl/QCxJrpI9cWs1VDlPAyFL8pUwY+T6wBzM/HgUf7vasXkzfqlEW9RUOIgpVlmQIDAQAB"'
