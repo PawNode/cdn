@@ -18,16 +18,6 @@ jobs:
         chmod 600 ssh-keyfile
         for loc in nyc1 las1 lux1
         do
-            n=0
-            until [ $n -ge 5 ]
-            do
-              ssh -oUserKnownHostsFile=./.github/known-hosts -i ssh-keyfile "deployer@$loc.cdn.doridian.net" && break || true
-              n=$[$n+1]
-              sleep 5
-            done
-            if [ $n -ge 5 ]
-            then
-              exit 1
-            fi
+            ssh -oUserKnownHostsFile=./.github/known-hosts -i ssh-keyfile "deployer@$loc.cdn.doridian.net"
         done
         rm ssh-keyfile
