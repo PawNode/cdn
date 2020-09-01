@@ -14,8 +14,8 @@ jobs:
         JUMPCLOUD_API_KEY: ${{ secrets.JUMPCLOUD_API_KEY }}
       run: |
         GIT_HASH="$(git rev-parse HEAD)"
-        curl -f --silent -XPOST \
+        curl  -f --silent -XPOST \
               -H "x-api-key: ${JUMPCLOUD_API_KEY}" \
               -H 'Content-Type: application/json' \
-              -d "{\"commit_id\":\"$GIT_HASH\"}" \
+              -d "{\"commit_id\":\"${GIT_HASH}\"}" \
               'https://console.jumpcloud.com/api/command/trigger/DoridianCDNDeploy'
