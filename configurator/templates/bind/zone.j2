@@ -48,7 +48,17 @@ $ORIGIN {{ mainDomain }}.
 {%- endif %}
 
 {%- for record in site.records|sort(attribute='name') %}
+    {%- if record.type == 'ALIAS' %}
+        {%- set alias = dynConfig._find('aliases')[record.value] %}
+        {%- for ip4 in alias.ips4|sort %}
+{{ record.name }} {{ record.ttl|default('300')|int }} IN A {{ ip4 }}
+        {%- endfor %}
+        {%- for ip6 in alias.ips6|sort %}
+{{ record.name }} {{ record.ttl|default('300')|int }} IN AAAA {{ ip6 }}
+        {%- endfor %}
+    {%- else %}
 {{ record.name }} {{ record.ttl|default('300')|int }} IN {{ record.type }} {{ record.value }}
+    {%- endif %}
 {%- endfor %}
 
 {%- if site.presetMX == 'google' %}
@@ -72,6 +82,9 @@ fm3._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com.
 {%- elif site.presetMX == 'protonmailforward' %}
 @   IN  MX  1 arcticfox.doridian.net.
 @   IN  TXT "v=spf1 include:_spf.protonmail.ch mx ~all"
+{%- elif site.presetMX == 'arcticfox' %}
+@   IN  MX  1 arcticfox.doridian.net.
+@   IN  TXT "v=spf1 +a +mx +ip4:104.244.78.41 +ip6:2605:6400:30:f85d:45ba:f441:951:39c7 ~all"
 {%- endif %}
 
 ; END OF FILE

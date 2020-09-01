@@ -32,6 +32,13 @@ all:
         ns2.cdn:
             ip4: '198.251.90.7'
             ip6: '2a0e:7d44:f0fe::53'
+
+    aliases:
+        arcticfox.doridian.net:
+            ips4:
+                - 104.244.78.41
+            ips6:
+                - 2605:6400:30:f85d:45ba:f441:951:39c7
 vultr:
     neighbors:
         - name: vultr

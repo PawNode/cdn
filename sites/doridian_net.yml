@@ -42,11 +42,8 @@ records:
       value: 'doridian-acmedns.westus2.cloudapp.azure.com.'
 
     - name: arcticfox
-      type: A
-      value: 104.244.78.41
-    - name: arcticfox
-      type: AAAA
-      value: 2605:6400:30:f85d:45ba:f441:951:39c7
+      type: ALIAS
+      value: arcticfox.doridian.net
 
     - name: htpl
       type: CNAME
@@ -57,10 +54,6 @@ records:
     - name: www.arcticfox
       type: CNAME
       value: arcticfox.doridian.net.
-
-    - name: _spf
-      type: TXT
-      value: 'v=spf1 a mx ip4:104.244.78.41 ip6:2605:6400:30:f85d:45ba:f441:951:39c7'
 
     - name: xsstest
       type: TXT
