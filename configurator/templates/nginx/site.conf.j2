@@ -56,22 +56,21 @@ server {
 
     {%- if site.hsts %}
     include /etc/nginx/includes/hsts.conf;
-    {%- else %}
+    {%- endif %}
+
     include /etc/nginx/includes/wellknown.conf;
 
-        {%- if site.type == 'directproxy' %}
+    {%- if site.type == 'directproxy' %}
     location @well-known-fallback {
         if ($direct_proxy_{{ site.name }} = "") {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
     }
-        {%- else %}
+    {%- else %}
     location @well-known-fallback {
         return 404;
     }
-        {%- endif %}
-    
     {%- endif %}
 
     location / {
@@ -137,9 +136,9 @@ server {
 
 {%- if site.hsts %}
     include /etc/nginx/includes/hsts.conf;
-{%- else %}
-    include /etc/nginx/includes/wellknown.conf;
 {%- endif %}
+
+    include /etc/nginx/includes/wellknown.conf;
 
 {%- if site.dir %}
     location / {
@@ -148,14 +147,12 @@ server {
 {%- endif %}
 
 {%- if site.type == 'directproxy' %}
-    {%- if not site.hsts %}
     location @well-known-fallback {
         if ($direct_proxy_{{ site.name }} = "") {
             return 502 "Bad gateway";
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
     }
-    {%- endif %}
 
     location / {
         if ($direct_proxy_{{ site.name }} = "") {
@@ -163,7 +160,7 @@ server {
         }
         proxy_pass $scheme://$direct_proxy_{{ site.name }};
     }
-{%- elif not site.hsts %}
+{%- else %}
     location @well-known-fallback {
         return 404;
     }
