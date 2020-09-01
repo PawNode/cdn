@@ -1,8 +1,17 @@
 domains:
     - foxden.network
     - www.foxden.network
-type: redirect
-target: https://doridian.net
+    - grafana.foxden.network
+    - nas.foxden.network
+    - seafile.foxden.network
+type: directproxy
+targets:
+    - host: grafana.foxden.network
+      proxy: grafana.dyn.foxden.network
+    - host: nas.foxden.network
+      proxy: nas.dyn.foxden.network
+    - host: seafile.foxden.network
+      proxy: seafile.dyn.foxden.network
 hsts: false
 useSecurityTxt: true
 presetMX: fastmail
