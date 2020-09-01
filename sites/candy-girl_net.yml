@@ -4,9 +4,13 @@ domains:
 type: none
 presetMX: arcticfox
 records:
-    - name: ftp
+    - name: '@'
       type: ALIAS
       value: arcticfox.doridian.net
+
+    - name: www
+      type: CNAME
+      value: candy-girl.net.
 
     - name: mail
       type: CNAME
@@ -15,11 +19,7 @@ records:
       type: CNAME
       value: candy-girl.net.
 
-    - name: www
-      type: CNAME
-      value: candy-girl.net.
-
-    - name: '@'
+    - name: ftp
       type: CNAME
       value: candy-girl.net.
 
