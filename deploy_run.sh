@@ -11,4 +11,4 @@ gpg --import-ownertrust 'files/trusted_keys/ownertrust.txt'
 
 python3 configurator
 python3 certifier --no-ssl
-#echo 'cd /opt/cdn; python3 certifier' | at now + 2 minutes
+echo 'cd /opt/cdn; python3 certifier' | at now + 2 minutes
