@@ -1,6 +1,6 @@
 # Domain for parents
 domains:
-    zoofaeth.de
+    - zoofaeth.de
 type: none
 presetMX: arcticfox
 records:

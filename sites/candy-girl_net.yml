@@ -1,6 +1,6 @@
 # Domain for parents
 domains:
-    candy-girl.net
+    - candy-girl.net
 type: none
 presetMX: arcticfox
 records:
