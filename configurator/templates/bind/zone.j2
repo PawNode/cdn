@@ -84,7 +84,7 @@ fm3._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com.
 @   IN  TXT "v=spf1 include:_spf.protonmail.ch mx ~all"
 {%- elif site.presetMX == 'arcticfox' %}
 @   IN  MX  1 arcticfox.doridian.net.
-@   IN  TXT "v=spf1 +a +mx +ip4:104.244.78.41 +ip6:2605:6400:30:f85d:45ba:f441:951:39c7 ~all"
+@   IN  TXT "v=spf1 +a:arcticfox.doridian.net +mx ~all"
 {%- endif %}
 
 ; END OF FILE
