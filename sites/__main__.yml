@@ -57,25 +57,25 @@ buyvm:
 #          password: ""
 buyvm_nyc:
     ntp:
-        - ticktock.rru.com prefer
-        - clock.psu.edu
-        - time.btr.net
-        - tick.jrc.us
-        - ntp.stevemeacham.net
+        - server ticktock.rru.com prefer
+        - server clock.psu.edu
+        - server time.btr.net
+        - server tick.jrc.us
+        - server ntp.stevemeacham.net
 buyvm_las:
     ntp:
-        - tick.net.unlv.edu prefer
-        - time1.nv.skyfiberinternet.com
-        - time-clock.borgnet.us
-        - cambria.bitsrc.net
-        - time2.nv.skyfiberinternet.com
+        - server tick.net.unlv.edu prefer
+        - server time1.nv.skyfiberinternet.com
+        - server time-clock.borgnet.us
+        - server cambria.bitsrc.net
+        - server time2.nv.skyfiberinternet.com
 buyvm_lux:
     ntp:
-        - stratum2-3.NTP.TechFak.Uni-Bielefeld.DE prefer
-        - time.intrabit.services
-        - ntp.xtom.nl
-        - ntp1.doowan.net
-        - ntp.duckcorp.org
+        - server stratum2-3.NTP.TechFak.Uni-Bielefeld.DE prefer
+        - server time.intrabit.services
+        - server ntp.xtom.nl
+        - server ntp1.doowan.net
+        - server ntp.duckcorp.org
 las1.cdn.doridian.net:
     primaryIp: 209.141.56.18
     tags: ["buyvm", "buyvm_las"]
