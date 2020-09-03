@@ -156,16 +156,18 @@ def get_ssl_for_site(site, use_acme, ccConfig):
     for domain in domains:
         try:
             r = dns_resolver.query(domain, 'cname')
-            if r[0].target == sitecname:
+            if len(r) == 1 and r[0].target == sitecname:
                 continue
         except dns.resolver.NoAnswer:
             pass
 
         try:
             ra = dns_resolver.query(domain, 'a')
+            ra = list(ra)
             ra.sort()
 
             raaaa = dns_resolver.query(domain, 'aaaa')
+            raaaa = list(raaaa)
             raaaa.sort()
 
             if ra == siteips4 and raaaa == siteips6:
