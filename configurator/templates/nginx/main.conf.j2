@@ -1,5 +1,20 @@
-resolver 8.8.8.8 8.8.4.4 [2001:4860:4860::8888] [2001:4860:4860::8844];
+sendfile on;
+tcp_nopush on;
+tcp_nodelay on;
+keepalive_timeout 65;
+
+types_hash_max_size 2048;
 map_hash_bucket_size 2048;
+
+include /etc/nginx/mime.types;
+default_type application/octet-stream;
+
+access_log /var/log/nginx/access.log;
+error_log /var/log/nginx/error.log;
+
+gzip on;
+
+resolver 8.8.8.8 8.8.4.4 [2001:4860:4860::8888] [2001:4860:4860::8844];
 
 client_max_body_size 100M;
 

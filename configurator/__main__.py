@@ -382,7 +382,8 @@ def __main__():
         writeNginxInclude('securitytxt') | \
         writeNginxInclude('headers') | \
         writeGlobalTpl('nginx/security.txt.j2', path.join(SITEDIR, 'security.txt')) | \
-        swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr):
+        swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr) | \
+        writeGlobalTpl('nginx/nginx.conf.j2', '/etc/nginx/nginx.conf'):
         system('service nginx reload')
 
     swapFile(path.join(CERTIFIER_DIR, 'config.yml'), certifierConfStr)
