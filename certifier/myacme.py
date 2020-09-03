@@ -113,7 +113,7 @@ def get_client():
             regr = client_acme.new_account(
                 messages.NewRegistration.from_data(
                     email=email, terms_of_service_agreed=True))
-            
+
             storeFile("le/account.json", regr.json_dumps().encode())
             storeFile("le/account.pem", account_pkey)
     except errors.ConflictError:
@@ -129,8 +129,8 @@ def get_ssl_for_site(site, use_acme, ccConfig):
     print("[%s] Processing domains %s" % (site_name, ', '.join(domains)))
 
     pkey_pem, fullchain_pem, from_local = loadCertAndKey(site_name, domains)
-    #if fullchain_pem:
-    #    return not from_local
+    if fullchain_pem:
+        return not from_local
 
     if not use_acme:
         print("[%s] Ignoring missing SSL because ACME is off" % site_name)
@@ -162,12 +162,15 @@ def get_ssl_for_site(site, use_acme, ccConfig):
             pass
 
         try:
+            def _to_text(o):
+                return o.to_text()
+
             ra = dns_resolver.query(domain, 'a')
-            ra = list(ra)
+            ra = list(map(_to_text, ra))
             ra.sort()
 
             raaaa = dns_resolver.query(domain, 'aaaa')
-            raaaa = list(raaaa)
+            raaaa = list(map(_to_text, raaaa))
             raaaa.sort()
 
             if ra == siteips4 and raaaa == siteips6:
@@ -176,10 +179,6 @@ def get_ssl_for_site(site, use_acme, ccConfig):
             pass
 
         print("[%s] Public DNS mismatch, skipping site (%s)" % (site_name, domain))
-        return False
-
-    if True:
-        print("IGNORE MODE!")
         return False
 
     client_acme = get_client()
