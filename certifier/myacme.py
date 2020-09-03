@@ -154,17 +154,24 @@ def get_ssl_for_site(site, use_acme, ccConfig):
         return False
 
     for domain in domains:
-        r = dns_resolver.query(domain, 'cname')
-        if r[0].target == sitecname:
-            continue
-        ra = dns_resolver.query(domain, 'a')
-        ra.sort()
+        try:
+            r = dns_resolver.query(domain, 'cname')
+            if r[0].target == sitecname:
+                continue
+        except dns.resolver.NoAnswer:
+            pass
 
-        raaaa = dns_resolver.query(domain, 'aaaa')
-        raaaa.sort()
+        try:
+            ra = dns_resolver.query(domain, 'a')
+            ra.sort()
 
-        if ra == siteips4 and raaaa == siteips6:
-            continue
+            raaaa = dns_resolver.query(domain, 'aaaa')
+            raaaa.sort()
+
+            if ra == siteips4 and raaaa == siteips6:
+                continue
+        except dns.resolver.NoAnswer:
+            pass
 
         print("[%s] Public DNS mismatch, skipping site (%s)" % (site_name, domain))
         return False
