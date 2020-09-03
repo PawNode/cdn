@@ -16,12 +16,21 @@ records:
     - name: las1.cdn
       type: A
       value: 209.141.56.18
+    - name: las1.cdn
+      type: AAAA
+      value: '2605:6400:20:1185:c208:9bf:9387:3e40'
     - name: nyc1.cdn
       type: A
       value: 198.98.58.17
+    - name: nyc1.cdn
+      type: AAAA
+      value: '2605:6400:10:466:7c56:8172:bda0:783a'
     - name: lux1.cdn
       type: A
       value: 104.244.76.182
+    - name: lux1.cdn
+      type: AAA
+      value: '2605:6400:30:f77a:8c37:8176:7246:9259'
 
     - name: ntp
       type: A
