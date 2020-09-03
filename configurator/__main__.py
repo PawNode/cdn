@@ -107,6 +107,24 @@ j2env = Environment(
     loader=FileSystemLoader(path.join(__dir__, 'templates')),
     autoescape=select_autoescape([])
 )
+
+RECORD_MAX_LEN = 240
+def j2_escape_txt_record(value):
+    escaped = value.replace('\\', '\\\\').replace('"', '\\"')
+    return f'"{escaped}"'
+
+def j2_format_txt_record(value):
+    value_len = len(value)
+    if value_len <= RECORD_MAX_LEN:
+        return j2_escape_txt_record(value)
+    
+    result = []
+    for i in range(0, value_len, RECORD_MAX_LEN):
+        result.append(j2_escape_txt_record(value[i:i+RECORD_MAX_LEN]))
+    return ' '.join(result)
+
+j2env.filters['format_txt_record'] = j2_format_txt_record
+
 nginxSiteTemplate = j2env.get_template('nginx/site.conf.j2')
 nginxMainTemplate = j2env.get_template('nginx/main.conf.j2')
 bindZoneTemplate = j2env.get_template('bind/zone.j2')

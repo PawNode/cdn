@@ -57,7 +57,11 @@ $ORIGIN {{ mainDomain }}.
 {{ record.name }} {{ record.ttl|default('300')|int }} IN AAAA {{ ip6 }}
         {%- endfor %}
     {%- else %}
-{{ record.name }} {{ record.ttl|default('300')|int }} IN {{ record.type }} {{ record.value }}
+        {%- set record_value = record.value %}
+        {%- if record.type == 'TXT' %}
+            {%- set record_value = record_value|format_txt_record %}
+        {%- endif %}
+{{ record.name }} {{ record.ttl|default('300')|int }} IN {{ record.type }} {{ record_value }}
     {%- endif %}
 {%- endfor %}
 
