@@ -1,4 +1,5 @@
 all:
+    noServer: true
     subnets4: []
     subnets6:
         - "2a0e:7d44:f000::/40"
@@ -40,6 +41,7 @@ all:
             ips6:
                 - 2605:6400:30:f85d:45ba:f441:951:39c7
 vultr:
+    noServer: true
     neighbors:
         - name: vultr
           multihop: 2
@@ -48,6 +50,7 @@ vultr:
           ip6: "2001:19f0:ffff::1"
           as: 64515
 buyvm:
+    noServer: true
     neighbors: []
 #        - name: buyvm
 #          multihop: 2
@@ -56,6 +59,7 @@ buyvm:
 #          as: 53667
 #          password: ""
 buyvm_nyc:
+    noServer: true
     ntp:
         - server ticktock.rru.com prefer
         - server clock.psu.edu
@@ -63,6 +67,7 @@ buyvm_nyc:
         - server tick.jrc.us
         - server ntp.stevemeacham.net
 buyvm_las:
+    noServer: true
     ntp:
         - server tick.net.unlv.edu prefer
         - server time1.nv.skyfiberinternet.com
@@ -70,6 +75,7 @@ buyvm_las:
         - server cambria.bitsrc.net
         - server time2.nv.skyfiberinternet.com
 buyvm_lux:
+    noServer: true
     ntp:
         - server stratum2-3.NTP.TechFak.Uni-Bielefeld.DE prefer
         - server time.intrabit.services

@@ -50,6 +50,8 @@ server {
     ssl_certificate {{ dynConfig._self.certDir }}/{{ site.name }}.pem;
     ssl_certificate_key {{ dynConfig._self.keyDir }}/{{ site.name }}.pem;
 
+    include /etc/nginx/includes/wellknown.conf;
+
     {%- if site.useSecurityTxt %}
     include /etc/nginx/includes/securitytxt.conf;
     {%- endif %}
@@ -57,8 +59,6 @@ server {
     {%- if site.hsts %}
     include /etc/nginx/includes/hsts.conf;
     {%- endif %}
-
-    include /etc/nginx/includes/wellknown.conf;
 
     {%- if site.type == 'directproxy' %}
     location @well-known-fallback {

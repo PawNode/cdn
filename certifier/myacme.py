@@ -3,15 +3,22 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 import josepy as jose
 import OpenSSL
+import dns.resolver
+import requests
 from acme import challenges, client, crypto_util, errors, messages, standalone
 from os import path, unlink
 from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
 from loader import loadCertAndKey, storeCertAndKey, loadFile, storeFile
 from wellknown import uploadWellknown
+from config import config
 
 DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory'
 USER_AGENT = 'python-acme-cdn-doridian-net'
 KEY_BITS = 4096
+
+dns_resolver = dns.resolver.Resolver(configure=False)
+dns_resolver.nameservers = ['8.8.8.8', '2001:4860:4860::8888',
+                            '8.8.4.4', '2001:4860:4860::8844' ]
 
 def new_csr_comp(domain_names, pkey_pem):
     '''Create certificate signing request.'''
@@ -46,8 +53,6 @@ def select_http01_chall(orderr):
 # 1234567890123
 
 def perform_http01(client_acme, challbs, orderr):
-    '''Set up standalone webserver and perform HTTP-01 challenge.'''
-
     for challb in challbs:
         response, validation = challb.response_and_validation(client_acme.net.key)
 
@@ -117,18 +122,55 @@ def get_client():
     __cached_client_acme = client_acme
     return client_acme
 
-def get_ssl_for_site(site, use_acme):
+def get_ssl_for_site(site, use_acme, ccConfig):
     domains = site['domains']
     site_name = site['name']
 
     print("[%s] Processing domains %s" % (site_name, ', '.join(domains)))
 
     pkey_pem, fullchain_pem, from_local = loadCertAndKey(site_name, domains)
-    if fullchain_pem:
-        return not from_local
+    #if fullchain_pem:
+    #    return not from_local
 
     if not use_acme:
         print("[%s] Ignoring missing SSL because ACME is off" % site_name)
+        return False
+
+    sitecname = ccConfig['sitecname']
+    siteips4 = ccConfig['siteips4']
+    siteips6 = ccConfig['siteips6']
+    allnodes = ccConfig['allnodes']
+    gitrev = ccConfig['gitrev']
+
+    siteips4.sort()
+    siteips6.sort()
+
+    for node in allnodes:
+        r = requests.get('http://%s:9080/gitrev.txt' % node)
+        if r.status_code == 200 and r.text.strip() == gitrev:
+            continue
+
+        print("[%s] Git revision mismatch with node (%s)" % (site_name, node))
+        return False
+
+    for domain in domains:
+        r = dns_resolver.query(domain, 'cname')
+        if r[0].target == sitecname:
+            continue
+        ra = dns_resolver.query(domain, 'a')
+        ra.sort()
+
+        raaaa = dns_resolver.query(domain, 'aaaa')
+        raaaa.sort()
+
+        if ra == siteips4 and raaaa == siteips6:
+            continue
+
+        print("[%s] Public DNS mismatch, skipping site (%s)" % (site_name, domain))
+        return False
+
+    if True:
+        print("IGNORE MODE!")
         return False
 
     client_acme = get_client()

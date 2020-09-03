@@ -5,7 +5,7 @@ set -euo pipefail
 # MAKE SURE TO dpkg-reconfigure locales to en-US.UTF-8!
 
 ID="$(cat /opt/cdn-id)"
-printf "$ID * * * * python3 /opt/cdn/certifier --cron\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
+printf "$ID * * * * python3 /opt/cdn/certifier --renew-dnssec\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 cd "$(dirname "$0")"
 
@@ -16,7 +16,7 @@ addIfMissing() {
     fi
 }
 
-apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-pycryptodome bird apparmor-utils sudo git gcc libfuse-dev fuse bind9utils software-properties-common at
+apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-pycryptodome bird apparmor-utils sudo git gcc libfuse-dev fuse bind9utils software-properties-common at python3-dnspython python3-requests
 
 enableStart() {
     systemctl enable "$1"

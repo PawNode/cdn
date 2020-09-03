@@ -8,7 +8,7 @@ from subprocess import run, PIPE
 from argparse import ArgumentParser
 
 parser = ArgumentParser(description='Doridian CDN certifier')
-parser.add_argument('--cron', help='run in cron/renew mode', action='store_true')
+parser.add_argument('--renew-dnssec', help='Re-sign DNSSEC signatures', action='store_true')
 parser.add_argument('--no-ssl', help='Skip SSL/TLS certificate things', dest='ssl', action='store_false')
 parser.add_argument('--no-acme', help='Skip ACME things', dest='acme', action='store_false')
 parser.add_argument('--no-dnssec', help='Skip DNSSEC things', dest='dnssec', action='store_false')
@@ -16,13 +16,12 @@ args = parser.parse_args()
 
 chdir(__dir__)
 
-IS_CRON = args.cron
-
 BUCKET_NAME = config['crypto']['bucketName']
 
 sites = []
 zones = []
 keyFiles = {}
+ccConfig = None
 with open(path.join(__dir__, 'config.yml'), 'r') as f:
     ccConfig = yaml_load(f.read())
     sites = ccConfig['sites']
@@ -70,7 +69,7 @@ if args.dnssec:
         zoneFile = '/etc/powerdns/sites/db.%s' % zone_name
         signedZoneFile = '%s.signed' % zoneFile
 
-        if not IS_CRON:
+        if not args.renew_dnssec:
             zoneStat = stat(zoneFile)
             zoneMtime = zoneStat[ST_MTIME]
 
@@ -92,7 +91,7 @@ if args.dnssec:
 
 if args.ssl:
     for site in sites:
-        reloadNginx |= get_ssl_for_site(site, args.acme)
+        reloadNginx |= get_ssl_for_site(site, args.acme, ccConfig)
 
 if reloadDNS:
     system('chown -R pdns:pdns %s' % DNSSEC_DIR)

@@ -90,3 +90,14 @@ server {
         return 404 "Site not found";
     }
 }
+
+server {
+    listen 9080 default;
+    listen [::]:9080 default;
+
+    root /var/www/empty;
+
+    location = /gitrev.txt {
+        return 200 "{{ dynConfig._self._gitrev }}";
+    }
+}

@@ -22,6 +22,11 @@ def getGitTime(fn):
     res = res.strip(' \'"\t\r\n')
     return datetime.strptime(res, '%Y-%m-%d %H:%M:%S %z')
 
+def getGitRevision():
+    res = run(['git', 'rev-parse', 'HEAD'], stdout=PIPE, encoding='ascii').stdout
+    res = res.strip(' \'"\t\r\n')
+    return res
+
 def loadSite(name):
     fn = path.join(SITECONFIGDIR, name)
     fh = open(fn, 'r')
@@ -88,6 +93,7 @@ def dynConfigFindClosest(grp):
 
 dynConfig['_self'] = dynConfig[getfqdn()]
 dynConfig['_self']['_name'] = getfqdn()
+dynConfig['_self']['_gitrev'] = getGitRevision()
 dynConfig['_find'] = dynConfigFindClosest
 
 SITEDIR = config['siteDir']
@@ -243,10 +249,22 @@ def addZoneFor(domain, site):
         del zones[zone_name]
 
 def __main__():
+    allnodes = []
+
+    for node in dynConfig.keys():
+        if node[0] == '_' or 'noServer' in dynConfig[node]:
+            continue
+        allnodes.append(node)
+
     nginxConfig = [nginxMainTemplate.render(config=config, dynConfig=dynConfig, tags=tags)]
     certifierConfig = {
         'sites': [],
         'zones': [],
+        'siteips4': dynConfigFindClosest('siteips4'),
+        'siteips6': dynConfigFindClosest('siteips6'),
+        'sitecname': dynConfigFindClosest('sitecname'),
+        'allnodes': allnodes,
+        'gitrev': dynConfig['_self']['_gitrev'],
     }
     loadedSites = {}
     reloadDNS = False
