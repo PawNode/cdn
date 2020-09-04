@@ -23,6 +23,16 @@ records:
       type: CNAME
       value: candy-girl.net.
 
+    - name: em3056
+      type: CNAME
+      value: u4172368.wl119.sendgrid.net.
+    - name: s1._domainkey
+      type: CNAME
+      value: s1.domainkey.u4172368.wl119.sendgrid.net.
+    - name: s2._domainkey
+      type: CNAME
+      value: s2.domainkey.u4172368.wl119.sendgrid.net.
+
     - name: x._domainkey
       type: TXT
       value: 'v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1GQK6hvCj6B5ncBJvRfl6rkuZ3BKbLiwnk6YE5pDqvVrFRE1vH9jFR9579JlldSHPEKRTun4p2VqXZMwYRF7V/KSJ4QoyrzY9gis87+2fsi+MxjS1dqvhV0k21YS96DY/lfvebeCm+AIcDyDpm3PsM2dDnPjMEyJN1Vf6bymu5wnDMOXGGXGbMZx95MEVG/drgex0WIykz20LM8w/2sIGJB5kff2T5ZtqzW5SSAbt+x5IOjsFqbCobA/wfCHQdryuUD1LsmkvZ9jZei8T2QsQKtRai+twndOnXhytQQOkkBeIUe90v6PkHWQpl6Mq9+Mbyx//S6rhhV7ResIRaiD2QIDAQAB'
