@@ -1,11 +1,13 @@
 from myacme import get_ssl_for_site
 from yaml import safe_load as yaml_load
 from myglobals import __dir__, s3_client, config, DNSSEC_DIR
-from os import chdir, path, system, stat
+from os import chdir, path, system, stat, environ
 from stat import ST_SIZE, ST_MTIME
 from loader import loadFile, storeFile
 from subprocess import run, PIPE
 from argparse import ArgumentParser
+from dyndbmutex.dyndbmutex import DynamoDbMutex
+from socket import getfqdn
 
 parser = ArgumentParser(description='Doridian CDN certifier')
 parser.add_argument('--renew-dnssec', help='Re-sign DNSSEC signatures', action='store_true')
@@ -90,8 +92,18 @@ if args.dnssec:
         reloadDNS = True
 
 if args.ssl:
-    for site in sites:
-        reloadNginx |= get_ssl_for_site(site, args.acme, ccConfig)
+    environ['DD_MUTEX_TABLE_NAME'] = 'doridian-cdn-mutex'
+    mutex = DynamoDbMutex('doridian-cdn-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
+    locked = mutex.lock()
+    if not locked:
+        print('Could not acquire mutex!')
+        exit(0)
+
+    try:
+        for site in sites:
+            reloadNginx |= get_ssl_for_site(site, args.acme, ccConfig)
+    finally:
+        mutex.release()
 
 if reloadDNS:
     system('chown -R pdns:pdns %s' % DNSSEC_DIR)
