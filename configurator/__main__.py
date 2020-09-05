@@ -396,6 +396,8 @@ def __main__():
     certifierConfStr = yaml_dump(certifierConfig)
     nginxConfStr = '\n'.join(nginxConfig)
 
+    swapFile(path.join(CERTIFIER_DIR, 'config.yml'), certifierConfStr)
+
     if writeGlobalTpl('ips.sh.j2', path.join(OUTDIR, 'ips.sh')):
         system('bash \'%s\'' % path.join(OUTDIR, 'ips.sh'))
 
@@ -421,8 +423,6 @@ def __main__():
         swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr) | \
         writeGlobalTpl('nginx/nginx.conf.j2', '/etc/nginx/nginx.conf'):
         system('service nginx reload')
-
-    swapFile(path.join(CERTIFIER_DIR, 'config.yml'), certifierConfStr)
 
     for name in loadedSites:
         oldName = path.join(OLDDIR, '%s.yml' % name)
