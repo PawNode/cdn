@@ -92,11 +92,14 @@ if args.dnssec:
         reloadDNS = True
 
 if args.ssl:
+    print('Acquiring SSL mutex...')
     mutex = DynamoDbMutex('doridian-cdn-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
     locked = mutex.lock()
     if not locked:
         print('Could not acquire mutex!')
         exit(0)
+
+    print('Got SSL mutex!')
 
     try:
         for site in sites:
