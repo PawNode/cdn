@@ -1,4 +1,4 @@
-from os import path
+from os import path, environ
 from sys import path as sys_path
 from yaml import safe_load as yaml_load
 from boto3 import client as boto3_client
@@ -19,7 +19,8 @@ ACCOUNT_KEY_FILE = path.join(KEY_DIR, '__account__.pem')
 ACCOUNT_DATA_FILE = path.join(CERT_DIR, '__account__.pem')
 
 osconfig = config['objectStorage']
-s3_client = boto3_client('s3',
-    aws_access_key_id=decryptString(osconfig['accessKeyID']).decode('ascii'),
-    aws_secret_access_key=decryptString(osconfig['secretAccessKey']).decode('ascii')
-)
+
+environ['AWS_ACCESS_KEY_ID'] = decryptString(osconfig['accessKeyID']).decode('ascii')
+environ['AWS_SECRET_ACCESS_KEY'] = decryptString(osconfig['secretAccessKey']).decode('ascii')
+
+s3_client = boto3_client('s3')
