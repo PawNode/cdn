@@ -92,7 +92,6 @@ if args.dnssec:
         reloadDNS = True
 
 if args.ssl:
-    environ['DD_MUTEX_TABLE_NAME'] = 'doridian-cdn-mutex'
     mutex = DynamoDbMutex('doridian-cdn-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
     locked = mutex.lock()
     if not locked:

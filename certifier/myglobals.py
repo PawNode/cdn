@@ -22,5 +22,6 @@ osconfig = config['objectStorage']
 
 environ['AWS_ACCESS_KEY_ID'] = decryptString(osconfig['accessKeyID']).decode('ascii')
 environ['AWS_SECRET_ACCESS_KEY'] = decryptString(osconfig['secretAccessKey']).decode('ascii')
+environ['DD_MUTEX_TABLE_NAME'] = 'doridian-cdn-mutex'
 
 s3_client = boto3_client('s3')
