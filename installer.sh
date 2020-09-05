@@ -5,7 +5,7 @@ set -euo pipefail
 # MAKE SURE TO dpkg-reconfigure locales to en-US.UTF-8!
 
 ID="$(cat /opt/cdn-id)"
-printf "$ID * * * * python3 /opt/cdn/certifier --renew-dnssec\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
+printf "$ID * * * * python3 /opt/cdn/certifier --renew-dnssec --no-ssl\n* * * * * python3 /opt/cdn/certifier\n@reboot bash /opt/cdn/configurator/out/ips.sh\n" | crontab
 
 cd "$(dirname "$0")"
 

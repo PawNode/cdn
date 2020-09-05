@@ -12,6 +12,10 @@ class CertificateUnusableError(Exception):
     def __init__(self):
         Exception.__init__(self)
 
+class NoLockError(Exception):
+    def __init__(self):
+        Exception.__init__(self)
+
 KEY_DIR = path.join(__dir__, 'keys')
 CERT_DIR = path.join(__dir__, 'certs')
 DNSSEC_DIR = path.join('/etc/powerdns/dnssec')

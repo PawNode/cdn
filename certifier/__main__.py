@@ -1,6 +1,6 @@
 from myacme import get_ssl_for_site
 from yaml import safe_load as yaml_load
-from myglobals import __dir__, s3_client, config, DNSSEC_DIR
+from myglobals import __dir__, s3_client, config, DNSSEC_DIR, NoLockError
 from os import chdir, path, system, stat, environ
 from stat import ST_SIZE, ST_MTIME
 from loader import loadFile, storeFile
@@ -92,20 +92,19 @@ if args.dnssec:
         reloadDNS = True
 
 if args.ssl:
-    print('Acquiring SSL mutex...')
     mutex = DynamoDbMutex('doridian-cdn-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
-    locked = mutex.lock()
-    if not locked:
-        print('Could not acquire mutex!')
-        exit(0)
 
-    print('Got SSL mutex!')
+    try_acme = args.acme
 
     try:
         for site in sites:
-            reloadNginx |= get_ssl_for_site(site, args.acme, ccConfig)
+            try:
+                reloadNginx |= get_ssl_for_site(site, try_acme, mutex, ccConfig)
+            except NoLockError:
+                try_acme = False
     finally:
-        mutex.release()
+        if mutex.locked:
+            mutex.release()
 
 if reloadDNS:
     system('chown -R pdns:pdns %s' % DNSSEC_DIR)

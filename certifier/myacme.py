@@ -7,7 +7,7 @@ import dns.resolver
 import requests
 from acme import challenges, client, crypto_util, errors, messages, standalone
 from os import path, unlink
-from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE
+from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, ACCOUNT_DATA_FILE, NoLockError
 from loader import loadCertAndKey, storeCertAndKey, loadFile, storeFile
 from wellknown import uploadWellknown
 from config import config
@@ -122,7 +122,7 @@ def get_client():
     __cached_client_acme = client_acme
     return client_acme
 
-def get_ssl_for_site(site, use_acme, ccConfig):
+def get_ssl_for_site(site, use_acme, acme_mutex, ccConfig):
     domains = site['domains']
     site_name = site['name']
 
@@ -181,21 +181,22 @@ def get_ssl_for_site(site, use_acme, ccConfig):
         print("[%s] Public DNS mismatch, skipping site (%s)" % (site_name, domain))
         return False
 
+    if not acme_mutex.locked:
+        print("[%s] Site requires ACME. Acquiring SSL mutex..." % site_name)
+        if not acme_mutex.lock():
+            print("[%s] Could not acquire lock. Continuing without ACME!" % site_name)
+            raise NoLockError()
+        print("[%s] Acquired ACME lock (kept until process exit)!" % site_name)
+
     client_acme = get_client()
-
     pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
-
     # Issue certificate
     orderr = client_acme.new_order(csr_pem)
-
     # Select HTTP-01 within offered challenges by the CA server
     challbs = select_http01_chall(orderr)
-
     # The certificate is ready to be used in the variable 'fullchain_pem'.
     fullchain_pem = perform_http01(client_acme, challbs, orderr).encode()
-
     storeCertAndKey(site_name, pkey_pem, fullchain_pem)
 
     print("[%s] Obtained new certificate" % site_name)
-
     return True
