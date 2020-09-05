@@ -186,7 +186,9 @@ def get_ssl_for_site(site, use_acme, acme_mutex, ccConfig):
         if not acme_mutex.lock():
             print("[%s] Could not acquire lock. Continuing without ACME!" % site_name)
             raise NoLockError()
-        print("[%s] Acquired ACME lock (kept until process exit)!" % site_name)
+        print("[%s] Acquired ACME lock! (kept until process exit)" % site_name)
+    else:
+        print("[%s] Site requires ACME. Already have SSL mutex." % site_name)
 
     client_acme = get_client()
     pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
