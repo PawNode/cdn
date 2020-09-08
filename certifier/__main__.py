@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 from dyndbmutex.dyndbmutex import DynamoDbMutex
 from socket import getfqdn
 
-parser = ArgumentParser(description='Doridian CDN certifier')
+parser = ArgumentParser(description='PawNode CDN certifier')
 parser.add_argument('--renew-dnssec', help='Re-sign DNSSEC signatures', action='store_true')
 parser.add_argument('--no-ssl', help='Skip SSL/TLS certificate things', dest='ssl', action='store_false')
 parser.add_argument('--no-acme', help='Skip ACME things', dest='acme', action='store_false')
@@ -92,7 +92,7 @@ if args.dnssec:
         reloadDNS = True
 
 if args.ssl:
-    mutex = DynamoDbMutex('doridian-cdn-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
+    mutex = DynamoDbMutex('pawnode-cdn-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
 
     try_acme = args.acme
 

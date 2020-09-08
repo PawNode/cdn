@@ -24,13 +24,13 @@ all:
     # DNS stuff
     siteips4: ["198.251.90.253", "198.251.90.7"]
     siteips6: ["2a0e:7d44:f0ff::2", "2a0e:7d44:f0fe::2"]
-    sitecname: "cdn.doridian.net"
-    nsrecords: ["ns1.cdn.doridian.net", "ns2.cdn.doridian.net"]
+    sitecname: "cdn.pawnode.com"
+    nsrecords: ["ns1.pawnode.com", "ns2.pawnode.com"]
     vanityNSRecords:
-        ns1.cdn:
+        ns1:
             ip4: '198.251.90.253'
             ip6: '2a0e:7d44:f0ff::53'
-        ns2.cdn:
+        ns2:
             ip4: '198.251.90.7'
             ip6: '2a0e:7d44:f0fe::53'
 
@@ -82,7 +82,7 @@ buyvm_lux:
         - server ntp.xtom.nl
         - server ntp1.doowan.net
         - server ntp.duckcorp.org
-las1.cdn.doridian.net:
+las1.pawnode.com:
     primaryIp: 209.141.56.18
     tags: ["buyvm", "buyvm_las"]
     subnets6: ["2a0e:7d44:f001::/48"]
@@ -95,7 +95,7 @@ las1.cdn.doridian.net:
           ip6: 2605:6400:ffff::2
           as: 53667
           password: "2.c7ey+/VM+pB7cIxIwjDlYA==.hIg6JabTwxAI03vWkf59RA==.L28moLQY6ds="
-nyc1.cdn.doridian.net:
+nyc1.pawnode.com:
     primaryIp: 198.98.58.17
     tags: ["buyvm", "buyvm_nyc"]
     subnets6: ["2a0e:7d44:f002::/48"]
@@ -108,7 +108,7 @@ nyc1.cdn.doridian.net:
           ip6: 2605:6400:ffff::2
           as: 53667
           password: "2.uNYK3PFwyjzB8s7+L9kdFQ==.olNpvJtZdsEKJXgokenenQ==./Hos8TIe3Yg="
-lux1.cdn.doridian.net:
+lux1.pawnode.com:
     primaryIp: 104.244.76.182
     tags: ["buyvm", "buyvm_lux"]
     subnets6: ["2a0e:7d44:f003::/48"]

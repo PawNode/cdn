@@ -183,7 +183,7 @@ server {
     {%- endif %}
     {%- if site.redirects %}
         if ($redirects_{{ site.name }} = "") {
-            return 404 "Link not found. Want to add it? Contribute at https://github.com/Doridian/cdn";
+            return 404 "Link not found. Want to add it? Contribute at https://github.com/PawNode/cdn";
         }
         return 301 $redirects_{{ site.name }};
     {%- else %}

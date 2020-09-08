@@ -3,7 +3,7 @@ domains:
     - www.f0x.es
 type: empty
 redirects:
-    /security: https://cdn.doridian.net/.well-known/security.txt
+    /security: https://pawnode.com/.well-known/security.txt
 hsts: true
 useSecurityTxt: true
 presetMX: fastmail

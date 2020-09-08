@@ -13,7 +13,7 @@ from wellknown import uploadWellknown
 from config import config
 
 DIRECTORY_URL = 'https://acme-v02.api.letsencrypt.org/directory'
-USER_AGENT = 'python-acme-cdn-doridian-net'
+USER_AGENT = 'python-acme-pawnode'
 KEY_BITS = 4096
 
 dns_resolver = dns.resolver.Resolver(configure=False)
@@ -109,7 +109,7 @@ def get_client():
 
     try:
         if not client_acme.net.account:
-            email = ('ssl-cdn@doridian.net')
+            email = ('ssl@pawnode.com')
             regr = client_acme.new_account(
                 messages.NewRegistration.from_data(
                     email=email, terms_of_service_agreed=True))
