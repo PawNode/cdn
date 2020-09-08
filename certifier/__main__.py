@@ -92,7 +92,7 @@ if args.dnssec:
         reloadDNS = True
 
 if args.ssl:
-    mutex = DynamoDbMutex('pawnode-cdn-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
+    mutex = DynamoDbMutex('pawnode-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
 
     try_acme = args.acme
 

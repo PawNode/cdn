@@ -18,4 +18,4 @@ jobs:
               -H "x-api-key: ${JUMPCLOUD_API_KEY}" \
               -H 'Content-Type: application/json' \
               -d "{\"commit_id\":\"${GIT_HASH}\"}" \
-              'https://console.jumpcloud.com/api/command/trigger/DoridianCDNDeploy'
+              'https://console.jumpcloud.com/api/command/trigger/PawNodeDeploy'
