@@ -4,8 +4,8 @@ domains:
     - cdn.pawnode.com
 redirectWWW: true
 redirectDomains:
-    from: cdn.pawnode.com
-    to: pawnode.com
+    - from: cdn.pawnode.com
+      to: pawnode.com
 type: zip
 src: https://github.com/Doridian/website/releases/download/2020-08-07/doridian.net.zip
 hsts: true
