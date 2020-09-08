@@ -1,6 +1,6 @@
 objectStorage:
-    accessKeyID: '2.dt/kp/278UprY71Ysm6gKg==.sznFLuitbCp1Y7o9c06tZQ==.i5U+/LMQIgjC4IYHQtAXumobNiQ='
-    secretAccessKey: '2.A+f4+YDdKU3NqYqcRyhFpA==.TSTdYe+xpnb5ZXbPKrx2gw==.tYsM2QMSptNkV755YF4g6SQsH/kxm/xwWulJxseLv+aqPw17C75fBQ=='
+    accessKeyID: '2.11E3UccBsPJ85vEGLm+x/g==.omqMCugKfHGShK+PkCyu0Q==.5gJCsxijZcG3OYp5kC9lYG0yJz0='
+    secretAccessKey: '2.mAQFpLouj16vnyLColTXlQ==.3tf5so7A6MpXII3nMtIWhg==.Iy7jlU10VcsYJj4jpDBp5PccoXvFjtkzTs163OmbpXmfGVqjOOlr+A=='
 wellknown:
     domain: pawnode-wellknown.s3.amazonaws.com
     path: ''
