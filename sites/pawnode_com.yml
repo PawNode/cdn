@@ -1,7 +1,7 @@
 domains:
-    pawnode.com
-    www.pawnode.com
-    cdn.pawnode.com
+    - pawnode.com
+    - www.pawnode.com
+    - cdn.pawnode.com
 redirectWWW: true
 redirectDomains:
     from: cdn.pawnode.com
