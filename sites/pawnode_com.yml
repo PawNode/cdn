@@ -7,7 +7,7 @@ redirectDomains:
     - from: cdn.pawnode.com
       to: pawnode.com
 type: zip
-src: https://github.com/Doridian/website/releases/download/2020-08-07/doridian.net.zip
+src: https://github.com/PawNode/website/releases/download/2020-09-08/pawnode.com.zip
 hsts: true
 useSecurityTxt: true
 presetMX: fastmail
