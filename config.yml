@@ -1,11 +1,11 @@
 objectStorage:
     accessKeyID: '2.dt/kp/278UprY71Ysm6gKg==.sznFLuitbCp1Y7o9c06tZQ==.i5U+/LMQIgjC4IYHQtAXumobNiQ='
-    secretAccessKey: '2.NEhFLMwjyeGAseTfrhc6uQ==.XjrZ0pWEoUwzpLdAFQa9jg==.lswix4SJpCrPMFpDmI2yxcJ2vdc2A8nJmjjFlrIJY2iRRxsmroIkDA=='
+    secretAccessKey: '2.A+f4+YDdKU3NqYqcRyhFpA==.TSTdYe+xpnb5ZXbPKrx2gw==.tYsM2QMSptNkV755YF4g6SQsH/kxm/xwWulJxseLv+aqPw17C75fBQ=='
 wellknown:
-    domain: doridian-cdn-wellknown.s3.amazonaws.com
+    domain: pawnode-wellknown.s3.amazonaws.com
     path: ''
-    bucketName: doridian-cdn-wellknown
+    bucketName: pawnode-wellknown
 crypto:
     minValidDays: 30
-    bucketName: doridian-cdn-crypto
+    bucketName: pawnode-crypto
 siteDir: /var/www/sites
