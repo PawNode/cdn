@@ -12,6 +12,13 @@ records:
       type: CNAME
       value: ntp.pawnode.com.
 
+    - name: ns1.cdn
+      type: CNAME
+      value: ns1.pawnode.com.
+    - name: ns2.cdn
+      type: CNAME
+      value: ns2.pawnode.com.
+
     - name: spaceage-api
       type: A
       value: 127.0.0.1
