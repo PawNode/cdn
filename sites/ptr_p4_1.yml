@@ -2,6 +2,10 @@ domains:
     - 28.244.185.in-addr.arpa
 type: none
 records:
+    - name: 1
+      type: PTR
+      value: 'cdn.pawnode.com.'
+
     - name: 80
       type: PTR
       value: 'cdn.pawnode.com.'

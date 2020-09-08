@@ -8,6 +8,7 @@ all:
         - "2a0e:7d44:f0ff::/48"
         - "2a0e:7d44:f0fe::/48"
     ips4: 
+        - "185.244.28.1/24"
         - "185.244.28.80/24"
         - "185.244.28.180/24"
         - "185.244.28.53/24"
@@ -15,10 +16,10 @@ all:
         - "185.244.28.123/24"
     ips6:
         - "2a0e:7d44:f0fe::1/48"
-        - "2a0e:7d44:f0fe::2/48"
+        - "2a0e:7d44:f0fe::80/48"
         - "2a0e:7d44:f0fe::53/48"
         - "2a0e:7d44:f0ff::1/48"
-        - "2a0e:7d44:f0ff::2/48"
+        - "2a0e:7d44:f0ff::80/48"
         - "2a0e:7d44:f0ff::53/48"
         - "2a0e:7d44:f0fc::123/48"
 
@@ -26,7 +27,7 @@ all:
 
     # DNS stuff
     siteips4: ["185.244.28.80", "185.244.28.180"]
-    siteips6: ["2a0e:7d44:f0ff::2", "2a0e:7d44:f0fe::2"]
+    siteips6: ["2a0e:7d44:f0ff::80", "2a0e:7d44:f0fe::80"]
     sitecname: "cdn.pawnode.com"
     nsrecords: ["ns1.pawnode.com", "ns2.pawnode.com"]
     vanityNSRecords:
