@@ -92,6 +92,16 @@ location_lux:
         - server ntp.xtom.nl
         - server ntp1.doowan.net
         - server ntp.duckcorp.org
+location_syd:
+    noServer: true
+    subnets6: ["2a0e:7d44:f004::/48"]
+    ips6: ["2a0e:7d44:f004::1/48"]
+    ntp:
+        - server ntp2.tpg.com.au prefer
+        - server partymusicfm.servemp3.com
+        - server donna.ntp.tsgnl.co
+        - server ntp.mazzanet.net.au
+        - server riversong.ntp.tsgnl.co
 las1.pawnode.com:
     primaryIp: 209.141.56.18
     inherit: ["buyvm", "location_las"]
@@ -125,3 +135,7 @@ lux1.pawnode.com:
           ip6: 2605:6400:ffff::2
           as: 53667
           password: "2.46gDiDZ8RsDW1WrGnzPWNQ==.Y70x9FeIjBhUACDdHQXRfA==.rq6iUanNXbQ="
+syd1.pawnode.com:
+    primaryIp: 45.77.238.170
+    inherit: ["vultr", "location_syd"]
+    location: VULTR_SYD

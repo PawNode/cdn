@@ -38,3 +38,9 @@ records:
     - name: lux1
       type: AAAA
       value: '2605:6400:30:f77a:8c37:8176:7246:9259'
+    - name: syd1
+      type: A
+      value: 45.77.238.170
+    - name: syd1
+      type: AAAA
+      value: '2001:19f0:5801:14c2:5400:2ff:fef6:7eba'
