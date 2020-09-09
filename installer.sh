@@ -16,7 +16,7 @@ addIfMissing() {
     fi
 }
 
-apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-pycryptodome bird apparmor-utils sudo git gcc libfuse-dev fuse bind9utils software-properties-common at python3-dnspython python3-requests
+apt-get -y install pdns-server pdns-backend-bind nginx python3 python3-acme python3-boto3 python3-josepy python3-jinja2 python3-pycryptodome bird apparmor-utils sudo git gcc libfuse-dev fuse bind9utils software-properties-common at python3-dnspython python3-requests python3-pip
 pip3 install dyndbmutex
 
 enableStart() {
