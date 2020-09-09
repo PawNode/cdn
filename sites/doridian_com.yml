@@ -1,0 +1,8 @@
+domains:
+    - doridian.com
+    - www.doridian.com
+type: redirect
+target: https://doridian.net
+hsts: true
+useSecurityTxt: true
+presetMX: fastmail
