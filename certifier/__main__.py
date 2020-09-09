@@ -41,6 +41,10 @@ if args.dnssec:
         if mutex.locked:
             mutex.release()
 
+if reloadDNS:
+    system('chown -R pdns:pdns %s' % DNSSEC_DIR)
+    system('pdns_control reload')
+
 if args.ssl:
     mutex = DynamoDbMutex('pawnode-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)
 
@@ -55,10 +59,6 @@ if args.ssl:
     finally:
         if mutex.locked:
             mutex.release()
-
-if reloadDNS:
-    system('chown -R pdns:pdns %s' % DNSSEC_DIR)
-    system('pdns_control reload')
 
 if reloadNginx:
     system('service nginx reload')
