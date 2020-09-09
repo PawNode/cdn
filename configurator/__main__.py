@@ -47,10 +47,10 @@ def recurseTags(tag):
     if tag not in dynConfig:
         return
     cfg = dynConfig[tag]
-    if 'tags' not in cfg:
+    if 'inherit' not in cfg:
         return
 
-    subTags = cfg['tags']
+    subTags = cfg['inherit']
     for subTag in subTags:
         recurseTags(subTag)
 
