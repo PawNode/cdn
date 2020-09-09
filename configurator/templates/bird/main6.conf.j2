@@ -63,6 +63,9 @@ protocol bgp {{ neighbor.name }} {
 {%- elif neighbor.mode == 'defgw' %}
         export filter bgp_defroute_only;
         import filter bgp_in;
+{%- elif neighbor.mode == 'out_no_fetch' %}
+        export filter bgp_out;
+        import filter bgp_defroute_only;
 {%- else %}
         import all;
         export filter bgp_out;
