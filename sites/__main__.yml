@@ -64,6 +64,8 @@ buyvm:
 #          password: ""
 location_nyc:
     noServer: true
+    subnets6: ["2a0e:7d44:f002::/48"]
+    ips6: ["2a0e:7d44:f002::1/48"]
     ntp:
         - server ticktock.rru.com prefer
         - server clock.psu.edu
@@ -72,6 +74,8 @@ location_nyc:
         - server ntp.stevemeacham.net
 location_las:
     noServer: true
+    subnets6: ["2a0e:7d44:f001::/48"]
+    ips6: ["2a0e:7d44:f001::1/48"]
     ntp:
         - server tick.net.unlv.edu prefer
         - server time1.nv.skyfiberinternet.com
@@ -80,6 +84,8 @@ location_las:
         - server time2.nv.skyfiberinternet.com
 location_lux:
     noServer: true
+    subnets6: ["2a0e:7d44:f003::/48"]
+    ips6: ["2a0e:7d44:f003::1/48"]
     ntp:
         - server stratum2-3.NTP.TechFak.Uni-Bielefeld.DE prefer
         - server time.intrabit.services
@@ -89,8 +95,6 @@ location_lux:
 las1.pawnode.com:
     primaryIp: 209.141.56.18
     inherit: ["buyvm", "location_las"]
-    subnets6: ["2a0e:7d44:f001::/48"]
-    ips6: ["2a0e:7d44:f001::1/48"]
     location: BUYVM_LAS
     neighbors:
         - name: buyvm
@@ -102,8 +106,6 @@ las1.pawnode.com:
 nyc1.pawnode.com:
     primaryIp: 198.98.58.17
     inherit: ["buyvm", "location_nyc"]
-    subnets6: ["2a0e:7d44:f002::/48"]
-    ips6: ["2a0e:7d44:f002::1/48"]
     location: BUYVM_NYC
     neighbors:
         - name: buyvm
@@ -115,8 +117,6 @@ nyc1.pawnode.com:
 lux1.pawnode.com:
     primaryIp: 104.244.76.182
     inherit: ["buyvm", "location_lux"]
-    subnets6: ["2a0e:7d44:f003::/48"]
-    ips6: ["2a0e:7d44:f003::1/48"]
     location: BUYVM_LUX
     neighbors:
         - name: buyvm
