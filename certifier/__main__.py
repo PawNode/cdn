@@ -1,13 +1,11 @@
 from myacme import get_ssl_for_site
 from yaml import safe_load as yaml_load
-from myglobals import __dir__, s3_client, config, DNSSEC_DIR, NoLockError
-from os import chdir, path, system, stat, environ
-from stat import ST_SIZE, ST_MTIME
-from loader import loadFile, storeFile
-from subprocess import run, PIPE
+from myglobals import __dir__, s3_client, config, DNSSEC_DIR, NoLockError, BUCKET_NAME
+from os import chdir, path, system, environ
 from argparse import ArgumentParser
 from dyndbmutex.dyndbmutex import DynamoDbMutex
 from socket import getfqdn
+from mydnssec import get_dnssec_keys, make_dnssec_keys, sign_zone
 
 parser = ArgumentParser(description='PawNode CDN certifier')
 parser.add_argument('--renew-dnssec', help='Re-sign DNSSEC signatures', action='store_true')
@@ -18,78 +16,30 @@ args = parser.parse_args()
 
 chdir(__dir__)
 
-BUCKET_NAME = config['crypto']['bucketName']
-
 sites = []
 zones = []
-keyFiles = {}
 ccConfig = None
 with open(path.join(__dir__, 'config.yml'), 'r') as f:
     ccConfig = yaml_load(f.read())
     sites = ccConfig['sites']
     zones = ccConfig['zones']
 
-paginator = s3_client.get_paginator('list_objects_v2')
-for page in paginator.paginate(Bucket=BUCKET_NAME, Prefix='dnssec'):
-    if not 'Contents' in page:
-        continue
-
-    for obj in page['Contents']:
-        loadFile(obj['Key'])
-        k = obj['Key'][7:].split('+')[0]
-        if k in keyFiles:
-            keyFiles[k] += 1
-        else:
-            keyFiles[k] = 1
-
 reloadDNS = False
 reloadNginx = False
 
 if args.dnssec:
-    for zone in zones:
-        zone_name = zone['name']
-        k = 'K%s.' % zone_name
-        if k in keyFiles and keyFiles[k] >= 4:
-            continue
-        print('[%s] Generating DNSSEC keys for zone' % zone_name)
-        files = []
-        res = run(['dnssec-keygen', '-K', DNSSEC_DIR, '-a', 'ECDSAP256SHA256', zone_name], stdout=PIPE, encoding='ascii').stdout.strip()
-        files.append("%s.key" % res)
-        files.append("%s.private" % res)
-        res = run(['dnssec-keygen', '-K', DNSSEC_DIR, '-fk', '-a', 'ECDSAP256SHA256', zone_name], stdout=PIPE, encoding='ascii').stdout.strip()
-        files.append("%s.key" % res)
-        files.append("%s.private" % res)
-        for fn in files:
-            fh = open(path.join(DNSSEC_DIR, fn), 'rb')
-            fd = fh.read()
-            fh.close()
-            storeFile('dnssec/%s' % fn, fd)
-        reloadDNS = True
+    mutex = DynamoDbMutex('pawnode-certifier-dnssec', holder=getfqdn(), timeoutms=300 * 1000)
 
-    for zone in zones:
-        zone_name = zone['name']
-        zoneFile = '/etc/powerdns/sites/db.%s' % zone_name
-        signedZoneFile = '%s.signed' % zoneFile
-
-        if not args.renew_dnssec:
-            zoneStat = stat(zoneFile)
-            zoneMtime = zoneStat[ST_MTIME]
-
-            signedZoneSize = 0
-            signedZoneMtime = 0
-            try:
-                signedZoneStat = stat(signedZoneFile)
-                signedZoneSize = signedZoneStat[ST_SIZE]
-                signedZoneMtime = signedZoneStat[ST_MTIME]
-            except FileNotFoundError:
-                pass
-
-            if signedZoneSize > 0 and signedZoneMtime >= zoneMtime:
-                continue
-
-        run(['dnssec-signzone', '-K', DNSSEC_DIR, '-o', zone_name, '-S', zoneFile])
-        run(['pdnsutil', 'set-presigned', zone_name])
-        reloadDNS = True
+    try:
+        get_dnssec_keys()
+        for zone in zones:
+            reloadDNS |= make_dnssec_keys(zone, mutex)
+            reloadDNS |= sign_zone(zone, args.renew_dnssec)
+    except NoLockError:
+        print('Skipping DNSSEC. Can\'t get lock.')
+    finally:
+        if mutex.locked:
+            mutex.release()
 
 if args.ssl:
     mutex = DynamoDbMutex('pawnode-certifier-ssl', holder=getfqdn(), timeoutms=300 * 1000)

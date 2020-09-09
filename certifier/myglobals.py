@@ -21,6 +21,7 @@ CERT_DIR = path.join(__dir__, 'certs')
 DNSSEC_DIR = path.join('/etc/powerdns/dnssec')
 ACCOUNT_KEY_FILE = path.join(KEY_DIR, '__account__.pem')
 ACCOUNT_DATA_FILE = path.join(CERT_DIR, '__account__.pem')
+BUCKET_NAME = config['crypto']['bucketName']
 
 osconfig = config['objectStorage']
 
