@@ -2,7 +2,7 @@ from os import path, unlink
 from myglobals import KEY_DIR, CERT_DIR, ACCOUNT_KEY_FILE, CertificateUnusableError, config, __dir__, s3_client
 import OpenSSL
 from datetime import datetime, timedelta
-from Crypto.Cipher import AES
+from Cryptodome.Cipher import AES
 from base64 import b64decode, b64encode
 
 from config import encryptString, decryptString

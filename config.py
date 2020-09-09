@@ -45,7 +45,7 @@ config['serverId'] = serverId
 
 if __name__ == '__main__':
     from sys import argv
-    from Crypto.Random import get_random_bytes
+    from Cryptodome.Random import get_random_bytes
 
     if argv[1] == 'encrypt':
         print(encryptString(argv[2]))
