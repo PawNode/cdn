@@ -55,7 +55,7 @@ vultr:
           as: 64515
 buyvm:
     noServer: true
-    neighbors: []
+    neighbors:
         - name: buyvm
           multihop: 2
           password: "2.XKDXSRUfBG+gcw8fVvK9Eg==.+zBI9tzs05EjUweylNoyiw==.EpV3MW7dewI="
