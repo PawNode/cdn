@@ -56,12 +56,12 @@ vultr:
 buyvm:
     noServer: true
     neighbors: []
-#        - name: buyvm
-#          multihop: 2
-#          ip4: 169.254.169.179
-#          ip6: 2605:6400:ffff::2
-#          as: 53667
-#          password: ""
+        - name: buyvm
+          multihop: 2
+          password: "2.XKDXSRUfBG+gcw8fVvK9Eg==.+zBI9tzs05EjUweylNoyiw==.EpV3MW7dewI="
+          ip4: 169.254.169.179
+          ip6: 2605:6400:ffff::2
+          as: 53667
 location_nyc:
     noServer: true
     subnets6: ["2a0e:7d44:f002::/48"]
@@ -106,35 +106,14 @@ las1.pawnode.com:
     primaryIp: 209.141.56.18
     inherit: ["buyvm", "location_las"]
     location: BUYVM_LAS
-    neighbors:
-        - name: buyvm
-          multihop: 2
-          ip4: 169.254.169.179
-          ip6: 2605:6400:ffff::2
-          as: 53667
-          password: "2.c7ey+/VM+pB7cIxIwjDlYA==.hIg6JabTwxAI03vWkf59RA==.L28moLQY6ds="
 nyc1.pawnode.com:
     primaryIp: 198.98.58.17
     inherit: ["buyvm", "location_nyc"]
     location: BUYVM_NYC
-    neighbors:
-        - name: buyvm
-          multihop: 2
-          ip4: 169.254.169.179
-          ip6: 2605:6400:ffff::2
-          as: 53667
-          password: "2.uNYK3PFwyjzB8s7+L9kdFQ==.olNpvJtZdsEKJXgokenenQ==./Hos8TIe3Yg="
 lux1.pawnode.com:
     primaryIp: 104.244.76.182
     inherit: ["buyvm", "location_lux"]
     location: BUYVM_LUX
-    neighbors:
-        - name: buyvm
-          multihop: 2
-          ip4: 169.254.169.179
-          ip6: 2605:6400:ffff::2
-          as: 53667
-          password: "2.46gDiDZ8RsDW1WrGnzPWNQ==.Y70x9FeIjBhUACDdHQXRfA==.rq6iUanNXbQ="
 syd1.pawnode.com:
     primaryIp: 45.77.238.170
     inherit: ["vultr", "location_syd"]
