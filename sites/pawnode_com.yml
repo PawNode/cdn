@@ -7,7 +7,7 @@ redirectDomains:
     - from: cdn.pawnode.com
       to: pawnode.com
 type: zip
-src: https://github.com/PawNode/website/releases/download/2020-09-10/pawnode.com.zip
+src: https://github.com/PawNode/website/releases/download/2020-09-10_v2/pawnode.com.zip
 hsts: true
 useSecurityTxt: true
 presetMX: fastmail
