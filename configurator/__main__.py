@@ -419,6 +419,7 @@ def __main__():
         writeNginxInclude('wellknown') | \
         writeNginxInclude('securitytxt') | \
         writeNginxInclude('headers') | \
+        writeGlobalTpl('nginx/s3auth.js.j2', '/etc/nginx/s3auth.js') | \
         writeGlobalTpl('nginx/security.txt.j2', path.join(SITEDIR, 'security.txt')) | \
         swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr) | \
         writeGlobalTpl('nginx/nginx.conf.j2', '/etc/nginx/nginx.conf'):
