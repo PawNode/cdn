@@ -39,10 +39,11 @@ chown pdns:pdns /var/lib/powerdns/bind-dnssec.db /var/lib/powerdns
 
 cp files/pdns.conf /etc/powerdns/pdns.d/custom.conf
 
+cp files/mime.types /etc/nginx/mime.types
+
 enableStart bird
 enableStart bird6
 enableStart pdns || true
-#enableStart nginx
 
 if [ ! -f /etc/ssl/default.crt ]
 then
