@@ -21,6 +21,10 @@ function make_amz_content_sha256(req) {
 }
 
 function hash_request(req) {
+    if (!req.variables.bucket) {
+        return '';
+    }
+
     const yyyymmddDate = req.variables.amz_date.split('T')[0];
     const signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
 
