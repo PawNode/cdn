@@ -76,8 +76,8 @@ server {
     listen 443 http2 ssl default;
     listen [::]:443 http2 ssl default;
 
-    ssl_certificate /etc/ssl/default.crt;
-    ssl_certificate_key /etc/ssl/default.key;
+    ssl_certificate {{ dynConfig._self.certDir }}/__default__.pem;
+    ssl_certificate_key {{ dynConfig._self.keyDir }}/__default__.pem;
 
     root /var/www/empty;
 
