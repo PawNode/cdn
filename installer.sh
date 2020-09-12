@@ -66,6 +66,17 @@ apt-get -y install chrony
 enableStart chrony
 # END NTP
 
+# NGINX DOCKER
+docker run --restart=always \
+            --net=host \
+            --name=nginx -d \
+            -v /etc/nginx:/etc/nginx:ro \
+            -v /mnt/certifier/keys:/mnt/certifier/keys:ro \
+            -v /mnt/certifier/certs:/mnt/certifier/certs:ro \
+            -v /var/www:/var/www:ro \
+            doridian/docker-nginx-http3
+# END NGINX DOCKER
+
 exec ./deploy_run.sh
 echo 'Could not exec deploy_run.sh'
 exit 1

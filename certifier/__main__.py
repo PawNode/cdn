@@ -61,4 +61,4 @@ if args.ssl:
             mutex.release()
 
 if reloadNginx:
-    system('service nginx reload')
+    system('docker exec nginx killall -HUP nginx')

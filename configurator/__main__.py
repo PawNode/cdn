@@ -422,7 +422,7 @@ def __main__():
         writeGlobalTpl('nginx/security.txt.j2', path.join(SITEDIR, 'security.txt')) | \
         swapFile('/etc/nginx/conf.d/cdn.conf', nginxConfStr) | \
         writeGlobalTpl('nginx/nginx.conf.j2', '/etc/nginx/nginx.conf'):
-        system('service nginx reload')
+        system('docker exec nginx killall -HUP nginx')
 
     for name in loadedSites:
         oldName = path.join(OLDDIR, '%s.yml' % name)
