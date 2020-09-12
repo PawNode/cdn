@@ -44,6 +44,7 @@ cp files/mime.types /etc/nginx/mime.types
 enableStart bird
 enableStart bird6
 enableStart pdns || true
+enableStart docker
 
 if [ ! -f /etc/ssl/default.crt ]
 then
