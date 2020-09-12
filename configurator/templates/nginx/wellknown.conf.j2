@@ -1,8 +1,8 @@
 location ~ '^/.well-known/acme-challenge/(.*)$' {
-    set $bucket 'pawnode-wellknown';
+    set $domain '{{ config.wellknown.domain }}';
     set $key /acme-challenge/$1;
 
-    proxy_pass https://pawnode-wellknown.s3.amazonaws.com$key;
+    proxy_pass https://{{ config.wellknown.domain }}$key;
 
     proxy_set_header x-amz-date $amz_date;
     proxy_set_header x-amz-content-sha256 $amz_content_sha256;

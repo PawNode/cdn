@@ -6,7 +6,6 @@ var SHA256_EMPTY = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852
 var AWS_ACCESS_KEY_ID = '{{ decrypt(config.objectStorage.accessKeyID) }}';
 var AWS_SECRET_ACCESS_KEY = '{{ decrypt(config.objectStorage.secretAccessKey) }}';
 var AWS_REGION = 'us-west-2';
-var AWS_HOST = 's3.amazonaws.com';
 
 var cachedSigningKeyDate = '';
 var cachedSigningKeyValue = '';
@@ -21,7 +20,10 @@ function make_amz_content_sha256(req) {
 }
 
 function make_amz_request_signature(req) {
-    if (!req.variables.bucket) {
+    if (!req.variables.domain) {
+        req.error('Tried accessing AMZ function without setting required variable');
+        req.return(500);
+        req.finish();
         return '';
     }
 
@@ -31,7 +33,7 @@ function make_amz_request_signature(req) {
     var canonicalRequest = `GET
 ${req.variables.key}
 
-host:${req.variables.bucket}.${AWS_HOST}
+host:${req.variables.domain}
 x-amz-content-sha256:${req.variables.amz_content_sha256}
 x-amz-date:${req.variables.amz_date}
 
@@ -58,14 +60,3 @@ ${crypto.createHash('sha256').update(canonicalRequest).digest('hex')}`;
 
     return `AWS4-HMAC-SHA256 Credential=${AWS_ACCESS_KEY_ID}/${regionString},SignedHeaders=${signedHeaders},Signature=${crypto.createHmac('sha256', signingKey).update(stringToSign).digest('hex')}`;
 }
-
-/*
-var r = {};
-r.variables = {};
-var v = r.variables;
-v.amz_date = make_amz_date(r);
-v.key = '/meow';
-v.bucket = 'pawnode-crypto';
-v.amz_content_sha256 = make_amz_content_sha256(r);
-console.log(`curl -v 'https://${v.bucket}.${AWS_HOST}${v.key}' -H 'Authorization: ${make_amz_request_signature(r)}' -H 'x-amz-date: ${v.amz_date}' -H 'x-amz-content-sha256: ${v.amz_content_sha256}'`);
-*/
