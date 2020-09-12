@@ -75,6 +75,8 @@ server {
     listen [::]:80 default;
     listen 443 http2 ssl default;
     listen [::]:443 http2 ssl default;
+    listen 443 quic reuseport;
+    listen [::]:443 quic reuseport;
 
     ssl_certificate {{ dynConfig._self.certDir }}/__default__.pem;
     ssl_certificate_key {{ dynConfig._self.keyDir }}/__default__.pem;
