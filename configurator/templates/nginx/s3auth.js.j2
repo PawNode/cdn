@@ -1,18 +1,18 @@
 'use strict';
 
-const crypto = require('crypto');
+var crypto = require('crypto');
 
-const SHA256_EMPTY = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
-const AWS_ACCESS_KEY_ID = '{{ decrypt(config.objectStorage.accessKeyID) }}';
-const AWS_SECRET_ACCESS_KEY = '{{ decrypt(config.objectStorage.secretAccessKey) }}';
-const AWS_REGION = 'us-west-2';
-const AWS_HOST = 's3.amazonaws.com';
+var SHA256_EMPTY = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
+var AWS_ACCESS_KEY_ID = '{{ decrypt(config.objectStorage.accessKeyID) }}';
+var AWS_SECRET_ACCESS_KEY = '{{ decrypt(config.objectStorage.secretAccessKey) }}';
+var AWS_REGION = 'us-west-2';
+var AWS_HOST = 's3.amazonaws.com';
 
-let cachedSigningKeyDate = '';
-let cachedSigningKeyValue = '';
+var cachedSigningKeyDate = '';
+var cachedSigningKeyValue = '';
 
 function make_amz_date(req) {
-    const now = new Date();
+    var now = new Date();
     return now.toISOString().replace(/\.\d{3}Z/, 'Z').replace(/[-:.]/g, '');
 }
 
@@ -25,10 +25,10 @@ function make_amz_request_signature(req) {
         return '';
     }
 
-    const yyyymmddDate = req.variables.amz_date.split('T')[0];
-    const signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
+    var yyyymmddDate = req.variables.amz_date.split('T')[0];
+    var signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
 
-    const canonicalRequest = `GET
+    var canonicalRequest = `GET
 ${req.variables.key}
 
 host:${req.variables.bucket}.${AWS_HOST}
@@ -38,18 +38,18 @@ x-amz-date:${req.variables.amz_date}
 ${signedHeaders}
 ${req.variables.amz_content_sha256}`;
 
-    const regionString = `${yyyymmddDate}/${AWS_REGION}/s3/aws4_request`;
+    var regionString = `${yyyymmddDate}/${AWS_REGION}/s3/aws4_request`;
 
-    const stringToSign = `AWS4-HMAC-SHA256
+    var stringToSign = `AWS4-HMAC-SHA256
 ${req.variables.amz_date}
 ${regionString}
 ${crypto.createHash('sha256').update(canonicalRequest).digest('hex')}`;
 
-    let signingKey = cachedSigningKeyValue;
+    var signingKey = cachedSigningKeyValue;
     if (yyyymmddDate !== cachedSigningKeyDate) {
-        const dateKey = crypto.createHmac('sha256', `AWS4${AWS_SECRET_ACCESS_KEY}`).update(yyyymmddDate).digest();
-        const dateRegionKey = crypto.createHmac('sha256', dateKey).update(AWS_REGION).digest();
-        const dateRegionServiceKey = crypto.createHmac('sha256', dateRegionKey).update('s3').digest();
+        var dateKey = crypto.createHmac('sha256', `AWS4${AWS_SECRET_ACCESS_KEY}`).update(yyyymmddDate).digest();
+        var dateRegionKey = crypto.createHmac('sha256', dateKey).update(AWS_REGION).digest();
+        var dateRegionServiceKey = crypto.createHmac('sha256', dateRegionKey).update('s3').digest();
         signingKey = crypto.createHmac('sha256', dateRegionServiceKey).update('aws4_request').digest();
         
         cachedSigningKeyValue = signingKey;
@@ -60,12 +60,12 @@ ${crypto.createHash('sha256').update(canonicalRequest).digest('hex')}`;
 }
 
 /*
-const r = {};
+var r = {};
 r.variables = {};
-const v = r.variables;
+var v = r.variables;
 v.amz_date = make_amz_date(r);
 v.key = '/meow';
 v.bucket = 'pawnode-crypto';
 v.amz_content_sha256 = make_amz_content_sha256(r);
-console.log(`curl -v 'https://${v.bucket}.${AWS_HOST}${v.key}' -H 'Authorization: ${hash_request(r)}' -H 'x-amz-date: ${v.amz_date}' -H 'x-amz-content-sha256: ${v.amz_content_sha256}'`);
+console.log(`curl -v 'https://${v.bucket}.${AWS_HOST}${v.key}' -H 'Authorization: ${make_amz_request_signature(r)}' -H 'x-amz-date: ${v.amz_date}' -H 'x-amz-content-sha256: ${v.amz_content_sha256}'`);
 */

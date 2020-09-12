@@ -1,6 +1,12 @@
-location /.well-known/acme-challenge/ {
-    proxy_pass https://{{ config.wellknown.domain }}{{ config.wellknown.path }}/acme-challenge/;
+location ~ '^/.well-known/acme-challenge/(.*)$' {
+    set $bucket 'pawnode-wellknown';
+    set $key /acme-challenge/$1;
 
+    proxy_pass https://pawnode-wellknown.s3.amazonaws.com$key;
+
+    proxy_set_header x-amz-date $amz_date;
+    proxy_set_header x-amz-content-sha256 $amz_content_sha256;
+    proxy_set_header Authorization $amz_signature;
     proxy_set_header Host {{ config.wellknown.domain }};
     proxy_ssl_name {{ config.wellknown.domain }};
     proxy_intercept_errors on;
