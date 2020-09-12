@@ -20,7 +20,7 @@ function make_amz_content_sha256(req) {
     return SHA256_EMPTY;
 }
 
-function hash_request(req) {
+function make_amz_request_signature(req) {
     if (!req.variables.bucket) {
         return '';
     }
