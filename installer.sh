@@ -54,7 +54,7 @@ fi
 # FALLBACKFS
 if [ ! -d /opt/deffs ]
 then
-    git clone https://github.com/Doridian/deffs /opt/deffs
+    git clone https://github.com/PawNode/deffs /opt/deffs
 fi
 gcc -O2 -D_FILE_OFFSET_BITS=64 /opt/deffs/main.c -lfuse -o /usr/bin/deffs
 
@@ -76,7 +76,7 @@ docker run --restart=always \
             -v /mnt/certifier/keys:/mnt/certifier/keys:ro \
             -v /mnt/certifier/certs:/mnt/certifier/certs:ro \
             -v /var/www:/var/www:ro \
-            doridian/docker-nginx-http3
+            pawnode/docker-nginx-http3
 # END NGINX DOCKER
 
 exec ./deploy_run.sh
