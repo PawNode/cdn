@@ -76,6 +76,7 @@ docker run --restart=always \
             -v /mnt/certifier/keys:/mnt/certifier/keys:ro \
             -v /mnt/certifier/certs:/mnt/certifier/certs:ro \
             -v /var/www:/var/www:ro \
+            -v /var/log/nginx:/var/log/nginx \
             pawnode/docker-nginx-http3
 # END NGINX DOCKER
 
