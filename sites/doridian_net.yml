@@ -44,6 +44,19 @@ records:
       type: CNAME
       value: arcticfox.doridian.net.
 
+    - name: em1321.arcticfox
+      type: CNAME
+      value: u4172368.wl119.sendgrid.net.
+    - name: s1._domainkey.arcticfox
+      type: CNAME
+      value: s1.domainkey.u4172368.wl119.sendgrid.net.
+    - name: s2._domainkey.arcticfox
+      type: CNAME
+      value: s2.domainkey.u4172368.wl119.sendgrid.net.
+    - name: arcticfox
+      type: TXT
+      value: 'v=spf1 +a:arcticfox.doridian.net include:u4172368.wl119.sendgrid.net ~all'
+
     - name: xsstest
       type: TXT
       value: '<img src=https://doridian.net/icon.jpg />'
