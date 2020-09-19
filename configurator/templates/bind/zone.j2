@@ -79,16 +79,11 @@ $ORIGIN {{ mainDomain }}.
 fm1._domainkey   IN  CNAME fm1.{{ mainDomain }}.dkim.fmhosted.com.
 fm2._domainkey   IN  CNAME fm2.{{ mainDomain }}.dkim.fmhosted.com.
 fm3._domainkey   IN  CNAME fm3.{{ mainDomain }}.dkim.fmhosted.com.
-{%- elif site.presetMX == 'protonmail' %}
-@	IN	MX	10 mail.protonmail.ch.
-@   IN	MX	20 mailsec.protonmail.ch.
-@   IN  TXT "v=spf1 include:_spf.protonmail.ch mx ~all"
-{%- elif site.presetMX == 'protonmailforward' %}
-@   IN  MX  1 arcticfox.doridian.net.
-@   IN  TXT "v=spf1 include:_spf.protonmail.ch mx ~all"
 {%- elif site.presetMX == 'arcticfox' %}
 @   IN  MX  1 arcticfox.doridian.net.
-@   IN  TXT "v=spf1 +a:arcticfox.doridian.net +mx ~all"
+@   IN  TXT "v=spf1 +a:arcticfox.doridian.net +mx include:u4172368.wl119.sendgrid.net ~all"
+s1._domainkey   IN  CNAME   s1.domainkey.u4172368.wl119.sendgrid.net.
+s2._domainkey   IN  CNAME   s2.domainkey.u4172368.wl119.sendgrid.net.
 {%- endif %}
 
 ; END OF FILE

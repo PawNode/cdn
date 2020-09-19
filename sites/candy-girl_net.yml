@@ -26,12 +26,6 @@ records:
     - name: em3056
       type: CNAME
       value: u4172368.wl119.sendgrid.net.
-    - name: s1._domainkey
-      type: CNAME
-      value: s1.domainkey.u4172368.wl119.sendgrid.net.
-    - name: s2._domainkey
-      type: CNAME
-      value: s2.domainkey.u4172368.wl119.sendgrid.net.
 
     - name: x._domainkey
       type: TXT
