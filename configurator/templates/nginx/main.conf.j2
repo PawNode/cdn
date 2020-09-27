@@ -13,6 +13,18 @@ access_log /var/log/nginx/access.log;
 error_log /var/log/nginx/error.log;
 
 gzip on;
+gzip_http_version 1.1;
+gzip_vary on;
+gzip_comp_level 6;
+gzip_proxied any;
+gzip_types text/plain text/css application/json application/javascript application/x-javascript text/javascript;
+
+brotli_static on;
+brotli on;
+brotli_types text/plain text/css application/json application/javascript application/x-javascript text/javascript;
+brotli_comp_level 4;
+
+http2_push_preload on;
 
 resolver 8.8.8.8 8.8.4.4 [2001:4860:4860::8888] [2001:4860:4860::8844];
 
@@ -26,9 +38,9 @@ ssl_session_timeout 1h;
 ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM';
 ssl_prefer_server_ciphers on;
 ssl_session_tickets off;
-
 ssl_stapling on;
 ssl_stapling_verify on;
+ssl_early_data on;
 
 server_tokens off;
 
