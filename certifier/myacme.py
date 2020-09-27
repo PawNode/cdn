@@ -1,5 +1,5 @@
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives.asymmetric import rsa, ed25519
 from cryptography.hazmat.primitives import serialization
 import josepy as jose
 import OpenSSL
@@ -189,6 +189,14 @@ def get_ssl_for_site(site, use_acme, acme_mutex, ccConfig):
         print("[%s] Acquired ACME lock! (kept until process exit)" % site_name)
     else:
         print("[%s] Site requires ACME. Already have SSL mutex." % site_name)
+
+    if not pkey_pem:
+        pkey = ed25519.Ed25519PrivateKey.generate()
+        pkey_pem = pkey.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        )
 
     client_acme = get_client()
     pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
