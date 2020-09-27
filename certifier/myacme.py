@@ -122,6 +122,30 @@ def get_client():
     __cached_client_acme = client_acme
     return client_acme
 
+# https://github.com/certbot/certbot/blob/07abe7a8d68961042ee301039dd4da87306cb1a0/acme/acme/crypto_util.py#L189
+def pawnode_make_csr(private_key_pem, domains):
+    """Generate a CSR containing a list of domains as subjectAltNames.
+    :param buffer private_key_pem: Private key, in PEM PKCS#8 format.
+    :param list domains: List of DNS names to include in subjectAltNames of CSR.
+    :returns: buffer PEM-encoded Certificate Signing Request.
+    """
+    private_key = OpenSSL.crypto.load_privatekey(
+        OpenSSL.crypto.FILETYPE_PEM, private_key_pem)
+    csr = OpenSSL.crypto.X509Req()
+    extensions = [
+        OpenSSL.crypto.X509Extension(
+            b'subjectAltName',
+            critical=False,
+            value=', '.join('DNS:' + d for d in domains).encode('ascii')
+        ),
+    ]
+    csr.add_extensions(extensions)
+    csr.set_pubkey(private_key)
+    csr.set_version(2)
+    csr.sign(private_key)
+    return OpenSSL.crypto.dump_certificate_request(
+        OpenSSL.crypto.FILETYPE_PEM, csr)
+
 def get_ssl_for_site(site, use_acme, acme_mutex, ccConfig):
     domains = site['domains']
     site_name = site['name']
@@ -199,7 +223,7 @@ def get_ssl_for_site(site, use_acme, acme_mutex, ccConfig):
         )
 
     client_acme = get_client()
-    pkey_pem, csr_pem = new_csr_comp(domains, pkey_pem)
+    csr_pem = pawnode_make_csr(pkey_pem, domains)
     # Issue certificate
     orderr = client_acme.new_order(csr_pem)
     # Select HTTP-01 within offered challenges by the CA server
