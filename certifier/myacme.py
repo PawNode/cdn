@@ -2,6 +2,7 @@ from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa, ed25519
 from cryptography.hazmat.primitives import serialization
+from cryptography.x509.oid import NameOID
 import josepy as jose
 import OpenSSL
 import dns.resolver
@@ -137,12 +138,17 @@ def pawnode_make_csr(private_key_pem, domains):
     )
 
     builder = x509.CertificateSigningRequestBuilder()
+    builder = builder.subject_name(x509.Name([
+        x509.NameAttribute(NameOID.COMMON_NAME, domains[0])
+    ]))
     builder = builder.add_extension(
         x509.SubjectAlternativeName([x509.DNSName(domain) for domain in domains]),
         critical=False
     )
     request = builder.sign(
-        private_key_pem
+        private_key_pem,
+        None,
+        default_backend()
     )
     return request.public_bytes(
         encoding=serialization.Encoding.PEM
