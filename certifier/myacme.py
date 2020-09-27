@@ -130,11 +130,16 @@ def pawnode_make_csr(private_key_pem, domains):
     :param list domains: List of DNS names to include in subjectAltNames of CSR.
     :returns: buffer PEM-encoded Certificate Signing Request.
     """
-    private_key = ed25519.Ed25519PrivateKey.from_private_bytes(private_key_pem)
+    private_key = serialization.load_pem_private_key(
+        data=private_key_pem,
+        password=None,
+        backend=default_backend()
+    )
 
     builder = x509.CertificateSigningRequestBuilder()
     builder = builder.add_extension(
-        x509.SubjectAlternativeName([x509.DNSName(domain) for domain in domains])
+        x509.SubjectAlternativeName([x509.DNSName(domain) for domain in domains]),
+        critical=False
     )
     request = builder.sign(
         private_key_pem
