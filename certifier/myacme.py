@@ -142,7 +142,7 @@ def pawnode_make_csr(private_key_pem, domains):
     csr.add_extensions(extensions)
     csr.set_pubkey(private_key)
     csr.set_version(2)
-    csr.sign(private_key, '')
+    csr.sign(private_key, 'null')
     return OpenSSL.crypto.dump_certificate_request(
         OpenSSL.crypto.FILETYPE_PEM, csr)
 
