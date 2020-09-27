@@ -1,3 +1,4 @@
+from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa, ed25519
 from cryptography.hazmat.primitives import serialization
@@ -129,22 +130,18 @@ def pawnode_make_csr(private_key_pem, domains):
     :param list domains: List of DNS names to include in subjectAltNames of CSR.
     :returns: buffer PEM-encoded Certificate Signing Request.
     """
-    private_key = OpenSSL.crypto.load_privatekey(
-        OpenSSL.crypto.FILETYPE_PEM, private_key_pem)
-    csr = OpenSSL.crypto.X509Req()
-    extensions = [
-        OpenSSL.crypto.X509Extension(
-            b'subjectAltName',
-            critical=False,
-            value=', '.join('DNS:' + d for d in domains).encode('ascii')
-        ),
-    ]
-    csr.add_extensions(extensions)
-    csr.set_pubkey(private_key)
-    csr.set_version(2)
-    csr.sign(private_key, 'none')
-    return OpenSSL.crypto.dump_certificate_request(
-        OpenSSL.crypto.FILETYPE_PEM, csr)
+    private_key = ed25519.Ed25519PrivateKey.from_private_bytes(private_key_pem)
+
+    builder = x509.CertificateSigningRequestBuilder()
+    builder = builder.add_extension(
+        x509.SubjectAlternativeName([x509.DNSName(domain) for domain in domains])
+    )
+    request = builder.sign(
+        private_key_pem
+    )
+    return request.public_bytes(
+        encoding=serialization.Encoding.PEM
+    )
 
 def get_ssl_for_site(site, use_acme, acme_mutex, ccConfig):
     domains = site['domains']
