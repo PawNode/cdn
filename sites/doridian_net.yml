@@ -44,18 +44,21 @@ records:
       type: CNAME
       value: arcticfox.doridian.net.
 
-    - name: em1321.arcticfox
+    - name: _amazonses.arcticfox
+      type: TXT
+      value: '03gQB30HFqYwrEfKkO6AfQyvcKNu4gM1vjVkb4Qjedw='
+    - name: wzpguhvbw5iylcldefipcbkyaiu6mvyu._domainkey.arcticfox
       type: CNAME
-      value: u4172368.wl119.sendgrid.net.
-    - name: s1._domainkey.arcticfox
+      value: wzpguhvbw5iylcldefipcbkyaiu6mvyu.dkim.amazonses.com.
+    - name: xqw27dowblf5izvxckmskxhmfcs6azxz._domainkey.arcticfox
       type: CNAME
-      value: s1.domainkey.u4172368.wl119.sendgrid.net.
-    - name: s2._domainkey.arcticfox
+      value: xqw27dowblf5izvxckmskxhmfcs6azxz.dkim.amazonses.com.
+    - name: pt6ex5b2gubet7bufp7mjyilnnii5jtz._domainkey.arcticfox
       type: CNAME
-      value: s2.domainkey.u4172368.wl119.sendgrid.net.
+      value: pt6ex5b2gubet7bufp7mjyilnnii5jtz.dkim.amazonses.com.
     - name: arcticfox
       type: TXT
-      value: 'v=spf1 +a:arcticfox.doridian.net include:u4172368.wl119.sendgrid.net ~all'
+      value: 'v=spf1 +a:arcticfox.doridian.net include:amazonses.com ~all'
 
     - name: xsstest
       type: TXT
