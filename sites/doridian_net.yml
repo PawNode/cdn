@@ -46,16 +46,16 @@ records:
 
     - name: _amazonses.arcticfox
       type: TXT
-      value: '03gQB30HFqYwrEfKkO6AfQyvcKNu4gM1vjVkb4Qjedw='
-    - name: wzpguhvbw5iylcldefipcbkyaiu6mvyu._domainkey.arcticfox
+      value: 'OQpxGXJTvlFqknGfzYpYuFcvAHjJyk5ZQxCSIQUFxDQ='
+    - name: ilnkkabytrw4lcih6znbsncbnoa5jpx4._domainkey.arcticfox
       type: CNAME
-      value: wzpguhvbw5iylcldefipcbkyaiu6mvyu.dkim.amazonses.com.
-    - name: xqw27dowblf5izvxckmskxhmfcs6azxz._domainkey.arcticfox
+      value: ilnkkabytrw4lcih6znbsncbnoa5jpx4.dkim.amazonses.com.
+    - name: jlz67rz2437j7wqjo7ftpyeflcjoumif._domainkey.arcticfox
       type: CNAME
-      value: xqw27dowblf5izvxckmskxhmfcs6azxz.dkim.amazonses.com.
-    - name: pt6ex5b2gubet7bufp7mjyilnnii5jtz._domainkey.arcticfox
+      value: jlz67rz2437j7wqjo7ftpyeflcjoumif.dkim.amazonses.com.
+    - name: ustr5bi6drwfnbkbrjkgrlniqoavzszz._domainkey.arcticfox
       type: CNAME
-      value: pt6ex5b2gubet7bufp7mjyilnnii5jtz.dkim.amazonses.com.
+      value: ustr5bi6drwfnbkbrjkgrlniqoavzszz.dkim.amazonses.com.
     - name: arcticfox
       type: TXT
       value: 'v=spf1 +a:arcticfox.doridian.net include:amazonses.com ~all'

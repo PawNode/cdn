@@ -25,16 +25,16 @@ records:
 
     - name: _amazonses
       type: TXT
-      value: 'FxKuf+T9Nco29RIp+2kSyH341Pba+eRU4CEWD+wQNxo='
-    - name: 2hfv57d76ikkcho5gplfhrgwwqprx4rj._domainkey
+      value: 'xAl6bojmPqjTOboy8k3TBZVGFvhJdeo6kPPbFzSDx3s='
+    - name: w76fcis2vdepdjxnp344wc3m7skwbljm._domainkey
       type: CNAME
-      value: 2hfv57d76ikkcho5gplfhrgwwqprx4rj.dkim.amazonses.com.
-    - name: slnwod3q4rnus5ooqbtstifbe724ysgi._domainkey
+      value: w76fcis2vdepdjxnp344wc3m7skwbljm.dkim.amazonses.com.
+    - name: cduseval7ade3jbjksznnqmzljzxh3uv._domainkey
       type: CNAME
-      value: slnwod3q4rnus5ooqbtstifbe724ysgi.dkim.amazonses.com.
-    - name: 43cem47phtfodr3opr3i6qvrpma7swti._domainkey
+      value: cduseval7ade3jbjksznnqmzljzxh3uv.dkim.amazonses.com.
+    - name: bvrl5ncsglvwopceecuddcehgcw6mwql._domainkey
       type: CNAME
-      value: 43cem47phtfodr3opr3i6qvrpma7swti.dkim.amazonses.com.
+      value: bvrl5ncsglvwopceecuddcehgcw6mwql.dkim.amazonses.com.
 
     - name: x._domainkey
       type: TXT
