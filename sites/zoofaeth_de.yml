@@ -15,6 +15,12 @@ records:
     - name: mail
       type: CNAME
       value: zoofaeth.de.
+    - name: pop
+      type: CNAME
+      value: zoofaeth.de.
+    - name: smtp
+      type: CNAME
+      value: zoofaeth.de.
     - name: www.mail
       type: CNAME
       value: zoofaeth.de.

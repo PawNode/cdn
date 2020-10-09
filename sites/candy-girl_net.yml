@@ -15,6 +15,12 @@ records:
     - name: mail
       type: CNAME
       value: candy-girl.net.
+    - name: pop
+      type: CNAME
+      value: candy-girl.net.
+    - name: smtp
+      type: CNAME
+      value: candy-girl.net.
     - name: www.mail
       type: CNAME
       value: candy-girl.net.
