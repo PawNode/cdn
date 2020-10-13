@@ -4,7 +4,6 @@ domains:
     - grafana.foxden.network
     - nas.foxden.network
     - seafile.foxden.network
-    - spaceage-api.foxden.network
 type: directproxy
 targets:
     - host: grafana.foxden.network
@@ -13,8 +12,6 @@ targets:
       proxy: nas.dyn.foxden.network
     - host: seafile.foxden.network
       proxy: seafile.dyn.foxden.network
-    - host: spaceage-api.foxden.network
-      proxy: gmod.dyn.foxden.network
 hsts: false
 useSecurityTxt: true
 presetMX: fastmail
@@ -52,9 +49,6 @@ records:
     - name: minecraft
       type: CNAME
       value: 'minecraft.dyn.foxden.network.'
-    - name: gmod
-      type: CNAME
-      value: 'gmod.dyn.foxden.network.'
     - name: ntp
       type: CNAME
       value: 'ntp.dyn.foxden.network.'
