@@ -17,3 +17,6 @@ records:
     - name: things
       type: NS
       value: 'nsthing.doridian.net.'
+    - name: vixus
+      type: CNAME
+      value: 'arcticfox.doridian.net.'
