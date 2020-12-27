@@ -33,6 +33,10 @@ records:
       type: NS
       value: 'doridian-acmedns.westus2.cloudapp.azure.com.'
 
+    - name: icefox
+      type: A
+      value: 107.161.51.87
+
     - name: arcticfox
       type: ALIAS
       value: arcticfox.doridian.net
