@@ -1,0 +1,21 @@
+domains:
+    - spaceage.mp
+    - www.spaceage.mp
+redirectWWW: true
+type: none
+hsts: true
+useSecurityTxt: true
+presetMX: fastmail
+records:
+    - name: api
+      type: CNAME
+      value: spaceage.mp.
+    - name: play
+      type: A
+      value: spaceage.mp.
+    - name: '@'
+      type: A
+      value: 144.202.84.81
+    - name: www
+      type: CNAME
+      value: spaceage.mp.
