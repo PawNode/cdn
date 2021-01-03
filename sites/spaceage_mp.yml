@@ -1,6 +1,5 @@
 domains:
     - spaceage.mp
-    - www.spaceage.mp
 redirectWWW: true
 type: none
 hsts: true
