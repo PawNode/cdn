@@ -1,9 +1,6 @@
 domains:
     - spaceage.mp
-redirectWWW: true
 type: none
-hsts: true
-useSecurityTxt: true
 presetMX: fastmail
 records:
     - name: api
