@@ -19,12 +19,9 @@ records:
       type: CNAME
       value: ns2.pawnode.com.
 
-    - name: spaceage-api
-      type: A
-      value: 144.202.84.81
     - name: spaceage
-      type: A
-      value: 144.202.84.81
+      type: CNAME
+      value: play.spaceage.mp.
 
     - name: acmedns
       type: CNAME
