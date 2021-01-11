@@ -15,7 +15,7 @@ vanityNS: true
 records:
     - name: ntp
       type: A
-      value: 185.244.28.123
+      value: 198.251.90.28
     - name: ntp
       type: AAAA
       value: 2a0e:7d44:f0fc::123
