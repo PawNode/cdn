@@ -5,13 +5,13 @@ presetMX: fastmail
 records:
     - name: api
       type: CNAME
-      value: spaceage.mp.
+      value: core.spaceage.mp.
     - name: play
       type: CNAME
       value: spaceage.mp.
     - name: www
       type: CNAME
-      value: spaceage.mp.
+      value: core.spaceage.mp.
 
     - name: core
       type: A
@@ -22,4 +22,4 @@ records:
 
     - name: '@'
       type: A
-      value: 144.202.84.81
+      value: 199.195.252.196
