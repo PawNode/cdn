@@ -23,3 +23,16 @@ records:
     - name: '@'
       type: A
       value: 199.195.252.196
+
+    - name: '_amazonses'
+      type: TXT
+      value: 'k1Al69oY0rhQTBF/LhYLdwj9e9QhGt4tfjIUOs2Dtxs='
+    - name: 't43hgxjadlaruioxsmkmkxlargv37bc7._domainkey'
+      type: CNAME
+      value: 't43hgxjadlaruioxsmkmkxlargv37bc7.dkim.amazonses.com.'
+    - name: 'shfqmrxda4sg53zoe27wxnzbokgczr25._domainkey'
+      type: CNAME
+      value: 'shfqmrxda4sg53zoe27wxnzbokgczr25.dkim.amazonses.com.'
+    - name: '45gxozrkgvvinihcohlfzcihr6meumtd._domainkey'
+      type: CNAME
+      value: '45gxozrkgvvinihcohlfzcihr6meumtd.dkim.amazonses.com.'
