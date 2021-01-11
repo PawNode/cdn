@@ -8,7 +8,7 @@ records:
       value: core.spaceage.mp.
     - name: play
       type: CNAME
-      value: spaceage.mp.
+      value: server1.spaceage.mp.
     - name: www
       type: CNAME
       value: core.spaceage.mp.
