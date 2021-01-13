@@ -12,6 +12,9 @@ records:
     - name: www
       type: CNAME
       value: core.spaceage.mp.
+    - name: tts
+      type: CNAME
+      value: core.spaceage.mp.
 
     - name: core
       type: A
