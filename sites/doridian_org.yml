@@ -1,8 +1,0 @@
-domains:
-    - doridian.org
-    - www.doridian.org
-type: redirect
-target: https://doridian.net
-hsts: true
-useSecurityTxt: true
-presetMX: fastmail
